@@ -1,13 +1,117 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+ul {
+  list-style-type: none;
 }
+
+#button, #home div button, #side-nav button {
+  background-color: #063c5e;
+  color: white;
+  border: 0;
+  padding: 3vh 3vw;
+  border-radius: 100px;
+  font-weight: bold;
+  font-size: large;
+}
+
+#home {
+  -webkit-animation: shine 7s infinite;
+          animation: shine 7s infinite;
+  padding: 35vh 35vw;
+  height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto;
+      grid-template-columns: auto;
+}
+
+#home div {
+  text-align: center;
+  font-size: xx-large;
+  font-weight: bold;
+  width: 30vw;
+  padding: 1vh 0;
+  color: white;
+}
+
+#home div button {
+  margin: 1vh;
+  width: 40%;
+}
+
+@-webkit-keyframes shine {
+  0% {
+    background-color: #0a0c11;
+  }
+  50% {
+    background-color: #192331;
+  }
+  100% {
+    background-color: #0a0c11;
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-color: #0a0c11;
+  }
+  50% {
+    background-color: #192331;
+  }
+  100% {
+    background-color: #0a0c11;
+  }
+}
+
+#user {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 20% 80%;
+      grid-template-columns: 20% 80%;
+}
+
+#side-nav {
+  position: fixed;
+  height: 100vh;
+  border-right: 1px solid lightgray;
+  padding: 2vh 2vw;
+  background-color: #0a0c11;
+}
+
+#side-nav li {
+  padding: 3vh 3vw;
+  margin: 1vh 0;
+  font-weight: bold;
+  font-size: large;
+  color: white;
+}
+
+#side-nav li i {
+  font-weight: bold;
+  font-size: x-large;
+  vertical-align: middle;
+}
+
+#side-nav li:hover {
+  background-color: #d0ecfc;
+  color: #1da1f2;
+  border: 0;
+  padding: 3vh 3vw;
+  border-radius: 100px;
+}
+
+#side-nav button {
+  width: 100%;
+}
+
+#main {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 60% 40%;
+      grid-template-columns: 60% 40%;
+}
+/*# sourceMappingURL=index.css.map */

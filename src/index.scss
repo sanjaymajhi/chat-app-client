@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#button {
+  background-color: #063c5e;
+  color: white;
+  border: 0;
+  padding: 3vh 3vw;
+  border-radius: 100px;
+  font-weight: bold;
+  font-size: large;
+}
+
+#home {
+  animation: shine 7s infinite;
+  padding: 35vh 35vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: auto;
+  div {
+    text-align: center;
+    font-size: xx-large;
+    font-weight: bold;
+    width: 30vw;
+    padding: 1vh 0;
+    color: white;
+    button {
+      @extend #button;
+      margin: 1vh;
+      width: 40%;
+    }
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-color: #0a0c11;
+  }
+  50% {
+    background-color: #192331;
+  }
+  100% {
+    background-color: #0a0c11;
+  }
+}
+
+#user {
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+
+#side-nav {
+  position: fixed;
+  height: 100vh;
+  border-right: 1px solid lightgray;
+  padding: 2vh 2vw;
+  background-color: #0a0c11;
+  li {
+    padding: 3vh 3vw;
+    margin: 1vh 0;
+    font-weight: bold;
+    font-size: large;
+    color: white;
+    i {
+      font-weight: bold;
+      font-size: x-large;
+      vertical-align: middle;
+    }
+  }
+  li:hover {
+    background-color: #d0ecfc;
+    color: #1da1f2;
+    border: 0;
+    padding: 3vh 3vw;
+    border-radius: 100px;
+  }
+  button {
+    @extend #button;
+    width: 100%;
+  }
+}
+
+#main {
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
