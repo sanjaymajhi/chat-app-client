@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
 function Homepage(props) {
   const [showLogin, setShowLogin] = useState(false);
   const handleCloseLogin = () => setShowLogin(false);
-  const handleShowLogin = () => setShowLogin(true);
+
+  const handleShowLogin = () => {
+    setShowLogin(true);
+    loadButtons();
+  };
 
   const [showRegister, setShowRegister] = useState(false);
   const handleCloseRegister = () => setShowRegister(false);
-  const handleShowRegister = () => setShowRegister(true);
+  const handleShowRegister = () => {
+    setShowRegister(true);
+    loadButtons();
+  };
 
   const [Login, setLogin] = useState({ email: "", password: "" });
   const [Register, setRegister] = useState({
@@ -17,6 +24,65 @@ function Homepage(props) {
     email: "",
     password: "",
   });
+
+  const loadButtons = () => {
+    const script = document.createElement("script");
+    script.async = true;
+    script.defer = true;
+    script.crossorigin = "anonymous";
+    script.src =
+      "https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0&appId=593870491214414&autoLogAppEvents=1";
+    document.head.appendChild(script);
+    googleSDK();
+  };
+
+  const googleButton = useRef();
+  const prepareLoginButton = () => {
+    window.auth2.attachClickHandler(
+      googleButton.current,
+      {},
+      (googleUser) => {
+        let profile = googleUser.getBasicProfile();
+        console.log("Token || " + googleUser.getAuthResponse().id_token);
+        console.log("ID: " + profile.getId());
+        console.log("Name: " + profile.getName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+        //YOUR CODE HERE
+      },
+      (error) => {
+        alert(JSON.stringify(error, undefined, 2));
+      }
+    );
+  };
+
+  const googleSDK = () => {
+    const script = document.createElement("script");
+    script.src =
+      "https://apis.google.com/js/platform.js?onload=googleSDKLoaded";
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+
+    window["googleSDKLoaded"] = () => {
+      window["gapi"].load("auth2", () => {
+        window.auth2 = window["gapi"].auth2.init({
+          client_id:
+            "696463816448-rsbv7ci8el2kmd18q582li2832bbuvpl.apps.googleusercontent.com",
+          cookiepolicy: "single_host_origin",
+          scope: "profile email",
+        });
+        prepareLoginButton();
+      });
+    };
+  };
+  const signOut = (e) => {
+    e.preventDefault();
+    var auth2 = window.gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log("User signed out.");
+    });
+  };
 
   const handleChangeLogin = (e) => {
     const name = e.target.name;
@@ -118,10 +184,12 @@ function Homepage(props) {
   return (
     <div id="home">
       <div>Welcome To InstaChat</div>
+
       <div>
         <button onClick={handleShowLogin}>Login</button>
         <button onClick={handleShowRegister}>Sign Up</button>
       </div>
+
       <Modal
         show={showLogin}
         onHide={handleCloseLogin}
@@ -157,7 +225,32 @@ function Homepage(props) {
             </Button>
           </Form>
         </Modal.Body>
+        <Modal.Footer>
+          <Button ref={googleButton}>Login with Google</Button>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              window.FB.login(
+                (res) => {
+                  if (res.status === "connected") {
+                    window.FB.api("/me?fields=email,name,picture", function (
+                      response
+                    ) {
+                      console.log(JSON.stringify(response));
+                    });
+                  }
+                },
+                {
+                  scope: "public_profile,email",
+                }
+              );
+            }}
+          >
+            Login with FaceBook
+          </Button>
+        </Modal.Footer>
       </Modal>
+
       <Modal
         show={showRegister}
         onHide={handleCloseRegister}
@@ -215,6 +308,30 @@ function Homepage(props) {
             </Button>
           </Form>
         </Modal.Body>
+        <Modal.Footer>
+          <Button ref={googleButton}>Login with Google</Button>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              window.FB.login(
+                (res) => {
+                  if (res.status === "connected") {
+                    window.FB.api("/me?fields=email,name,picture", function (
+                      response
+                    ) {
+                      console.log(JSON.stringify(response));
+                    });
+                  }
+                },
+                {
+                  scope: "public_profile,email",
+                }
+              );
+            }}
+          >
+            Login with FaceBook
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );
