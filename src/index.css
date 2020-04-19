@@ -24,6 +24,7 @@ span {
   border-radius: 100px;
   font-weight: bold;
   font-size: large;
+  width: 100%;
 }
 
 #home {
@@ -85,17 +86,19 @@ span {
 #side-nav {
   position: fixed;
   height: 100vh;
-  padding: 2vh 1vw;
-  background-color: #e5e6e9;
-  width: 20%;
+  padding: 2vh 2vw;
+  border-right: 1px solid lightgray;
+  width: 23%;
 }
 
 #side-nav li {
-  padding: 3vh 3vw;
+  padding: 3vh 2vw;
   margin: 1vh 0;
   font-weight: bold;
   font-size: large;
   color: black;
+  margin-left: 1vw;
+  width: 85%;
 }
 
 #side-nav li i {
@@ -105,26 +108,26 @@ span {
 }
 
 #side-nav li:hover {
-  background-color: #515353;
-  color: #f9f9fa;
+  background-color: #dbf0fd;
+  color: #2e6586;
   border: 0;
-  padding: 3vh 3vw;
   border-radius: 100px;
 }
 
 #side-nav button {
-  width: 100%;
+  margin-left: 1vw;
+  width: 85%;
 }
 
 #main {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 65% 35%;
-      grid-template-columns: 65% 35%;
+  -ms-grid-columns: 57% 43%;
+      grid-template-columns: 57% 43%;
   position: absolute;
   top: 0;
-  left: 20%;
-  width: 80%;
+  left: 23%;
+  width: 77%;
 }
 
 #profile-head {
@@ -145,7 +148,7 @@ span {
   border: 4px solid white;
   position: fixed;
   top: 13vw;
-  left: 21vw;
+  left: 25vw;
 }
 
 #profile-div {

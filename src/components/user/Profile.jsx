@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import avtar from "../../images/avtar.png";
 import {
   Modal,
@@ -21,6 +22,11 @@ function Profile(props) {
   const handleCloseEditProfilePic = () => setShowEditProfilePic(false);
   const handleShowEditProfilePic = () => setShowEditProfilePic(true);
 
+  const [showEditProfileCoverPic, setShowEditProfileCoverPic] = useState(false);
+  const handleCloseEditProfileCoverPic = () =>
+    setShowEditProfileCoverPic(false);
+  const handleShowEditProfileCoverPic = () => setShowEditProfileCoverPic(true);
+
   const [profile, setProfile] = useState({});
   const [editProfile, setEditProfile] = useState({
     f_name: "",
@@ -30,7 +36,7 @@ function Profile(props) {
     username: "",
   });
 
-  const { id } = useParams();
+  var { id } = useParams();
   useEffect(() => {
     getProfile();
   }, [id]);
@@ -49,9 +55,6 @@ function Profile(props) {
       .then((res) => res.json())
       .then(async (data) => {
         await setProfile(data);
-        if (data.username === "") {
-          document.querySelector(".edit-button").click();
-        }
       });
   };
 
@@ -60,6 +63,8 @@ function Profile(props) {
     const value = e.target.value;
     setEditProfile({ ...editProfile, [name]: value });
   };
+
+  const history = useHistory();
 
   const updateProfile = (e) => {
     e.preventDefault();
@@ -81,10 +86,12 @@ function Profile(props) {
           alert.className = "fade alert alert-success show";
           alert.style.display = "block";
           alert.innerHTML = "Your details had been saved...";
+          localStorage.removeItem("username");
+          localStorage.setItem("username", editProfile.username);
           setTimeout(() => {
             handleCloseEditProfile();
           }, 2000);
-          getProfile();
+          history.push("/user/profile/" + editProfile.username);
         } else {
           errorDisplay(data);
         }
@@ -101,7 +108,11 @@ function Profile(props) {
       },
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.saved === "success") {
+          document.querySelector(".follow-button").innerHTML = "Unfollow";
+        }
+      });
   };
 
   const errorDisplay = (data) => {
@@ -122,10 +133,10 @@ function Profile(props) {
     }, 10000);
   };
 
-  const setProfilePic = (e) => {
+  const uploadPic = (e, type) => {
     e.preventDefault();
-    document.getElementById("upload-profile-button").disabled = true;
-    document.getElementById("profile-upload-spinner").style.display =
+    document.getElementById("upload-" + type + "-button").disabled = true;
+    document.getElementById(type + "-upload-spinner").style.display =
       "inline-block";
     const fileInput = e.target[0].files[0];
     const formData = new FormData();
@@ -137,28 +148,32 @@ function Profile(props) {
         token: localStorage.getItem("token"),
       },
     };
-    fetch("/users/profile/upload/profile-image", options)
+    fetch("/users/profile/upload/" + type + "-image", options)
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
-          handleCloseEditProfilePic();
+          if (type === "profile") {
+            handleCloseEditProfilePic();
+          } else {
+            handleCloseEditProfileCoverPic();
+          }
           getProfile();
         }
       });
   };
 
-  const profilePicInputStyling = (e) => {
-    document.getElementById("profile-pic-upload").className =
+  const uploadPicInputStyling = (e, type) => {
+    document.getElementById(type + "-pic-upload").className =
       "custom-file-input " +
       (e.target.files[0].type === "image/png"
         ? "is-valid"
         : e.target.files[0].type === "image/jpeg"
         ? "is-valid"
         : "is-invalid");
-    document.getElementById("profile-pic-upload-label").innerHTML =
+    document.getElementById(type + "-pic-upload-label").innerHTML =
       e.target.files[0].name;
-    document.getElementById("upload-profile-button").disabled =
-      document.getElementById("profile-pic-upload").className.split(" ")[1] ===
+    document.getElementById("upload-" + type + "-button").disabled =
+      document.getElementById(type + "-pic-upload").className.split(" ")[1] ===
       "is-valid"
         ? false
         : true;
@@ -171,23 +186,47 @@ function Profile(props) {
         <br />0 Tweets
       </div>
       {profile.coverImageUri === "" ? (
-        <div id="cover-image"></div>
+        <div
+          id="cover-image"
+          onClick={
+            localStorage.getItem("username") === id
+              ? handleShowEditProfileCoverPic
+              : ""
+          }
+        />
       ) : (
-        <img src={profile.coverImageUri} alt="cover" />
+        <img
+          id="cover-image"
+          src={profile.coverImageUri}
+          alt="cover"
+          onClick={
+            localStorage.getItem("username") === id
+              ? handleShowEditProfileCoverPic
+              : ""
+          }
+        />
       )}
       {profile.imageUri === "" ? (
         <img
           src={avtar}
           alt="no profile"
           id="profile-pic"
-          onClick={handleShowEditProfilePic}
+          onClick={
+            localStorage.getItem("username") === id
+              ? handleShowEditProfilePic
+              : ""
+          }
         />
       ) : (
         <img
           src={profile.imageUri}
           alt="profile"
           id="profile-pic"
-          onClick={handleShowEditProfilePic}
+          onClick={
+            localStorage.getItem("username") === id
+              ? handleShowEditProfilePic
+              : ""
+          }
         />
       )}
 
@@ -202,7 +241,11 @@ function Profile(props) {
               Edit Profile
             </button>
           ) : (
-            <button id="button" onClick={followHandler}>
+            <button
+              id="button"
+              className="follow-button"
+              onClick={followHandler}
+            >
               Follow
             </button>
           )}
@@ -339,10 +382,12 @@ function Profile(props) {
           <Modal.Title>Update Profile Pic</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={setProfilePic}>
+          <Form onSubmit={(e) => uploadPic(e, "profile")}>
             <FormGroup>
               <Form.File id="profile-pic-upload" custom>
-                <Form.File.Input onChange={profilePicInputStyling} />
+                <Form.File.Input
+                  onChange={(e) => uploadPicInputStyling(e, "profile")}
+                />
                 <Form.File.Label
                   data-browse="Browse"
                   id="profile-pic-upload-label"
@@ -368,6 +413,56 @@ function Profile(props) {
               variant="primary"
               size="sm"
               id="profile-upload-spinner"
+              style={{ display: "none" }}
+            />
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={showEditProfileCoverPic}
+        onHide={handleCloseEditProfileCoverPic}
+        {...props}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        backdrop="static"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Update Profile Cover</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={(e) => uploadPic(e, "profile-cover")}>
+            <FormGroup>
+              <Form.File id="profile-cover-pic-upload" custom>
+                <Form.File.Input
+                  onChange={(e) => uploadPicInputStyling(e, "profile-cover")}
+                />
+                <Form.File.Label
+                  data-browse="Browse"
+                  id="profile-cover-pic-upload-label"
+                >
+                  Choose Your Pic
+                </Form.File.Label>
+                <Form.Control.Feedback type="invalid">
+                  wrong file format (only .jpg and .png allowed)
+                </Form.Control.Feedback>
+              </Form.File>
+            </FormGroup>
+            <Button
+              variant="primary"
+              type="submit"
+              id="upload-profile-cover-button"
+              disabled
+            >
+              Upload
+            </Button>
+            &emsp;
+            <Spinner
+              animation="border"
+              variant="primary"
+              size="sm"
+              id="profile-cover-upload-spinner"
               style={{ display: "none" }}
             />
           </Form>
