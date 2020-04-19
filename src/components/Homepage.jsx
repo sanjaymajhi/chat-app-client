@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
-import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { Modal, Button, Form, Row, Col, Alert } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 function Homepage(props) {
   const [showLogin, setShowLogin] = useState(false);
   const handleCloseLogin = () => setShowLogin(false);
-
   const handleShowLogin = () => {
     setShowLogin(true);
     loadButtons();
@@ -17,12 +17,18 @@ function Homepage(props) {
     loadButtons();
   };
 
-  const [Login, setLogin] = useState({ email: "", password: "" });
+  const [Login, setLogin] = useState({
+    email: "",
+    password: "",
+    method: "native",
+  });
   const [Register, setRegister] = useState({
     f_name: "",
     l_name: "",
     email: "",
     password: "",
+    method: "native",
+    imageUri: "",
   });
 
   const loadButtons = () => {
@@ -38,17 +44,29 @@ function Homepage(props) {
 
   const googleButton = useRef();
   const prepareLoginButton = () => {
+    const button_type = googleButton.current.attributes[0].value;
     window.auth2.attachClickHandler(
       googleButton.current,
       {},
       (googleUser) => {
         let profile = googleUser.getBasicProfile();
-        console.log("Token || " + googleUser.getAuthResponse().id_token);
-        console.log("ID: " + profile.getId());
-        console.log("Name: " + profile.getName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
-        //YOUR CODE HERE
+        if (button_type === "register") {
+          setRegister({
+            f_name: profile.getGivenName(),
+            l_name: profile.getFamilyName(),
+            email: profile.getEmail(),
+            imageUri: profile.getImageUrl(),
+            method: "google",
+          });
+          document.getElementById("register-button").click();
+        } else {
+          setLogin({
+            email: profile.getEmail(),
+            method: "google",
+            password: "no",
+          });
+          document.getElementById("login-button").click();
+        }
       },
       (error) => {
         alert(JSON.stringify(error, undefined, 2));
@@ -76,13 +94,6 @@ function Homepage(props) {
       });
     };
   };
-  const signOut = (e) => {
-    e.preventDefault();
-    var auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log("User signed out.");
-    });
-  };
 
   const handleChangeLogin = (e) => {
     const name = e.target.name;
@@ -96,13 +107,32 @@ function Homepage(props) {
     setRegister({ ...Register, [name]: value });
   };
 
+  const errorDisplay = (data, id) => {
+    const alert = document.getElementById(id);
+    alert.style.display = "block";
+    if (data.error) {
+      alert.innerHTML += data.error.msg;
+    }
+    if (data.errors) {
+      let count = 1;
+      data.errors.map((err) => {
+        alert.innerHTML += "<p>" + count + ". " + err.msg + "<br/></p>";
+        count++;
+      });
+    }
+    setTimeout(function () {
+      alert.style.display = "none";
+    }, 10000);
+  };
+
+  const history = useHistory();
+
   const login_form_submit = (e) => {
     e.preventDefault();
-    const url = "/user/login/";
+    const url = "/users/login/";
     const payload = {
       ...Login,
     };
-
     fetch(url, {
       method: "POST",
       body: JSON.stringify(payload),
@@ -112,39 +142,21 @@ function Homepage(props) {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.saved);
         if (data.saved === "success") {
+          console.log(data);
           localStorage.setItem("token", data.token);
-          this.props.handleToken(data.token, data.admin);
-          if (data.admin) {
-            this.props.history.push("/admin/");
-          } else {
-            this.props.history.push("/user/profile");
-          }
+          localStorage.setItem("username", data.username);
+          history.push("/user/");
         } else {
-          const errors = document.getElementById("errors");
-          errors.style.display = "block";
-          if (data.error) {
-            errors.innerHTML += data.error.msg;
-          }
-          if (data.errors) {
-            let count = 1;
-            data.errors.map((err) => {
-              errors.innerHTML += "<p>" + count + ". " + err.msg + "<br/></p>";
-              count++;
-            });
-          }
-          window.location.hash = "errors";
-          setTimeout(function () {
-            errors.style.display = "none";
-          }, 10000);
+          errorDisplay(data, "login-alert");
         }
       });
   };
 
   const register = (e) => {
     e.preventDefault();
-    console.log(Register);
-    const url = "/user/register/";
+    const url = "/users/register/";
     let data = {
       ...Register,
     };
@@ -158,33 +170,60 @@ function Homepage(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
-          alert("Registration Successful...\nProceed to Login.");
-          this.props.history.push("/user/login/");
+          const alert = document.getElementById("register-alert");
+          alert.className = "fade alert alert-success show";
+          alert.style.display = "block";
+          alert.innerHTML = "Registration Successful...\nProceed to Login.";
+          setTimeout(() => {
+            handleCloseRegister();
+            handleShowLogin();
+          }, 2000);
         } else {
-          const errors = document.getElementById("errors");
-          errors.style.display = "block";
-          if (data.error) {
-            errors.innerHTML += data.error.msg;
-          }
-          if (data.errors) {
-            let count = 1;
-            data.errors.map((err) => {
-              errors.innerHTML += "<p>" + count + ". " + err.msg + "<br/></p>";
-              count++;
-            });
-          }
-          window.location.hash = "errors";
-          setTimeout(function () {
-            errors.style.display = "none";
-          }, 10000);
+          errorDisplay(data, "register-alert");
         }
       });
+  };
+
+  const fbButton = (e, type) => {
+    e.preventDefault();
+    window.FB.login(
+      (res) => {
+        if (res.status === "connected") {
+          window.FB.api(
+            "/me?fields=email" +
+              (type === "register" ? ",first_name,last_name,picture" : ""),
+            function (res) {
+              if (type === "login") {
+                setLogin({
+                  email: res.email,
+                  method: "facebook",
+                  password: "no",
+                });
+                document.getElementById("login-button").click();
+              } else {
+                console.log(res);
+                setRegister({
+                  f_name: res.first_name,
+                  l_name: res.last_name,
+                  email: res.email,
+                  imageUri: res.picture.data.url,
+                  method: "facebook",
+                });
+                document.getElementById("register-button").click();
+              }
+            }
+          );
+        }
+      },
+      {
+        scope: "public_profile,email",
+      }
+    );
   };
 
   return (
     <div id="home">
       <div>Welcome To InstaChat</div>
-
       <div>
         <button onClick={handleShowLogin}>Login</button>
         <button onClick={handleShowRegister}>Sign Up</button>
@@ -202,6 +241,11 @@ function Homepage(props) {
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Alert
+            variant={"danger"}
+            style={{ display: "none" }}
+            id="login-alert"
+          ></Alert>
           <Form onSubmit={login_form_submit} onChange={handleChangeLogin}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
@@ -220,32 +264,16 @@ function Homepage(props) {
                 name="password"
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" id="login-button">
               Login
             </Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button ref={googleButton}>Login with Google</Button>
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              window.FB.login(
-                (res) => {
-                  if (res.status === "connected") {
-                    window.FB.api("/me?fields=email,name,picture", function (
-                      response
-                    ) {
-                      console.log(JSON.stringify(response));
-                    });
-                  }
-                },
-                {
-                  scope: "public_profile,email",
-                }
-              );
-            }}
-          >
+          <Button ref={googleButton} button_type="login">
+            Login with Google
+          </Button>
+          <Button onClick={(e) => fbButton(e, "login")}>
             Login with FaceBook
           </Button>
         </Modal.Footer>
@@ -263,6 +291,11 @@ function Homepage(props) {
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Alert
+            id="register-alert"
+            variant={"danger"}
+            style={{ display: "none" }}
+          ></Alert>
           <Form onSubmit={register} onChange={handleChangeRegister}>
             <Row>
               <Col>
@@ -272,6 +305,8 @@ function Homepage(props) {
                     type="text"
                     placeholder="First Name"
                     name="f_name"
+                    value={Register.f_name}
+                    required={true}
                   />
                 </Form.Group>
               </Col>
@@ -282,6 +317,8 @@ function Homepage(props) {
                     type="text"
                     placeholder="Last Name"
                     name="l_name"
+                    value={Register.l_name}
+                    required={true}
                   />
                 </Form.Group>
               </Col>
@@ -292,6 +329,8 @@ function Homepage(props) {
                 type="email"
                 placeholder="Enter email"
                 name="email"
+                value={Register.email}
+                required={true}
               />
             </Form.Group>
 
@@ -301,35 +340,20 @@ function Homepage(props) {
                 type="password"
                 placeholder="Password"
                 name="password"
+                value={Register.password}
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" id="register-button">
               Sign Up
             </Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button ref={googleButton}>Login with Google</Button>
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              window.FB.login(
-                (res) => {
-                  if (res.status === "connected") {
-                    window.FB.api("/me?fields=email,name,picture", function (
-                      response
-                    ) {
-                      console.log(JSON.stringify(response));
-                    });
-                  }
-                },
-                {
-                  scope: "public_profile,email",
-                }
-              );
-            }}
-          >
-            Login with FaceBook
+          <Button ref={googleButton} button_type="register">
+            SignUp with Google
+          </Button>
+          <Button onClick={(e) => fbButton(e, "register")}>
+            SignUp with FaceBook
           </Button>
         </Modal.Footer>
       </Modal>
