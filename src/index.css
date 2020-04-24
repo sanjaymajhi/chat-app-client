@@ -146,9 +146,9 @@ span {
   height: 10vw;
   border-radius: 100px;
   border: 4px solid white;
-  position: fixed;
+  position: absolute;
   top: 13vw;
-  left: 25vw;
+  left: 2vw;
 }
 
 #profile-div {
@@ -156,7 +156,8 @@ span {
   display: grid;
   -ms-grid-columns: auto;
       grid-template-columns: auto;
-  padding: 2vh 1vw 0 1vw;
+  padding: 2vh 1vw 1vh 1vw;
+  border-bottom: 1px solid lightgray;
 }
 
 #profile-div div {
@@ -205,5 +206,245 @@ span {
 #search-people-results li img {
   width: 3vw;
   border-radius: 100px;
+}
+
+#post-profile-div img {
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+}
+
+#post-text {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#post-footer {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 70% 10% 10% 10%;
+      grid-template-columns: 70% 10% 10% 10%;
+  justify-items: center;
+}
+
+#post-gif-select,
+#post-emoji-select {
+  display: none;
+  overflow: auto;
+  height: 30vh;
+  grid-column: span 5;
+}
+
+#post-img-div {
+  display: none;
+  margin: 1vh auto;
+}
+
+#post-img-div div {
+  height: 30vh;
+  overflow: auto;
+}
+
+#post-img-div div i {
+  position: absolute;
+  top: 240px;
+  right: 40px;
+}
+
+#post-img-div div img {
+  width: 100%;
+}
+
+#post-gif-div {
+  width: 50%;
+  margin: 1vh auto;
+  display: none;
+}
+
+#post-gif-div i {
+  position: absolute;
+  top: 225px;
+  right: 100px;
+}
+
+.user_posts {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 12% 88%;
+      grid-template-columns: 12% 88%;
+  padding: 2vh 0.5vw;
+  border-bottom: 1px solid lightgray;
+}
+
+.user_posts img {
+  width: 4vw;
+  height: 4vw;
+  border-radius: 100px;
+  margin: 0 auto;
+}
+
+#post_detail {
+  padding: 1.5vh 0 0 0.5vw;
+}
+
+#post_detail img {
+  width: 89%;
+  height: auto;
+  max-height: 80vh;
+  margin: 1vh 0;
+  border-radius: 1vh;
+  border: 1px solid lightgray;
+}
+
+#like-share {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 30% 30% 30%;
+      grid-template-columns: 30% 30% 30%;
+  justify-items: center;
+  padding: 1vh 0;
+  color: gray;
+}
+
+#like-share i {
+  vertical-align: middle;
+}
+
+#post-detail-gif-div {
+  padding: 2vh 0;
+  width: 93%;
+  height: 66vh;
+}
+
+#post-detail-gif-div img {
+  width: 90%;
+  height: 100%;
+}
+
+#messages-right {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+#messages-right p {
+  padding: 1vh 1vw;
+  font-size: 1.5em;
+  border-bottom: 1px solid lightgray;
+}
+
+#msg-people-search {
+  padding: 1vh 2vw;
+  border-bottom: 1px solid lightgray;
+}
+
+#msg-profile-pic {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 20% 80%;
+      grid-template-columns: 20% 80%;
+  padding: 2vh 2vw;
+  border-bottom: 1px solid lightgray;
+}
+
+#msg-profile-pic img {
+  width: 4vw;
+  height: 4vw;
+  border-radius: 100px;
+  margin: 0 auto;
+}
+
+#msg-not-selected {
+  margin-top: 40vh;
+  text-align: center;
+}
+
+#msg-box {
+  height: 100vh;
+}
+
+#msg-box-profile {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 15% 85%;
+      grid-template-columns: 15% 85%;
+  border-bottom: 1px solid lightgray;
+  padding: 2vh 1vw;
+}
+
+#msg-box-profile img {
+  width: 4vw;
+  height: 4vw;
+  border-radius: 100px;
+  margin: 0 auto;
+}
+
+#msg-box-msgs {
+  height: 79vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto;
+      grid-template-columns: auto;
+  overflow: auto;
+  padding: 1vh 1vw;
+}
+
+#msg-box-msgs img {
+  max-height: 70vh;
+}
+
+.right {
+  width: 100%;
+  text-align: right;
+}
+
+.right img {
+  border-radius: 20px 20px 0 20px;
+}
+
+.right p {
+  float: right;
+  width: 60%;
+  border-radius: 20px 20px 0 20px;
+  padding: 1vh 1vw;
+  background-color: #1da1f2;
+  color: white;
+}
+
+.left {
+  width: 100%;
+  text-align: left;
+}
+
+.left img {
+  border-radius: 20px 20px 20px 0;
+}
+
+.left p {
+  float: left;
+  width: 60%;
+  border-radius: 20px 20px 20px 0;
+  padding: 1vh 1vw;
+  background-color: lightgray;
+}
+
+#msg-box-bottom-div {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10% 10% 70% 10%;
+      grid-template-columns: 10% 10% 70% 10%;
+  padding: 1vh 0;
+  text-align: center;
+  border-top: 1px solid lightgray;
+}
+
+#msg-box-bottom-div input {
+  border-radius: 1vw;
+  border: 1px solid lightgray;
+  padding: 0.5vh 1vw;
+}
+
+#gif-modal {
+  height: 60vh;
+  overflow: auto;
 }
 /*# sourceMappingURL=index.css.map */

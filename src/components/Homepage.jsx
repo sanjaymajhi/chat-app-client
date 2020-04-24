@@ -144,9 +144,12 @@ function Homepage(props) {
       .then((data) => {
         console.log(data.saved);
         if (data.saved === "success") {
-          console.log(data);
           localStorage.setItem("token", data.token);
+          localStorage.setItem("id", data._id);
           localStorage.setItem("username", data.username);
+          localStorage.setItem("f_name", data.f_name);
+          localStorage.setItem("l_name", data.l_name);
+          localStorage.setItem("imageUri", data.imageUri);
           history.push("/user/");
         } else {
           errorDisplay(data, "login-alert");

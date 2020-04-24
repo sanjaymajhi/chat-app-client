@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import UserPosts from "./userPosts";
 
 function Profile(props) {
   const [showEditProfile, setShowEditProfile] = useState(false);
@@ -54,7 +55,16 @@ function Profile(props) {
     })
       .then((res) => res.json())
       .then(async (data) => {
-        await setProfile(data);
+        await setProfile(data.details);
+        localStorage.setItem("f_name", data.details.f_name);
+        localStorage.setItem("l_name", data.details.l_name);
+        localStorage.setItem("imageUri", data.details.imageUri);
+        if (document.querySelector(".follow-button") !== null) {
+          document.querySelector(".follow-button").innerHTML =
+            data.details.followers.indexOf(data.id) === -1
+              ? "Follow"
+              : "Unfollow";
+        }
       });
   };
 
@@ -65,7 +75,6 @@ function Profile(props) {
   };
 
   const history = useHistory();
-
   const updateProfile = (e) => {
     e.preventDefault();
     const payload = {
@@ -86,12 +95,12 @@ function Profile(props) {
           alert.className = "fade alert alert-success show";
           alert.style.display = "block";
           alert.innerHTML = "Your details had been saved...";
-          localStorage.removeItem("username");
+          id = editProfile.username;
           localStorage.setItem("username", editProfile.username);
           setTimeout(() => {
             handleCloseEditProfile();
           }, 2000);
-          history.push("/user/profile/" + editProfile.username);
+          history.push("/user/profile/" + id); //used to update the url as well as call getProfile
         } else {
           errorDisplay(data);
         }
@@ -110,7 +119,7 @@ function Profile(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
-          document.querySelector(".follow-button").innerHTML = "Unfollow";
+          getProfile();
         }
       });
   };
@@ -183,7 +192,8 @@ function Profile(props) {
     <div>
       <div id="profile-head">
         <strong>{profile.f_name + " " + profile.l_name}</strong>
-        <br />0 Tweets
+        <br />
+        {profile.posts && profile.posts.length} Tweets
       </div>
       {profile.coverImageUri === "" ? (
         <div
@@ -231,7 +241,13 @@ function Profile(props) {
       )}
 
       <div id="profile-div">
-        <div style={{ justifySelf: "right", padding: "0" }}>
+        <div
+          style={{
+            justifySelf: "right",
+            padding: "0",
+            alignItems: "center",
+          }}
+        >
           {localStorage.getItem("username") === id ? (
             <button
               id="button"
@@ -288,7 +304,9 @@ function Profile(props) {
           <strong>Tweets</strong>{" "}
         </div>
       </div>
-      <hr />
+      <div>
+        <UserPosts />
+      </div>
       <Modal
         show={showEditProfile}
         onHide={handleCloseEditProfile}
