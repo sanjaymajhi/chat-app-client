@@ -2,7 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "./Main";
 import { Modal, Alert } from "react-bootstrap";
 import { GiphyFetch } from "@giphy/js-fetch-api";
-import { Grid, Gif } from "@giphy/react-components";
+import { Grid } from "@giphy/react-components";
+import moment from "moment";
 
 function MessagesLeft(props) {
   const context = useContext(Context);
@@ -17,7 +18,8 @@ function MessagesLeft(props) {
 
   useEffect(() => {
     if (Object.keys(context.state).length > 0) {
-      getMessages();
+      const interval = setInterval(() => getMessages(), 2000);
+      return () => clearInterval(interval);
     }
   }, [context.state]);
 
@@ -35,7 +37,7 @@ function MessagesLeft(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
-          console.log(data);
+          data.length = data.msgs.chat.length;
           setMessages(data);
         } else {
           setMessages({ saved: "unsuccessful" });
@@ -122,6 +124,9 @@ function MessagesLeft(props) {
             {messages.msgs !== undefined &&
               messages.msgs.chat.map((msg) => {
                 var direction = "";
+
+                const elem = document.getElementById("msg-box-msgs");
+                elem.scrollTop = elem.scrollHeight;
                 if (msg.senderId === localStorage.getItem("id")) {
                   direction = "right";
                 } else {
@@ -130,19 +135,26 @@ function MessagesLeft(props) {
                 if (msg.text) {
                   return (
                     <div key={msg._id} class={direction}>
-                      <p>{msg.text}</p>
+                      <li>
+                        {msg.text}&ensp;
+                        <span>{moment(msg.sent_time).format("HH:mm A")}</span>
+                      </li>
                     </div>
                   );
                 } else if (msg.image) {
                   return (
                     <div key={msg._id} class={direction}>
                       <img src={msg.image} alt="" />
+                      <br />
+                      <span>{moment(msg.sent_time).format("HH:mm A")}</span>
                     </div>
                   );
                 } else {
                   return (
                     <div key={msg._id} class={direction}>
                       <img src={msg.gif} alt="" />
+                      <br />
+                      <span>{moment(msg.sent_time).format("HH:mm A")}</span>
                     </div>
                   );
                 }
@@ -158,15 +170,16 @@ function MessagesLeft(props) {
             <i className="material-icons" onClick={handleShowGifs}>
               gif
             </i>
-            <input type="text" placeholder="Type your msg here..." id="text" />
-            <i
-              className="material-icons"
-              onClick={() =>
-                sendMessage("text", document.getElementById("text").value)
-              }
-            >
-              send
-            </i>
+            <input
+              type="text"
+              placeholder="Type your msg here... press enter to send"
+              id="text"
+              onKeyDown={(e) => {
+                if (e.keyCode === 13) {
+                  sendMessage("text", document.getElementById("text").value);
+                }
+              }}
+            />
           </div>
         </div>
       )}
@@ -193,8 +206,10 @@ function MessagesLeft(props) {
           <div id="gif-modal">
             <Grid
               fetchGifs={fetchEmojis}
-              width={450}
-              columns={3}
+              width={
+                window.matchMedia("(max-width: 480px)").matches ? 250 : 450
+              }
+              columns={window.matchMedia("(max-width: 480px)").matches ? 2 : 3}
               hideAttribution={true}
               onGifClick={sendGiphy}
             />

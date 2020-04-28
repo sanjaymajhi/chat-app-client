@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import moment from "moment";
 
 function UserPosts() {
   const { id } = useParams();
@@ -63,12 +64,21 @@ function UserPosts() {
                       localStorage.getItem("l_name")}
                   </strong>
                   &ensp;
-                  <span>{"@" + id}</span>
+                  <span>
+                    {"@" + id}
+                    {" · "}
+                    {new Date(post.date).toLocaleDateString("en-us", {
+                      day: "numeric",
+                      month: "short",
+                    })}
+                  </span>
                 </p>
-                <div>{post.postText}</div>
-                {post.postGif === undefined ? (
+                {post.postText}
+                <br />
+                {post.postImg && (
                   <img src={post.postImg} alt="" id="post-detail-img" />
-                ) : (
+                )}
+                {post.postGif && (
                   <div id="post-detail-gif-div">
                     <img src={post.postGif} alt="" />
                   </div>

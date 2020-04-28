@@ -5,8 +5,8 @@ import Main from "./Main";
 function User() {
   return (
     <div id="user">
-      <SideNav />
       <Main />
+      <SideNav />
     </div>
   );
 }

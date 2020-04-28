@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { InputGroup, FormControl } from "react-bootstrap";
 
 function ProfileSideBar() {
   const [searchResults, setSearchResults] = useState([]);
@@ -16,7 +17,6 @@ function ProfileSideBar() {
       })
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data);
           await setSearchResults(data);
         });
     } else {
@@ -27,15 +27,14 @@ function ProfileSideBar() {
   return (
     <div className="profile-side-bar">
       <form onChange={searchPeople}>
-        <span>
-          <i className="material-icons">&#xe8b6;</i>&emsp;
-        </span>
-        <input
-          type="search"
-          name="search"
-          id="search"
-          placeholder="Find peoples"
-        />
+        <InputGroup className="mb-3">
+          <InputGroup.Prepend>
+            <InputGroup.Text>
+              <i className="material-icons">&#xe8b6;</i>
+            </InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl placeholder="Search your Friends" name="search" />
+        </InputGroup>
         <ul id="search-people-results">
           {searchResults.map((item) => (
             <Link to={"/user/profile/" + item.username.split("@")[1]}>

@@ -18,26 +18,25 @@ function SideNav(props) {
   const fetchEmojis = (offset) => gf.emoji({ offset, limit: 10 });
 
   const [ShowCreatePost, setShowCreatePost] = useState(false);
-  const handleCloseCreatePost = () => setShowCreatePost(false);
+  const handleCloseCreatePost = () => {
+    setFormData({});
+    setShowCreatePost(false);
+  };
   const handleShowCreatePost = () => setShowCreatePost(true);
 
   const [gif, setGif] = useState(null);
-  const [formData, setFormData] = useState({
-    "post-text": "",
-    "gif-id": "",
-    "post-img": {},
-  });
+  const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     if (e.target.name === "post-img") {
       setFormData({
-        "post-text": formData["post-text"],
+        ...formData,
         [name]: e.target.files[0],
       });
     } else {
-      setFormData({ "post-text": formData["post-text"], [name]: value });
+      setFormData({ ...formData, [name]: value });
     }
   };
 
@@ -136,38 +135,67 @@ function SideNav(props) {
   };
 
   return (
-    <ul id="side-nav">
-      <Link to="/user/">
-        <li>
-          <h2>InstaChat</h2>
-        </li>
-      </Link>
-      <Link to="/user/">
-        <li>
-          <i class="material-icons">store</i>&emsp;Home
-        </li>
-      </Link>
-      <Link to="/user/explore">
-        <li>
-          <i class="material-icons">explore</i>&emsp;Explore
-        </li>
-      </Link>
-      <Link to="/user/notifications">
-        <li>
-          <i class="material-icons">notifications</i>&emsp;Notifications
-        </li>
-      </Link>
-      <Link to="/user/messages">
-        <li>
-          <i class="material-icons">message</i>&emsp;Messages
-        </li>
-      </Link>
-      <Link to={"/user/profile/" + localStorage.getItem("username")}>
-        <li>
-          <i class="material-icons">account_circle</i>&emsp;Profile
-        </li>
-      </Link>
-      <button onClick={handleShowCreatePost}>Tweet</button>
+    <div>
+      <ul id="side-nav-phone">
+        <Link to="/user/">
+          <li>
+            <i class="material-icons">store</i>
+          </li>
+        </Link>
+        <Link to="/user/explore">
+          <li>
+            <i class="material-icons">explore</i>
+          </li>
+        </Link>
+        <Link to="/user/notifications">
+          <li>
+            <i class="material-icons">notifications</i>
+          </li>
+        </Link>
+        <Link to="/user/messages">
+          <li>
+            <i class="material-icons">message</i>
+          </li>
+        </Link>
+      </ul>
+
+      <button id="tweet-button-phone" onClick={handleShowCreatePost}>
+        <i class="material-icons"> edit</i>
+      </button>
+
+      <ul id="side-nav">
+        <Link to="/user/">
+          <li>
+            <h2>InstaChat</h2>
+          </li>
+        </Link>
+        <Link to="/user/">
+          <li>
+            <i class="material-icons">store</i>&emsp;Home
+          </li>
+        </Link>
+        <Link to="/user/explore">
+          <li>
+            <i class="material-icons">explore</i>&emsp;Explore
+          </li>
+        </Link>
+        <Link to="/user/notifications">
+          <li>
+            <i class="material-icons">notifications</i>&emsp;Notifications
+          </li>
+        </Link>
+        <Link to="/user/messages">
+          <li>
+            <i class="material-icons">message</i>&emsp;Messages
+          </li>
+        </Link>
+        <Link to={"/user/profile/" + localStorage.getItem("username")}>
+          <li>
+            <i class="material-icons">account_circle</i>&emsp;Profile
+          </li>
+        </Link>
+        <button onClick={handleShowCreatePost}>Tweet</button>
+      </ul>
 
       {/* create post modal */}
       <Modal
@@ -206,7 +234,7 @@ function SideNav(props) {
               <Form.Control
                 plaintext
                 as="textarea"
-                rows="4"
+                rows="3"
                 placeholder={
                   "What's on your mind " + localStorage.getItem("f_name")
                 }
@@ -248,7 +276,15 @@ function SideNav(props) {
             </div>
 
             <div id="post-gif-div">
-              {gif && <Gif gif={gif} width={200} />}
+              {gif && (
+                <Gif
+                  gif={gif}
+                  width={
+                    window.matchMedia("(max-width: 480px)").matches ? 150 : 200
+                  }
+                  hideAttribution={true}
+                />
+              )}
               <i
                 className="material-icons"
                 onClick={() => {
@@ -306,8 +342,10 @@ function SideNav(props) {
           <div id="post-emoji-select">
             {" "}
             <Grid
-              width={450}
-              columns={3}
+              width={
+                window.matchMedia("(max-width: 480px)").matches ? 250 : 450
+              }
+              columns={window.matchMedia("(max-width: 480px)").matches ? 2 : 3}
               fetchGifs={fetchEmojis}
               hideAttribution={true}
               onGifClick={(data, e) => giphyClick(data, e)}
@@ -316,8 +354,10 @@ function SideNav(props) {
           <div id="post-gif-select">
             {" "}
             <Grid
-              width={450}
-              columns={3}
+              width={
+                window.matchMedia("(max-width: 480px)").matches ? 250 : 450
+              }
+              columns={window.matchMedia("(max-width: 480px)").matches ? 2 : 3}
               fetchGifs={fetchGifs}
               hideAttribution={true}
               onGifClick={(data, e) => giphyClick(data, e)}
@@ -325,7 +365,7 @@ function SideNav(props) {
           </div>
         </Modal.Footer>
       </Modal>
-    </ul>
+    </div>
   );
 }
 

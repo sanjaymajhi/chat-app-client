@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import Profile from "./Profile";
 import MessagesLeft from "./messagesLeft";
+import Home from "./Home";
+import { Context } from "./Main";
+import MessagesRight from "./messagesRight";
 
 function MainLeft() {
+  const context = useContext(Context);
   return (
-    <React.Fragment>
+    <div class="main-left">
       <Switch>
+        <Route path="/user/" exact component={Home} />
+
         <Route path="/user/profile/:id" component={Profile} />
 
-        <Route path="/user/messages" component={MessagesLeft} />
+        <Route
+          path="/user/messages"
+          component={
+            !window.matchMedia("(max-width: 480px)").matches
+              ? MessagesLeft
+              : Object.keys(context.state).length > 0
+              ? MessagesLeft
+              : MessagesRight
+          }
+        />
       </Switch>
-    </React.Fragment>
+    </div>
   );
 }
 
