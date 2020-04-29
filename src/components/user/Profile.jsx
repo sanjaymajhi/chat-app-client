@@ -157,7 +157,7 @@ function Profile(props) {
         token: localStorage.getItem("token"),
       },
     };
-    fetch("/users/profile/upload/" + type + "-image", options)
+    fetch("/users/profile/upload/" + type, options)
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {

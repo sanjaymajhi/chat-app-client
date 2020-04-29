@@ -25,11 +25,11 @@ function UserPosts() {
       });
   };
 
-  const likePost = (e) => {
+  const likeSharePost = (e, type) => {
     e.preventDefault();
-    e.target.style.color = e.target.style.color === "blue" ? "gray" : "blue";
-    console.log(e.target.id);
-    fetch("/users/posts/like", {
+    e.target.style.color =
+      e.target.style.color === "#063c5e" ? "gray" : "#063c5e";
+    fetch("/users/posts/" + type, {
       method: "post",
       body: JSON.stringify({
         token: localStorage.getItem("token"),
@@ -42,6 +42,7 @@ function UserPosts() {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
+          console.log("done");
         }
       });
   };
@@ -84,15 +85,38 @@ function UserPosts() {
                   </div>
                 )}
                 <div id="like-share">
-                  <span onClick={likePost}>
-                    <i className="material-icons" id={post._id}>
+                  <span onClick={(e) => likeSharePost(e, "like")}>
+                    <i
+                      className="material-icons"
+                      id={post._id}
+                      style={{
+                        color:
+                          post.likes.indexOf(localStorage.getItem("id")) === -1
+                            ? "gray"
+                            : "#063c5e",
+                      }}
+                    >
                       thumb_up
                     </i>{" "}
                     &ensp;
-                    {post.likes}
+                    {post.likes.length}
                   </span>
-                  <span>
-                    <i className="material-icons"> share</i> &ensp;{post.shares}
+                  <span onClick={(e) => likeSharePost(e, "share")}>
+                    <i
+                      className="material-icons"
+                      id={post._id}
+                      style={{
+                        color:
+                          post.shares.indexOf(localStorage.getItem("id")) === -1
+                            ? "gray"
+                            : "#063c5e",
+                      }}
+                    >
+                      {" "}
+                      share
+                    </i>{" "}
+                    &ensp;
+                    {post.shares.length}
                   </span>
                   <span>
                     <i className="material-icons"> message</i> &ensp;

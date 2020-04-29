@@ -27,6 +27,28 @@ function Home() {
       });
   };
 
+  const likeSharePost = (e, type) => {
+    e.preventDefault();
+    e.target.style.color = e.target.style.color === "blue" ? "gray" : "blue";
+    console.log(e.target.id);
+    fetch("/users/posts/" + type, {
+      method: "post",
+      body: JSON.stringify({
+        token: localStorage.getItem("token"),
+        post_id: e.target.id,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.saved === "success") {
+          console.log("done");
+        }
+      });
+  };
+
   return (
     <div id="home-posts">
       {window.matchMedia("(max-width: 480px)").matches ? (
@@ -74,16 +96,20 @@ function Home() {
                     </div>
                   )}
                   <div id="like-share">
-                    <span>
+                    <span onClick={(e) => likeSharePost(e, "like")}>
                       <i className="material-icons" id={post._id}>
                         thumb_up
                       </i>{" "}
                       &ensp;
-                      {post.likes}
+                      {post.likes.length}
                     </span>
-                    <span>
-                      <i className="material-icons"> share</i> &ensp;
-                      {post.shares}
+                    <span onClick={(e) => likeSharePost(e, "share")}>
+                      <i className="material-icons" id={post._id}>
+                        {" "}
+                        share
+                      </i>{" "}
+                      &ensp;
+                      {post.shares.length}
                     </span>
                     <span>
                       <i className="material-icons"> message</i> &ensp;

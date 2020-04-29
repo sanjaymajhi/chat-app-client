@@ -411,11 +411,11 @@
 
   #home-posts {
     h2 {
-      width: 44%;
+      width: 44vw;
       position: fixed;
       padding: 2vh 2vw;
+      top: 0;
       border-bottom: 1px solid lightgray;
-      border-right: 1px solid lightgray;
       z-index: 1000;
       background-color: white;
     }
