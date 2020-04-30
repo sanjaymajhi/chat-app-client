@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import { Grid, Gif } from "@giphy/react-components";
 
@@ -12,31 +12,21 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-function CreatePostOrComment(props) {
+function CreatePostOrCommentComponent(props) {
   const gf = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
   const fetchGifs = (offset) => gf.trending({ offset, limit: 10 });
   const fetchEmojis = (offset) => gf.emoji({ offset, limit: 10 });
-
-  const [ShowCreatePost, setShowCreatePost] = useState(false);
-  const handleCloseCreatePost = () => {
-    setFormData({});
-    setShowCreatePost(false);
-  };
-  const handleShowCreatePost = () => setShowCreatePost(true);
-
-  const [gif, setGif] = useState(null);
-  const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     if (e.target.name === "post-img") {
-      setFormData({
-        ...formData,
+      props.setFormData({
+        ...props.formData,
         [name]: e.target.files[0],
       });
     } else {
-      setFormData({ ...formData, [name]: value });
+      props.setFormData({ ...props.formData, [name]: value });
     }
   };
 
@@ -60,14 +50,22 @@ function CreatePostOrComment(props) {
 
   const history = useHistory();
 
-  const createPost = (e) => {
+  const CreatePostOrComment = (e) => {
     e.preventDefault();
     document.getElementById("post-spinner").style.display = "inline-block";
     const form = new FormData();
-    form.append("post-text", formData["post-text"]);
-    form.append("post-gif", formData["gif-id"]);
-    form.append("image", formData["post-img"]);
-    fetch("/users/profile/post", {
+    console.log(props.postId);
+    form.append("post-text", props.formData["post-text"]);
+    form.append("post-gif", props.formData["gif-id"]);
+    form.append("image", props.formData["post-img"]);
+    if (props.type === "comment") {
+      form.append("postId", props.postId);
+    }
+    const url =
+      props.type === "comment"
+        ? "/users/profile/post/comment"
+        : "/users/profile/post/";
+    fetch(url, {
       method: "Post",
       body: form,
       headers: {
@@ -82,7 +80,7 @@ function CreatePostOrComment(props) {
           alert.style.display = "block";
           alert.innerHTML = "Your details had been saved...";
           setTimeout(() => {
-            handleCloseCreatePost();
+            props.handleCloseCreatePostOrComment();
           }, 2000);
         } else {
           document.getElementById("post-spinner").style.display = "none";
@@ -127,25 +125,27 @@ function CreatePostOrComment(props) {
     document.getElementById("post-img-div").style.display = "none";
     document.getElementById("post-gif-div").style.display = "block";
     const { data } = await gf.gif(gif.id);
-    await setFormData({
-      "post-text": formData["post-text"],
+    await props.setFormData({
+      "post-text": props.formData["post-text"],
       "gif-id": data.images.preview_webp.url,
     });
-    setGif(data);
+    props.setGif(data);
   };
 
   return (
     <div>
       <Modal
-        show={ShowCreatePost}
-        onHide={handleCloseCreatePost}
+        show={props.ShowCreatePostOrComment}
+        onHide={props.handleCloseCreatePostOrComment}
         {...props}
         size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Create Post</Modal.Title>
+          <Modal.Title>
+            {props.type === "comment" ? "Write a Comment" : "Create Post"}
+          </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -167,14 +167,16 @@ function CreatePostOrComment(props) {
             </span>
           </div>
 
-          <Form onChange={handleChange} onSubmit={createPost}>
+          <Form onChange={handleChange} onSubmit={CreatePostOrComment}>
             <FormGroup>
               <Form.Control
                 plaintext
                 as="textarea"
                 rows="3"
                 placeholder={
-                  "What's on your mind " + localStorage.getItem("f_name")
+                  props.type === "comment"
+                    ? "Type your comment here..."
+                    : "What's on your mind " + localStorage.getItem("f_name")
                 }
                 name="post-text"
                 id="post-text"
@@ -203,7 +205,9 @@ function CreatePostOrComment(props) {
                     document.getElementById("post-pic-upload").value = "";
                     document.getElementById("post-img-div").style.display =
                       "none";
-                    setFormData({ "post-text": formData["post-text"] });
+                    props.setFormData({
+                      "post-text": props.formData["post-text"],
+                    });
                   }}
                 >
                   {" "}
@@ -214,9 +218,9 @@ function CreatePostOrComment(props) {
             </div>
 
             <div id="post-gif-div">
-              {gif && (
+              {props.gif && (
                 <Gif
-                  gif={gif}
+                  gif={props.gif}
                   width={
                     window.matchMedia("(max-width: 480px)").matches ? 150 : 200
                   }
@@ -226,8 +230,10 @@ function CreatePostOrComment(props) {
               <i
                 className="material-icons"
                 onClick={() => {
-                  setGif(null);
-                  setFormData({ "post-text": formData["post-text"] });
+                  props.setGif(null);
+                  props.setFormData({
+                    "post-text": props.formData["post-text"],
+                  });
                   document.getElementById("post-gif-div").style.display =
                     "none";
                 }}
@@ -243,7 +249,7 @@ function CreatePostOrComment(props) {
               id="post-button"
               style={{ width: "100%" }}
             >
-              <strong>Post</strong>&emsp;
+              <strong>{props.type || "Post"}</strong>&emsp;
               <Spinner
                 animation="border"
                 variant="dark"
@@ -256,7 +262,9 @@ function CreatePostOrComment(props) {
         </Modal.Body>
 
         <Modal.Footer id="post-footer">
-          <strong style={{ justifySelf: "left" }}>Add to your post</strong>
+          <strong style={{ justifySelf: "left" }}>
+            Add to your {props.type || "post"}
+          </strong>
           <Button variant={"light"}>
             <i
               className="material-icons"
@@ -307,4 +315,4 @@ function CreatePostOrComment(props) {
   );
 }
 
-export default CreatePostOrComment;
+export default CreatePostOrCommentComponent;

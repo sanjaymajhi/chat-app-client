@@ -5,6 +5,7 @@ import MessagesLeft from "./messagesLeft";
 import Home from "./Home";
 import { Context } from "./Main";
 import MessagesRight from "./messagesRight";
+import Post from "./Post";
 
 function MainLeft() {
   const context = useContext(Context);
@@ -25,6 +26,7 @@ function MainLeft() {
               : MessagesRight
           }
         />
+        <Route path="/user/post/:id" component={Post} />
       </Switch>
     </div>
   );

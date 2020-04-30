@@ -430,6 +430,50 @@
   #home-profile-div {
     display: none;
   }
+
+  #single-post-head {
+    padding: 1vh 2vw;
+  }
+  #single-post-profile {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    padding: 2vh 1vw;
+    border-top: 1px solid lightgray;
+    img {
+      width: 4vw;
+      height: 4vw;
+      border-radius: 100px;
+      margin: 0 auto;
+    }
+  }
+
+  #single-post-detail {
+    padding: 1vh 2vw;
+    font-size: 18px;
+  }
+
+  #single-post-date {
+    padding: 1vh 2vw;
+    span {
+      font: 12px;
+    }
+  }
+
+  #single-post-likeshare {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding: 2vh 2vw;
+  }
+
+  #likesharecomment {
+    display: grid;
+    grid-template-columns: 34% 33% 33%;
+    border-bottom: 1px solid lightgray;
+    padding: 2vh 0;
+    span {
+      margin: 0 auto;
+    }
+  }
 }
 @media screen and (max-width: 480px) {
   * {

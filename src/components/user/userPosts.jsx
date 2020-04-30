@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import CreatePostOrCommentComponent from "../CreatePostOrComment";
 import moment from "moment";
 
-function UserPosts() {
+function UserPosts(props) {
   const { id } = useParams();
+  const history = useHistory();
+  const [postIdForComment, setPostIdForComment] = useState("");
+
   const [postsObject, setPostsObject] = useState({});
   useEffect(() => {
-    getPosts(id);
+    getPosts();
   }, [id]);
 
-  const getPosts = (u_id) => {
-    fetch("/users/profile/" + u_id + "/posts", {
+  const [ShowCreateComment, setShowCreateComment] = useState(false);
+  const handleCloseCreateComment = () => {
+    setFormData({});
+    setShowCreateComment(false);
+  };
+  const handleShowCreateComment = (e) => {
+    setPostIdForComment(e.target.id);
+    setShowCreateComment(true);
+  };
+
+  const [gif, setGif] = useState(null);
+  const [formData, setFormData] = useState({});
+
+  const getPosts = () => {
+    fetch("/users/profile/" + id + "/posts", {
       method: "post",
       body: JSON.stringify({ token: localStorage.getItem("token") }),
       headers: {
@@ -74,16 +91,18 @@ function UserPosts() {
                     })}
                   </span>
                 </p>
-                {post.postText}
-                <br />
-                {post.postImg && (
-                  <img src={post.postImg} alt="" id="post-detail-img" />
-                )}
-                {post.postGif && (
-                  <div id="post-detail-gif-div">
-                    <img src={post.postGif} alt="" />
-                  </div>
-                )}
+                <div onClick={() => history.push("/user/post/" + post._id)}>
+                  {post.postText}
+                  <br />
+                  {post.postImg && (
+                    <img src={post.postImg} alt="" id="post-detail-img" />
+                  )}
+                  {post.postGif && (
+                    <div id="post-detail-gif-div">
+                      <img src={post.postGif} alt="" />
+                    </div>
+                  )}
+                </div>
                 <div id="like-share">
                   <span onClick={(e) => likeSharePost(e, "like")}>
                     <i
@@ -119,7 +138,15 @@ function UserPosts() {
                     {post.shares.length}
                   </span>
                   <span>
-                    <i className="material-icons"> message</i> &ensp;
+                    <i
+                      className="material-icons"
+                      onClick={handleShowCreateComment}
+                      id={post._id}
+                    >
+                      {" "}
+                      message
+                    </i>{" "}
+                    &ensp;
                     {post.comments.length}
                   </span>
                 </div>
@@ -127,6 +154,17 @@ function UserPosts() {
             </div>
           ))
         : ""}
+      <CreatePostOrCommentComponent
+        {...props}
+        setFormData={setFormData}
+        formData={formData}
+        handleCloseCreatePostOrComment={handleCloseCreateComment}
+        setGif={setGif}
+        ShowCreatePostOrComment={ShowCreateComment}
+        gif={gif}
+        type="comment"
+        postId={postIdForComment}
+      />
     </div>
   );
 }
