@@ -7,13 +7,17 @@ function ProfileSideBar() {
   const searchPeople = (e) => {
     document.getElementById("search-people-results").style.display = "block";
     const keyword = e.target.value;
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    myheaders.append("content-type", "application/json");
     if (keyword !== "") {
       fetch("/users/search", {
         method: "post",
         body: JSON.stringify({ value: keyword }),
-        headers: {
-          "content-type": "application/json",
-        },
+        headers: myheaders,
       })
         .then((res) => res.json())
         .then(async (data) => {

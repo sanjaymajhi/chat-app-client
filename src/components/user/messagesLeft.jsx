@@ -24,15 +24,18 @@ function MessagesLeft(props) {
   }, [context.state]);
 
   const getMessages = () => {
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    myheaders.append("content-type", "application/json");
     fetch("/users/messages", {
       method: "post",
       body: JSON.stringify({
-        token: localStorage.getItem("token"),
         friend_id: context.state.id,
       }),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: myheaders,
     })
       .then((res) => res.json())
       .then((data) => {
@@ -54,12 +57,17 @@ function MessagesLeft(props) {
     } else {
       formData.append("msgBoxId", "");
     }
+
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+
     fetch("/users/sendMsg", {
       method: "post",
       body: formData,
-      headers: {
-        token: localStorage.getItem("token"),
-      },
+      headers: myheaders,
     })
       .then((res) => res.json())
       .then((data) => {

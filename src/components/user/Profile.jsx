@@ -43,15 +43,18 @@ function Profile(props) {
   }, [id]);
 
   const getProfile = () => {
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    myheaders.append("content-type", "application/json");
     fetch("/users/profile/", {
       method: "POST",
       body: JSON.stringify({
-        token: localStorage.getItem("token"),
         username: "@" + id,
       }),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: myheaders,
     })
       .then((res) => res.json())
       .then(async (data) => {
@@ -79,14 +82,17 @@ function Profile(props) {
     e.preventDefault();
     const payload = {
       ...editProfile,
-      token: localStorage.getItem("token"),
     };
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    myheaders.append("content-type", "application/json");
     fetch("/users/update", {
       method: "Post",
       body: JSON.stringify(payload),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: myheaders,
     })
       .then((res) => res.json())
       .then((data) => {
@@ -109,12 +115,14 @@ function Profile(props) {
 
   const followHandler = (e) => {
     e.preventDefault();
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
     fetch("/users/profile/" + id + "/follow", {
-      method: "post",
-      body: JSON.stringify({ token: localStorage.getItem("token") }),
-      headers: {
-        "content-type": "application/json",
-      },
+      method: "get",
+      headers: myheaders,
     })
       .then((res) => res.json())
       .then((data) => {
@@ -150,14 +158,16 @@ function Profile(props) {
     const fileInput = e.target[0].files[0];
     const formData = new FormData();
     formData.append("image", fileInput);
-    const options = {
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    fetch("/users/profile/upload/" + type, {
       method: "post",
       body: formData,
-      headers: {
-        token: localStorage.getItem("token"),
-      },
-    };
-    fetch("/users/profile/upload/" + type, options)
+      headers: myheaders,
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {

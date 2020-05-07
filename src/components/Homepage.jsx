@@ -127,7 +127,7 @@ function Homepage(props) {
 
   const history = useHistory();
 
-  const login_form_submit = (e) => {
+  const login = (e) => {
     e.preventDefault();
     const url = "/users/login/";
     const payload = {
@@ -142,15 +142,15 @@ function Homepage(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.saved);
         if (data.saved === "success") {
+          console.log(data);
           localStorage.setItem("token", data.token);
           localStorage.setItem("id", data._id);
           localStorage.setItem("username", data.username);
           localStorage.setItem("f_name", data.f_name);
           localStorage.setItem("l_name", data.l_name);
           localStorage.setItem("imageUri", data.imageUri);
-          history.push("/user/");
+          history.push("/user/profile/" + data.username);
         } else {
           errorDisplay(data, "login-alert");
         }
@@ -249,7 +249,7 @@ function Homepage(props) {
             style={{ display: "none" }}
             id="login-alert"
           ></Alert>
-          <Form onSubmit={login_form_submit} onChange={handleChangeLogin}>
+          <Form onSubmit={login} onChange={handleChangeLogin}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control

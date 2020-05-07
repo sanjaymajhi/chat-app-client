@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import { Grid, Gif } from "@giphy/react-components";
@@ -54,7 +54,6 @@ function CreatePostOrCommentComponent(props) {
     e.preventDefault();
     document.getElementById("post-spinner").style.display = "inline-block";
     const form = new FormData();
-    console.log(props.postId);
     form.append("post-text", props.formData["post-text"]);
     form.append("post-gif", props.formData["gif-id"]);
     form.append("image", props.formData["post-img"]);
@@ -64,13 +63,19 @@ function CreatePostOrCommentComponent(props) {
     const url =
       props.type === "comment"
         ? "/users/profile/post/comment"
+        : props.type === "commentOnComment"
+        ? "/users/profile/post/commentOnComment"
         : "/users/profile/post/";
+
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
     fetch(url, {
       method: "Post",
       body: form,
-      headers: {
-        token: localStorage.getItem("token"),
-      },
+      headers: myheaders,
     })
       .then((res) => res.json())
       .then((data) => {

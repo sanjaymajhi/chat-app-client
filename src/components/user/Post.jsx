@@ -6,22 +6,8 @@ import Posts from "../Posts";
 
 function Post(props) {
   const { id } = useParams();
+  const [postIdForComment, setPostIdForComment] = useState("");
   const [postDetails, setPostDetails] = useState({});
-  const getPost = () => {
-    fetch("/users/post/" + id, {
-      method: "get",
-      headers: {
-        token: localStorage.getItem("token"),
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.saved === "success") {
-          setPostDetails(data.details);
-        }
-      });
-  };
 
   useEffect(() => getPost(), []);
 
@@ -30,25 +16,65 @@ function Post(props) {
     setFormData({});
     setShowCreateComment(false);
   };
-  const handleShowCreateComment = () => {
+  const handleShowCreateComment = (e) => {
+    setPostIdForComment(e.target.id);
     setShowCreateComment(true);
   };
 
   const [gif, setGif] = useState(null);
   const [formData, setFormData] = useState({});
 
+  //comment on comment
+  const [gif2, setGif2] = useState(null);
+  const [formData2, setFormData2] = useState({});
+
+  const [commentIdForComment, setCommentIdForComment] = useState("");
+
+  const [ShowCreateComment2, setShowCreateComment2] = useState(false);
+  const handleCloseCreateComment2 = () => {
+    setFormData2({});
+    setShowCreateComment2(false);
+  };
+  const handleShowCreateComment2 = (e) => {
+    setCommentIdForComment(e.target.id);
+    setShowCreateComment2(true);
+  };
+
+  const getPost = () => {
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    fetch("/users/post/" + id, {
+      method: "get",
+      headers: myheaders,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.saved === "success") {
+          setPostDetails(data.details);
+          console.log(data.details);
+        }
+      });
+  };
+
   const likeSharePost = (e, type) => {
     e.preventDefault();
     const target = e.target;
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    myheaders.append("content-type", "application/json");
     fetch("/users/posts/" + type, {
       method: "post",
       body: JSON.stringify({
-        token: localStorage.getItem("token"),
         post_id: id,
       }),
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: myheaders,
     })
       .then((res) => res.json())
       .then((data) => {
@@ -129,6 +155,21 @@ function Post(props) {
             </span>
           </div>
         </div>
+        <Posts
+          {...props}
+          type="comment"
+          posts={postDetails.comments}
+          setFormData={setFormData2}
+          formData={formData2}
+          handleCloseCreatePostOrComment={handleCloseCreateComment2}
+          setGif={setGif2}
+          ShowCreatePostOrComment={ShowCreateComment2}
+          gif={gif2}
+          postId={commentIdForComment}
+          handleShowCreateComment={handleShowCreateComment2}
+        />
+
+        {/* comment on opened post */}
 
         <CreatePostOrCommentComponent
           {...props}

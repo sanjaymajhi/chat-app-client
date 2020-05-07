@@ -12,12 +12,14 @@ function MessagesRight() {
   const context = useContext(Context);
 
   const getFriendList = () => {
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
     fetch("/users/friend-list", {
-      method: "POst",
-      body: JSON.stringify({ token: localStorage.getItem("token") }),
-      headers: {
-        "content-type": "application/json",
-      },
+      method: "get",
+      headers: myheaders,
     })
       .then((res) => res.json())
       .then((data) => {
