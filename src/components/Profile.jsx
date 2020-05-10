@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import avtar from "../../images/avtar.png";
+import avtar from "../images/avtar.png";
 import {
   Modal,
   Alert,
@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import UserPosts from "./userPosts";
-import Context from "../Context";
+import Context from "./Context";
 
 function Profile(props) {
   const ctx = useContext(Context);

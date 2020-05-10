@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import Context from "../Context";
+import Context from "./Context";
 import { Modal, Alert } from "react-bootstrap";
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import { Grid } from "@giphy/react-components";

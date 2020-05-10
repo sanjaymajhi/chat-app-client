@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import CreatePostOrCommentComponent from "../CreatePostOrComment";
-import Posts from "../Posts";
-import Context from "../Context";
+import CreatePostOrCommentComponent from "./CreatePostOrComment";
+import Posts from "./Posts";
+import Context from "./Context";
 
 function Post(props) {
   const { id } = useParams();

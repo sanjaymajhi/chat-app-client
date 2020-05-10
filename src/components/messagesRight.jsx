@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { InputGroup, FormControl } from "react-bootstrap";
-import Context from "../Context";
+import Context from "./Context";
 
 function MessagesRight() {
   const ctx = useContext(Context);
@@ -49,7 +49,7 @@ function MessagesRight() {
           id="msg-profile-pic"
           onClick={() =>
             context.dispatch({
-              type: "change",
+              type: "changeUserInfoForMsg",
               payload: friend,
             })
           }

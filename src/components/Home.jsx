@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import Posts from "../Posts";
-import Context from "../Context";
+import Posts from "./Posts";
+import Context from "./Context";
 
 function Home(props) {
   const ctx = useContext(Context);

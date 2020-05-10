@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { InputGroup, FormControl } from "react-bootstrap";
-import Context from "../Context";
+import Context from "./Context";
 
 function ProfileSideBar() {
   const ctx = useContext(Context);

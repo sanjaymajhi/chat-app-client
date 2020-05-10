@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import CreatePostOrCommentComponent from "../CreatePostOrComment";
-import Context from "../Context";
+import CreatePostOrCommentComponent from "./CreatePostOrComment";
+import Context from "./Context";
 
 function SideNav(props) {
   const ctx = useContext(Context);

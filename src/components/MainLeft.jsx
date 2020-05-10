@@ -5,7 +5,7 @@ import MessagesLeft from "./messagesLeft";
 import Home from "./Home";
 import MessagesRight from "./messagesRight";
 import Post from "./Post";
-import Context from "../Context";
+import Context from "./Context";
 
 function MainLeft() {
   const ctx = useContext(Context);
