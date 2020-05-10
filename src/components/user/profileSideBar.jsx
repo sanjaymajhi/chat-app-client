@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { InputGroup, FormControl } from "react-bootstrap";
+import Context from "../Context";
 
 function ProfileSideBar() {
-  const [searchResults, setSearchResults] = useState([]);
+  const ctx = useContext(Context);
+
   const searchPeople = (e) => {
     document.getElementById("search-people-results").style.display = "block";
     const keyword = e.target.value;
@@ -21,7 +23,7 @@ function ProfileSideBar() {
       })
         .then((res) => res.json())
         .then(async (data) => {
-          await setSearchResults(data);
+          await ctx.dispatch({ type: "setSearchResults", payload: data });
         });
     } else {
       document.getElementById("search-people-results").style.display = "none";
@@ -40,7 +42,7 @@ function ProfileSideBar() {
           <FormControl placeholder="Search your Friends" name="search" />
         </InputGroup>
         <ul id="search-people-results">
-          {searchResults.map((item) => (
+          {ctx.searchResults.map((item) => (
             <Link to={"/user/profile/" + item.username.split("@")[1]}>
               <li>
                 <img src={item.imageUri} alt="profile" />

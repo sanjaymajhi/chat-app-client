@@ -1,27 +1,26 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Context } from "./Main";
+import React, { useContext, useEffect } from "react";
+import Context from "../Context";
 import { Modal, Alert } from "react-bootstrap";
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import { Grid } from "@giphy/react-components";
 import moment from "moment";
 
 function MessagesLeft(props) {
-  const context = useContext(Context);
+  const ctx = useContext(Context);
   const gf = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
   const fetchEmojis = (offset) => gf.emoji({ offset, limit: 10 });
 
-  const [messages, setMessages] = useState({});
-
-  const [ShowGifs, setShowGifs] = useState(false);
-  const handleCloseShowGifs = () => setShowGifs(false);
-  const handleShowGifs = () => setShowGifs(true);
+  const handleCloseShowGifsForMsg = () =>
+    ctx.dispatch({ type: "setShowGifsForMsg", payload: false });
+  const handleShowGifsForMsg = () =>
+    ctx.dispatch({ type: "setShowGifsForMsg", payload: true });
 
   useEffect(() => {
-    if (Object.keys(context.state).length > 0) {
+    if (Object.keys(ctx.userInfoForMsg).length > 0) {
       const interval = setInterval(() => getMessages(), 2000);
       return () => clearInterval(interval);
     }
-  }, [context.state]);
+  }, [ctx.userInfoForMsg]);
 
   const getMessages = () => {
     const myheaders = new Headers();
@@ -33,7 +32,7 @@ function MessagesLeft(props) {
     fetch("/users/messages", {
       method: "post",
       body: JSON.stringify({
-        friend_id: context.state.id,
+        friend_id: ctx.userInfoForMsg.id,
       }),
       headers: myheaders,
     })
@@ -41,9 +40,12 @@ function MessagesLeft(props) {
       .then((data) => {
         if (data.saved === "success") {
           data.length = data.msgs.chat.length;
-          setMessages(data);
+          ctx.dispatch({ type: "setMessages", payload: data });
         } else {
-          setMessages({ saved: "unsuccessful" });
+          ctx.dispatch({
+            type: "setMessages",
+            payload: { saved: "unsuccessful" },
+          });
         }
       });
   };
@@ -51,9 +53,9 @@ function MessagesLeft(props) {
   const sendMessage = (name, value) => {
     const formData = new FormData();
     formData.append(name, value);
-    formData.append("friendId", context.state.id);
-    if (messages.saved === "success") {
-      formData.append("msgBoxId", messages.msgs._id);
+    formData.append("friendId", ctx.userInfoForMsg.id);
+    if (ctx.messages.saved === "success") {
+      formData.append("msgBoxId", ctx.messages.msgs._id);
     } else {
       formData.append("msgBoxId", "");
     }
@@ -73,7 +75,7 @@ function MessagesLeft(props) {
       .then((data) => {
         if (data.saved === "success") {
           if (name === "gif") {
-            handleCloseShowGifs();
+            handleCloseShowGifsForMsg();
           }
           if (name === "text") {
             document.getElementById("text").value = "";
@@ -104,7 +106,7 @@ function MessagesLeft(props) {
 
   return (
     <div id="message-left">
-      {Object.keys(context.state).length === 0 ? (
+      {Object.keys(ctx.userInfoForMsg).length === 0 ? (
         <div id="msg-not-selected">
           <h2>You don't have a message selected</h2>
           <span>Select one of your friend to message</span>
@@ -113,13 +115,13 @@ function MessagesLeft(props) {
         <div id="msg-box">
           <div id="msg-box-profile">
             <img
-              src={context.state.imageUri}
-              alt={context.state.name + " pic"}
+              src={ctx.userInfoForMsg.imageUri}
+              alt={ctx.userInfoForMsg.name + " pic"}
             />
             <div>
-              <strong>{context.state.name}</strong>
+              <strong>{ctx.userInfoForMsg.name}</strong>
               <br />
-              <span>{context.state.username}</span>
+              <span>{ctx.userInfoForMsg.username}</span>
             </div>
           </div>
 
@@ -129,8 +131,8 @@ function MessagesLeft(props) {
             id="wrong-image-alert"
           ></Alert>
           <div id="msg-box-msgs">
-            {messages.msgs !== undefined &&
-              messages.msgs.chat.map((msg) => {
+            {ctx.messages.msgs !== undefined &&
+              ctx.messages.msgs.chat.map((msg) => {
                 var direction = "";
 
                 const elem = document.getElementById("msg-box-msgs");
@@ -175,7 +177,7 @@ function MessagesLeft(props) {
             >
               image
             </i>
-            <i className="material-icons" onClick={handleShowGifs}>
+            <i className="material-icons" onClick={handleShowGifsForMsg}>
               gif
             </i>
             <input
@@ -201,8 +203,8 @@ function MessagesLeft(props) {
       />
 
       <Modal
-        show={ShowGifs}
-        onHide={handleCloseShowGifs}
+        show={ctx.showGifsForMsg}
+        onHide={handleCloseShowGifsForMsg}
         {...props}
         size="md"
         centered

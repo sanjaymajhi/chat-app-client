@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Posts from "../Posts";
+import Context from "../Context";
 
 function Home(props) {
+  const ctx = useContext(Context);
+
   const history = useHistory();
-  const [homePosts, setHomePosts] = useState([]);
+
   useEffect(() => getHomePosts(), []);
 
-  const [postIdForComment, setPostIdForComment] = useState("");
-
-  const [ShowCreateComment, setShowCreateComment] = useState(false);
   const handleCloseCreateComment = () => {
-    setFormData({});
-    setShowCreateComment(false);
+    ctx.dispatch({ type: "setFormDataForHomeComments", payload: {} });
+    ctx.dispatch({ type: "setShowCreateComment", payload: false });
   };
   const handleShowCreateComment = (e) => {
-    setPostIdForComment(e.target.id);
-    setShowCreateComment(true);
+    ctx.dispatch({ type: "setPostIdForComment", payload: e.target.id });
+    ctx.dispatch({ type: "setShowCreateComment", payload: true });
   };
 
-  const [gif, setGif] = useState(null);
-  const [formData, setFormData] = useState({});
+  const setGifForHomeComments = (data) =>
+    ctx.dispatch({ type: "setGifForHomeComments", payload: data });
+  const setFormDataForHomeComments = (data) =>
+    ctx.dispatch({ type: "setFormDataForHomeComments", payload: data });
 
   const getHomePosts = () => {
     const myheaders = new Headers();
@@ -40,7 +42,7 @@ function Home(props) {
               new Date(b.sent_time).getSeconds -
               new Date(a.sent_time).getSeconds
           );
-          setHomePosts(data.details);
+          ctx.dispatch({ type: "setHomePosts", payload: [...data.details] });
         }
       });
   };
@@ -50,15 +52,14 @@ function Home(props) {
       {...props}
       type="home"
       history={history}
-      posts={homePosts}
-      setPosts={setHomePosts}
-      setFormData={setFormData}
-      formData={formData}
+      posts={ctx.homePosts}
+      setFormData={setFormDataForHomeComments}
+      formData={ctx.formDataForHomeComments}
       handleCloseCreatePostOrComment={handleCloseCreateComment}
-      setGif={setGif}
-      ShowCreatePostOrComment={ShowCreateComment}
-      gif={gif}
-      postId={postIdForComment}
+      setGifForHomeComments={setGifForHomeComments}
+      ShowCreatePostOrComment={ctx.ShowCreateComment}
+      gifForHomeComments={ctx.gifForHomeComments}
+      postId={ctx.postIdForComment}
       handleShowCreateComment={handleShowCreateComment}
     />
   );

@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import CreatePostOrCommentComponent from "../CreatePostOrComment";
+import Context from "../Context";
 
 function SideNav(props) {
-  const [ShowCreatePost, setShowCreatePost] = useState(false);
+  const ctx = useContext(Context);
+  const setShowCreatePost = (data) =>
+    ctx.dispatch({ type: "setShowCreatePost", payload: data });
+
   const handleCloseCreatePost = () => {
-    setFormData({});
+    setFormDataForPost({});
     setShowCreatePost(false);
   };
   const handleShowCreatePost = () => setShowCreatePost(true);
 
-  const [gif, setGif] = useState(null);
-  const [formData, setFormData] = useState({});
+  const setGifForPost = (data) =>
+    ctx.dispatch({ type: "setGifForPost", payload: data });
+  const setFormDataForPost = (data) =>
+    ctx.dispatch({ type: "setFormDataForPost", payload: data });
 
   return (
     <div>
@@ -79,12 +85,12 @@ function SideNav(props) {
       {/* create post modal */}
       <CreatePostOrCommentComponent
         {...props}
-        setFormData={setFormData}
-        formData={formData}
+        setFormData={setFormDataForPost}
+        formData={ctx.formDataForPost}
         handleCloseCreatePostOrComment={handleCloseCreatePost}
-        setGif={setGif}
-        ShowCreatePostOrComment={ShowCreatePost}
-        gif={gif}
+        setGif={setGifForPost}
+        ShowCreatePostOrComment={ctx.showCreatePost}
+        gif={ctx.gifForPost}
       />
     </div>
   );

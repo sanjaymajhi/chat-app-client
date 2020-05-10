@@ -1,29 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Posts from "../Posts";
+import Context from "../Context";
 
 function UserPosts(props) {
+  const ctx = useContext(Context);
+
   const { id } = useParams();
   const history = useHistory();
-  const [postIdForComment, setPostIdForComment] = useState("");
 
-  const [postsObject, setPostsObject] = useState({});
+  const setPostIdForUserPostsComment = (data) =>
+    ctx.dispatch({
+      type: "setPostIdForUserPostsComment",
+      payload: data,
+    });
+
+  const setPostsObject = (data) =>
+    ctx.dispatch({
+      type: "setPostsObject",
+      payload: data,
+    });
+
+  const setShowCreateCommentForProfilePosts = (data) =>
+    ctx.dispatch({
+      type: "setShowCreateCommentForProfilePosts",
+      payload: data,
+    });
+  const handleCloseCreateComment = () => {
+    setFormDataForUserPostsCmnt({});
+    setShowCreateCommentForProfilePosts(false);
+  };
+  const handleShowCreateCommentForProfilePosts = (e) => {
+    setPostIdForUserPostsComment(e.target.id);
+    setShowCreateCommentForProfilePosts(true);
+  };
+
+  const setGifForUserPostsCmnt = (data) =>
+    ctx.dispatch({
+      type: "setGifForUserPostsCmnt",
+      payload: data,
+    });
+  const setFormDataForUserPostsCmnt = (data) =>
+    ctx.dispatch({
+      type: "setFormDataForUserPostsCmnt",
+      payload: data,
+    });
+
   useEffect(() => {
     getPosts();
   }, [id]);
-
-  const [ShowCreateComment, setShowCreateComment] = useState(false);
-  const handleCloseCreateComment = () => {
-    setFormData({});
-    setShowCreateComment(false);
-  };
-  const handleShowCreateComment = (e) => {
-    setPostIdForComment(e.target.id);
-    setShowCreateComment(true);
-  };
-
-  const [gif, setGif] = useState(null);
-  const [formData, setFormData] = useState({});
 
   const getPosts = () => {
     const myheaders = new Headers();
@@ -48,16 +73,16 @@ function UserPosts(props) {
       {...props}
       type="user"
       history={history}
-      posts={postsObject.posts}
+      posts={ctx.postsObject.posts}
       setPosts={setPostsObject}
-      setFormData={setFormData}
-      formData={formData}
+      setFormData={setFormDataForUserPostsCmnt}
+      formData={ctx.formDataForUserPostsCmnt}
       handleCloseCreatePostOrComment={handleCloseCreateComment}
-      setGif={setGif}
-      ShowCreatePostOrComment={ShowCreateComment}
-      gif={gif}
-      postId={postIdForComment}
-      handleShowCreateComment={handleShowCreateComment}
+      setGif={setGifForUserPostsCmnt}
+      ShowCreatePostOrComment={ctx.ShowCreateCommentForProfilePosts}
+      gif={ctx.gifForUserPostsCmnt}
+      postId={ctx.postIdForUserPostsComment}
+      handleShowCreateComment={handleShowCreateCommentForProfilePosts}
       id={id}
     />
   );

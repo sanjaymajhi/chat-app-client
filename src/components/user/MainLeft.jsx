@@ -3,12 +3,12 @@ import { Switch, Route } from "react-router-dom";
 import Profile from "./Profile";
 import MessagesLeft from "./messagesLeft";
 import Home from "./Home";
-import { Context } from "./Main";
 import MessagesRight from "./messagesRight";
 import Post from "./Post";
+import Context from "../Context";
 
 function MainLeft() {
-  const context = useContext(Context);
+  const ctx = useContext(Context);
   return (
     <div class="main-left">
       <Switch>
@@ -21,7 +21,7 @@ function MainLeft() {
           component={
             !window.matchMedia("(max-width: 480px)").matches
               ? MessagesLeft
-              : Object.keys(context.state).length > 0
+              : Object.keys(ctx.userInfoForMsg).length > 0
               ? MessagesLeft
               : MessagesRight
           }

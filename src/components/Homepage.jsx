@@ -1,35 +1,30 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { Modal, Button, Form, Row, Col, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import Context from "./Context";
 
 function Homepage(props) {
-  const [showLogin, setShowLogin] = useState(false);
+  const ctx = useContext(Context);
+
+  const setShowLogin = (data) =>
+    ctx.dispatch({ type: "setShowLogin", payload: data });
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => {
     setShowLogin(true);
     loadButtons();
   };
 
-  const [showRegister, setShowRegister] = useState(false);
+  const setShowRegister = (data) =>
+    ctx.dispatch({ type: "setShowLogin", payload: data });
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => {
     setShowRegister(true);
     loadButtons();
   };
 
-  const [Login, setLogin] = useState({
-    email: "",
-    password: "",
-    method: "native",
-  });
-  const [Register, setRegister] = useState({
-    f_name: "",
-    l_name: "",
-    email: "",
-    password: "",
-    method: "native",
-    imageUri: "",
-  });
+  const setLogin = (data) => ctx.dispatch({ type: "setLogin", payload: data });
+  const setRegister = (data) =>
+    ctx.dispatch({ type: "setRegister", payload: data });
 
   const loadButtons = () => {
     const script = document.createElement("script");
@@ -98,13 +93,13 @@ function Homepage(props) {
   const handleChangeLogin = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setLogin({ ...Login, [name]: value });
+    setLogin({ ...ctx.Login, [name]: value });
   };
 
   const handleChangeRegister = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setRegister({ ...Register, [name]: value });
+    setRegister({ ...ctx.Register, [name]: value });
   };
 
   const errorDisplay = (data, id) => {
@@ -131,7 +126,7 @@ function Homepage(props) {
     e.preventDefault();
     const url = "/users/login/";
     const payload = {
-      ...Login,
+      ...ctx.Login,
     };
     fetch(url, {
       method: "POST",
@@ -161,7 +156,7 @@ function Homepage(props) {
     e.preventDefault();
     const url = "/users/register/";
     let data = {
-      ...Register,
+      ...ctx.Register,
     };
     fetch(url, {
       method: "POST",
@@ -233,7 +228,7 @@ function Homepage(props) {
       </div>
 
       <Modal
-        show={showLogin}
+        show={ctx.showLogin}
         onHide={handleCloseLogin}
         {...props}
         size="md"
@@ -283,7 +278,7 @@ function Homepage(props) {
       </Modal>
 
       <Modal
-        show={showRegister}
+        show={ctx.showRegister}
         onHide={handleCloseRegister}
         {...props}
         size="md"
@@ -308,7 +303,7 @@ function Homepage(props) {
                     type="text"
                     placeholder="First Name"
                     name="f_name"
-                    value={Register.f_name}
+                    value={ctx.Register.f_name}
                     required={true}
                   />
                 </Form.Group>
@@ -320,7 +315,7 @@ function Homepage(props) {
                     type="text"
                     placeholder="Last Name"
                     name="l_name"
-                    value={Register.l_name}
+                    value={ctx.Register.l_name}
                     required={true}
                   />
                 </Form.Group>
@@ -332,7 +327,7 @@ function Homepage(props) {
                 type="email"
                 placeholder="Enter email"
                 name="email"
-                value={Register.email}
+                value={ctx.Register.email}
                 required={true}
               />
             </Form.Group>
@@ -343,7 +338,7 @@ function Homepage(props) {
                 type="password"
                 placeholder="Password"
                 name="password"
-                value={Register.password}
+                value={ctx.Register.password}
               />
             </Form.Group>
             <Button variant="primary" type="submit" id="register-button">

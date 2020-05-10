@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { InputGroup, FormControl } from "react-bootstrap";
-import { Context } from "./Main";
+import Context from "../Context";
 
 function MessagesRight() {
-  const [friendList, setFriendList] = useState([]);
+  const ctx = useContext(Context);
 
   useEffect(() => {
     getFriendList();
@@ -24,7 +24,7 @@ function MessagesRight() {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
-          setFriendList(data.data);
+          ctx.dispatch({ type: "setFriendList", payload: data.data });
         }
       });
   };
@@ -43,7 +43,7 @@ function MessagesRight() {
           <FormControl placeholder="Search your Friends" />
         </InputGroup>
       </div>
-      {friendList.map((friend) => (
+      {ctx.friendList.map((friend) => (
         <div
           key={friend.id}
           id="msg-profile-pic"

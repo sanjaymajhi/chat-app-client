@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import avtar from "../../images/avtar.png";
 import {
@@ -13,31 +13,35 @@ import {
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import UserPosts from "./userPosts";
+import Context from "../Context";
 
 function Profile(props) {
-  const [showEditProfile, setShowEditProfile] = useState(false);
+  const ctx = useContext(Context);
+
+  const setShowEditProfile = (data) =>
+    ctx.dispatch({ type: "setShowEditProfile", payload: data });
+
   const handleCloseEditProfile = () => setShowEditProfile(false);
   const handleShowEditProfile = () => setShowEditProfile(true);
 
-  const [showEditProfilePic, setShowEditProfilePic] = useState(false);
+  const setShowEditProfilePic = (data) =>
+    ctx.dispatch({ type: "setShowEditProfilePic", payload: data });
+
   const handleCloseEditProfilePic = () => setShowEditProfilePic(false);
   const handleShowEditProfilePic = () => setShowEditProfilePic(true);
 
-  const [showEditProfileCoverPic, setShowEditProfileCoverPic] = useState(false);
+  const setShowEditProfileCoverPic = (data) =>
+    ctx.dispatch({ type: "setShowEditProfileCoverPic", payload: data });
+
   const handleCloseEditProfileCoverPic = () =>
     setShowEditProfileCoverPic(false);
   const handleShowEditProfileCoverPic = () => setShowEditProfileCoverPic(true);
 
-  const [profile, setProfile] = useState({});
-  const [editProfile, setEditProfile] = useState({
-    f_name: "",
-    l_name: "",
-    bio: "",
-    location: "",
-    username: "",
-  });
+  const setEditProfile = (data) =>
+    ctx.dispatch({ type: "setEditProfile", payload: data });
 
   var { id } = useParams();
+
   useEffect(() => {
     getProfile();
   }, [id]);
@@ -58,7 +62,7 @@ function Profile(props) {
     })
       .then((res) => res.json())
       .then(async (data) => {
-        await setProfile(data.details);
+        await ctx.dispatch({ type: "setProfile", payload: data.details });
         localStorage.setItem("f_name", data.details.f_name);
         localStorage.setItem("l_name", data.details.l_name);
         localStorage.setItem("imageUri", data.details.imageUri);
@@ -74,14 +78,14 @@ function Profile(props) {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setEditProfile({ ...editProfile, [name]: value });
+    setEditProfile({ ...ctx.editProfile, [name]: value });
   };
 
   const history = useHistory();
   const updateProfile = (e) => {
     e.preventDefault();
     const payload = {
-      ...editProfile,
+      ...ctx.editProfile,
     };
     const myheaders = new Headers();
     myheaders.append(
@@ -101,8 +105,8 @@ function Profile(props) {
           alert.className = "fade alert alert-success show";
           alert.style.display = "block";
           alert.innerHTML = "Your details had been saved...";
-          id = editProfile.username;
-          localStorage.setItem("username", editProfile.username);
+          id = ctx.editProfile.username;
+          localStorage.setItem("username", ctx.editProfile.username);
           setTimeout(() => {
             handleCloseEditProfile();
           }, 2000);
@@ -201,12 +205,12 @@ function Profile(props) {
   return (
     <div>
       <div id="profile-head">
-        <strong>{profile.f_name + " " + profile.l_name}</strong>
+        <strong>{ctx.profile.f_name + " " + ctx.profile.l_name}</strong>
         <br />
-        {profile.posts && profile.posts.length} Tweets
+        {ctx.profile.posts && ctx.profile.posts.length} Tweets
       </div>
       <div id="body">
-        {profile.coverImageUri === "" ? (
+        {ctx.profile.coverImageUri === "" ? (
           <div
             id="cover-image"
             onClick={
@@ -218,7 +222,7 @@ function Profile(props) {
         ) : (
           <img
             id="cover-image"
-            src={profile.coverImageUri}
+            src={ctx.profile.coverImageUri}
             alt="cover"
             onClick={
               localStorage.getItem("username") === id
@@ -227,7 +231,7 @@ function Profile(props) {
             }
           />
         )}
-        {profile.imageUri === "" ? (
+        {ctx.profile.imageUri === "" ? (
           <img
             src={avtar}
             alt="no profile"
@@ -240,7 +244,7 @@ function Profile(props) {
           />
         ) : (
           <img
-            src={profile.imageUri}
+            src={ctx.profile.imageUri}
             alt="profile"
             id="profile-pic"
             onClick={
@@ -279,19 +283,19 @@ function Profile(props) {
           </div>
           <div>
             &nbsp;
-            <strong>{profile.f_name + " " + profile.l_name}</strong>
+            <strong>{ctx.profile.f_name + " " + ctx.profile.l_name}</strong>
             <br />
             &nbsp;
-            <span>{profile.username}</span>
+            <span>{ctx.profile.username}</span>
           </div>
-          <div>{profile.bio}</div>
+          <div>{ctx.profile.bio}</div>
           <div>
             <span>
               <i class="material-icons">location_on</i>
-              {profile.location + " "}&nbsp;
+              {ctx.profile.location + " "}&nbsp;
               <i class="material-icons"> date_range</i>{" "}
               {" Joined " +
-                new Date(profile.join_date).toLocaleDateString("en-US", {
+                new Date(ctx.profile.join_date).toLocaleDateString("en-US", {
                   month: "long",
                   year: "numeric",
                 })}
@@ -300,17 +304,17 @@ function Profile(props) {
           <div>
             &nbsp;
             <strong>
-              {(profile.following === undefined
+              {(ctx.profile.following === undefined
                 ? 0
-                : profile.following.length) + " "}
+                : ctx.profile.following.length) + " "}
             </strong>{" "}
             <span>Following</span>
             &emsp;
             <strong>
               {" " +
-                (profile.followers === undefined
+                (ctx.profile.followers === undefined
                   ? 0
-                  : profile.followers.length) +
+                  : ctx.profile.followers.length) +
                 " "}
             </strong>
             <span>Followers</span>
@@ -324,7 +328,7 @@ function Profile(props) {
           <UserPosts />
         </div>
         <Modal
-          show={showEditProfile}
+          show={ctx.showEditProfile}
           onHide={handleCloseEditProfile}
           {...props}
           size="md"
@@ -333,7 +337,9 @@ function Profile(props) {
           backdrop="static"
           keyboard={false}
         >
-          <Modal.Header closeButton={profile.username === "" ? false : true}>
+          <Modal.Header
+            closeButton={ctx.profile.username === "" ? false : true}
+          >
             <Modal.Title>Edit Profile</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -404,7 +410,7 @@ function Profile(props) {
         </Modal>
 
         <Modal
-          show={showEditProfilePic}
+          show={ctx.showEditProfilePic}
           onHide={handleCloseEditProfilePic}
           {...props}
           size="md"
@@ -454,7 +460,7 @@ function Profile(props) {
         </Modal>
 
         <Modal
-          show={showEditProfileCoverPic}
+          show={ctx.showEditProfileCoverPic}
           onHide={handleCloseEditProfileCoverPic}
           {...props}
           size="md"

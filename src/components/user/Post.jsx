@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import CreatePostOrCommentComponent from "../CreatePostOrComment";
 import Posts from "../Posts";
+import Context from "../Context";
 
 function Post(props) {
   const { id } = useParams();
+  const ctx = useContext(Context);
+
   const [postIdForComment, setPostIdForComment] = useState("");
-  const [postDetails, setPostDetails] = useState({});
 
   useEffect(() => getPost(), []);
 
   const [ShowCreateComment, setShowCreateComment] = useState(false);
   const handleCloseCreateComment = () => {
-    setFormData({});
+    setFormDataForPostComment({});
     setShowCreateComment(false);
   };
   const handleShowCreateComment = (e) => {
@@ -21,23 +23,32 @@ function Post(props) {
     setShowCreateComment(true);
   };
 
-  const [gif, setGif] = useState(null);
-  const [formData, setFormData] = useState({});
+  const setGifForPostComment = (data) =>
+    ctx.dispatch({ type: "setGifForPostComment", payload: data });
+
+  const setFormDataForPostComment = (data) =>
+    ctx.dispatch({ type: "setFormDataForPostComment", payload: data });
 
   //comment on comment
-  const [gif2, setGif2] = useState(null);
-  const [formData2, setFormData2] = useState({});
+  const setGifForCommentOnComment = (data) =>
+    ctx.dispatch({ type: "setGifForCommentOnComment", payload: data });
 
-  const [commentIdForComment, setCommentIdForComment] = useState("");
+  const setFormDataForCmtOnCmt = (data) =>
+    ctx.dispatch({ type: "setFormDataForCmtOnCmt", payload: data });
 
-  const [ShowCreateComment2, setShowCreateComment2] = useState(false);
-  const handleCloseCreateComment2 = () => {
-    setFormData2({});
-    setShowCreateComment2(false);
+  const setCommentIdForComment = (data) =>
+    ctx.dispatch({ type: "setCommentIdForComment", payload: data });
+
+  const setShowCreateCommentForCmt = (data) =>
+    ctx.dispatch({ type: "setShowCreateCommentForCmt", payload: data });
+
+  const handleCloseCreateCommentForCmt = () => {
+    setFormDataForCmtOnCmt({});
+    setShowCreateCommentForCmt(false);
   };
-  const handleShowCreateComment2 = (e) => {
+  const handleShowCreateCommentForCmt = (e) => {
     setCommentIdForComment(e.target.id);
-    setShowCreateComment2(true);
+    setShowCreateCommentForCmt(true);
   };
 
   const getPost = () => {
@@ -54,7 +65,7 @@ function Post(props) {
       .then((data) => {
         console.log(data);
         if (data.saved === "success") {
-          setPostDetails(data.details);
+          ctx.dispatch({ type: "setPostDetails", payload: data.details });
           console.log(data.details);
         }
       });
@@ -86,7 +97,7 @@ function Post(props) {
   };
 
   return (
-    Object.keys(postDetails).length > 0 && (
+    Object.keys(ctx.postDetails).length > 0 && (
       <div>
         <div id="single-post-head">
           <h3>
@@ -95,30 +106,30 @@ function Post(props) {
         </div>
         <div id="single-post-profile">
           <img
-            src={postDetails.imageUri}
-            alt={postDetails.name + " profile pic"}
+            src={ctx.postDetails.imageUri}
+            alt={ctx.postDetails.name + " profile pic"}
           />
           <div>
-            <strong>{postDetails.name}</strong>
+            <strong>{ctx.postDetails.name}</strong>
 
             <br />
-            <span>{postDetails.username}</span>
+            <span>{ctx.postDetails.username}</span>
           </div>
         </div>
         <div>
-          <div id="single-post-detail">{postDetails.postText}</div>
+          <div id="single-post-detail">{ctx.postDetails.postText}</div>
 
           <div id="single-post-date">
             <span>
-              {moment(postDetails.date).format("HH:mm A") +
+              {moment(ctx.postDetails.date).format("HH:mm A") +
                 " · " +
-                moment(postDetails.date).format("ll")}
+                moment(ctx.postDetails.date).format("ll")}
             </span>
           </div>
           <div id="single-post-likeshare">
-            <strong>{postDetails.likes.length}</strong>
+            <strong>{ctx.postDetails.likes.length}</strong>
             <span> Likes</span> &emsp;
-            <strong>{postDetails.shares.length}</strong>
+            <strong>{ctx.postDetails.shares.length}</strong>
             <span> Shares</span>
           </div>
           <div id="likesharecomment">
@@ -126,7 +137,8 @@ function Post(props) {
               onClick={(e) => likeSharePost(e, "like")}
               style={{
                 color:
-                  postDetails.likes.indexOf(localStorage.getItem("id")) === -1
+                  ctx.postDetails.likes.indexOf(localStorage.getItem("id")) ===
+                  -1
                     ? "gray"
                     : "blue",
               }}
@@ -138,7 +150,8 @@ function Post(props) {
               onClick={(e) => likeSharePost(e, "share")}
               style={{
                 color:
-                  postDetails.shares.indexOf(localStorage.getItem("id")) === -1
+                  ctx.postDetails.shares.indexOf(localStorage.getItem("id")) ===
+                  -1
                     ? "gray"
                     : "blue",
               }}
@@ -158,27 +171,27 @@ function Post(props) {
         <Posts
           {...props}
           type="comment"
-          posts={postDetails.comments}
-          setFormData={setFormData2}
-          formData={formData2}
-          handleCloseCreatePostOrComment={handleCloseCreateComment2}
-          setGif={setGif2}
-          ShowCreatePostOrComment={ShowCreateComment2}
-          gif={gif2}
-          postId={commentIdForComment}
-          handleShowCreateComment={handleShowCreateComment2}
+          posts={ctx.postDetails.comments}
+          setFormData={setFormDataForCmtOnCmt}
+          formData={ctx.formDataForCmtOnCmt}
+          handleCloseCreatePostOrComment={handleCloseCreateCommentForCmt}
+          setGif={setGifForCommentOnComment}
+          ShowCreatePostOrComment={ctx.ShowCreateCommentForCmt}
+          gif={ctx.gifForCommentOnComment}
+          postId={ctx.commentIdForComment}
+          handleShowCreateComment={handleShowCreateCommentForCmt}
         />
 
         {/* comment on opened post */}
 
         <CreatePostOrCommentComponent
           {...props}
-          setFormData={setFormData}
-          formData={formData}
+          setFormData={setFormDataForPostComment}
+          formData={ctx.formDataForPostComment}
           handleCloseCreatePostOrComment={handleCloseCreateComment}
-          setGif={setGif}
+          setGif={setGifForPostComment}
           ShowCreatePostOrComment={ShowCreateComment}
-          gif={gif}
+          gif={ctx.gifForPostComment}
           type="comment"
           postId={id}
         />
