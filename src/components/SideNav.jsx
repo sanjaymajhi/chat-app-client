@@ -43,7 +43,6 @@ function SideNav(props) {
           </li>
         </Link>
       </ul>
-
       <button id="tweet-button-phone" onClick={handleShowCreatePost}>
         <i class="material-icons"> edit</i>
       </button>
@@ -80,6 +79,44 @@ function SideNav(props) {
           </li>
         </Link>
         <button onClick={handleShowCreatePost}>Tweet</button>
+      </ul>
+
+      <ul id="side-nav-tablet">
+        <Link to="/user/">
+          <li>
+            <h2>InstaChat</h2>
+          </li>
+        </Link>
+        <Link to="/user/">
+          <li>
+            <i class="material-icons">store</i>
+          </li>
+        </Link>
+        <Link to="/user/explore">
+          <li>
+            <i class="material-icons">explore</i>
+          </li>
+        </Link>
+        <Link to="/user/notifications">
+          <li>
+            <i class="material-icons">notifications</i>
+          </li>
+        </Link>
+        <Link to="/user/messages">
+          <li>
+            <i class="material-icons">message</i>
+          </li>
+        </Link>
+        <Link to={"/user/profile/" + localStorage.getItem("username")}>
+          <li>
+            <i class="material-icons">account_circle</i>
+          </li>
+        </Link>
+        <br />
+        <br />
+        <button onClick={handleShowCreatePost} id="tweet-button-tablet">
+          <i class="material-icons"> edit</i>
+        </button>
       </ul>
 
       {/* create post modal */}

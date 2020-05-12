@@ -58,7 +58,7 @@ function reducer(state, action) {
       return { ...state, formDataForUserPostsCmnt: action.payload };
     case "setPostsObject":
       return { ...state, postsObject: action.payload };
-    case "setsetPostIdForUserPostsCommentPostsObject":
+    case "setPostIdForUserPostsComment":
       return { ...state, postIdForUserPostsComment: action.payload };
     case "setShowLogin":
       return { ...state, showLogin: action.payload };
@@ -68,6 +68,8 @@ function reducer(state, action) {
       return { ...state, Login: action.payload };
     case "setRegister":
       return { ...state, Register: action.payload };
+    case "setNotifics":
+      return { ...state, notifics: action.payload };
 
     default:
       return state;
@@ -124,6 +126,7 @@ const initialState = {
   formDataForUserPostsCmnt: {},
   postsObject: {},
   postIdForUserPostsComment: "",
+  notifics: [],
 };
 
 export function ContextProvider({ children }) {

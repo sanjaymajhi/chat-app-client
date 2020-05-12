@@ -15,7 +15,7 @@ function Posts(props) {
     fetch("/users/posts/" + type, {
       method: "post",
       body: JSON.stringify({
-        post_id: e.target.id,
+        postId: e.target.id,
       }),
       headers: myheaders,
     })
@@ -182,7 +182,7 @@ function Posts(props) {
           setGif={props.setGif}
           ShowCreatePostOrComment={props.ShowCreatePostOrComment}
           gif={props.gif}
-          type="commentOnComment"
+          type={props.type === "cooment" ? "commentOnComment" : "comment"}
           postId={props.postId}
         />
       </div>

@@ -6,6 +6,7 @@ import Home from "./Home";
 import MessagesRight from "./messagesRight";
 import Post from "./Post";
 import Context from "./Context";
+import Notifications from "./Notifications";
 
 function MainLeft() {
   const ctx = useContext(Context);
@@ -19,7 +20,7 @@ function MainLeft() {
         <Route
           path="/user/messages"
           component={
-            !window.matchMedia("(max-width: 480px)").matches
+            window.matchMedia("(min-width: 901px)").matches
               ? MessagesLeft
               : Object.keys(ctx.userInfoForMsg).length > 0
               ? MessagesLeft
@@ -27,6 +28,8 @@ function MainLeft() {
           }
         />
         <Route path="/user/post/:id" component={Post} />
+
+        <Route path="/user/notifications/" component={Notifications} />
       </Switch>
     </div>
   );

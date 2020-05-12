@@ -41,6 +41,8 @@ function MessagesLeft(props) {
         if (data.saved === "success") {
           data.length = data.msgs.chat.length;
           ctx.dispatch({ type: "setMessages", payload: data });
+          const elem = document.getElementById("msg-box-msgs");
+          elem.scrollTop = elem.scrollHeight;
         } else {
           ctx.dispatch({
             type: "setMessages",
@@ -134,9 +136,6 @@ function MessagesLeft(props) {
             {ctx.messages.msgs !== undefined &&
               ctx.messages.msgs.chat.map((msg) => {
                 var direction = "";
-
-                const elem = document.getElementById("msg-box-msgs");
-                elem.scrollTop = elem.scrollHeight;
                 if (msg.senderId === localStorage.getItem("id")) {
                   direction = "right";
                 } else {
