@@ -15,7 +15,7 @@ function Homepage(props) {
   };
 
   const setShowRegister = (data) =>
-    ctx.dispatch({ type: "setShowLogin", payload: data });
+    ctx.dispatch({ type: "setShowRegister", payload: data });
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => {
     setShowRegister(true);
