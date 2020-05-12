@@ -407,13 +407,17 @@
     overflow: auto;
   }
   #home-posts h2 {
-    width: 44vw;
+    width: 44.2vw;
     position: fixed;
     padding: 2vh 2vw;
     top: 0;
     z-index: 1000;
     background-color: white;
     border-right: 1px solid lightgray;
+  }
+  #home-div-posts {
+    margin-top: 11vh;
+    border-top: 1px solid lightgray;
   }
   #home-div-posts h2 {
     text-align: center;
