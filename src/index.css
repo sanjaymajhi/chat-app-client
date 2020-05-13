@@ -87,7 +87,7 @@
     font-size: large;
     color: black;
     margin-left: 1vw;
-    width: 100%;
+    width: 85%;
   }
   #side-nav li i {
     font-weight: bold;
@@ -95,10 +95,14 @@
     vertical-align: middle;
   }
   #side-nav li:hover {
-    background-color: #dbf0fd;
-    color: #2e6586;
+    background-color: #555758;
+    color: white;
     border: 0;
     border-radius: 100px;
+    text-align: center;
+  }
+  #side-nav a {
+    text-decoration: none;
   }
   #side-nav button {
     margin-left: 1vw;
@@ -1433,6 +1437,75 @@
   }
   #home-div-posts {
     margin-top: 10vh;
+  }
+  #single-post-head {
+    padding: 1vh 2vw;
+  }
+  #single-post-profile {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 20% 80%;
+        grid-template-columns: 20% 80%;
+    padding: 2vh 1vw;
+    border-top: 1px solid lightgray;
+  }
+  #single-post-profile img {
+    width: 15vw;
+    height: 15vw;
+    border-radius: 100px;
+    margin: 0 auto;
+  }
+  #single-post-detail {
+    padding: 1vh 4vw;
+    font-size: 18px;
+  }
+  #single-post-date {
+    padding: 1vh 4vw;
+  }
+  #single-post-date span {
+    font: 12px;
+  }
+  #single-post-likeshare {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding: 2vh 4vw;
+  }
+  #likesharecomment {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 33% 33% 34%;
+        grid-template-columns: 33% 33% 34%;
+    border-bottom: 1px solid lightgray;
+    padding: 2vh 5vw;
+  }
+  #likesharecomment span {
+    font-size: small;
+  }
+  #likesharecomment span i {
+    font-size: small;
+  }
+  #notific-head {
+    padding: 2vh 2vw;
+    border-bottom: 1px solid lightgray;
+  }
+  #notific {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 20% 80%;
+        grid-template-columns: 20% 80%;
+    padding: 2vh 1vw;
+    border-bottom: 1px solid lightgray;
+    line-height: 7vw;
+  }
+  #notific img {
+    width: 15vw;
+    height: 15vw;
+    border-radius: 100px;
+    margin: 0 auto;
+  }
+  #no-notific {
+    text-align: center;
+    padding: 5vh 0;
   }
 }
 /*# sourceMappingURL=index.css.map */

@@ -77,7 +77,7 @@
       font-size: large;
       color: black;
       margin-left: 1vw;
-      width: 100%;
+      width: 85%;
       i {
         font-weight: bold;
         font-size: x-large;
@@ -85,10 +85,14 @@
       }
     }
     li:hover {
-      background-color: rgb(219, 240, 253);
-      color: rgb(46, 101, 134);
+      background-color: rgb(85, 87, 88);
+      color: white;
       border: 0;
       border-radius: 100px;
+      text-align: center;
+    }
+    a {
+      text-decoration: none;
     }
     button {
       @extend #button;
@@ -1475,5 +1479,76 @@
 
   #home-div-posts {
     margin-top: 10vh;
+  }
+
+  #single-post-head {
+    padding: 1vh 2vw;
+  }
+  #single-post-profile {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    padding: 2vh 1vw;
+    border-top: 1px solid lightgray;
+    img {
+      width: 15vw;
+      height: 15vw;
+      border-radius: 100px;
+      margin: 0 auto;
+    }
+  }
+
+  #single-post-detail {
+    padding: 1vh 4vw;
+    font-size: 18px;
+  }
+
+  #single-post-date {
+    padding: 1vh 4vw;
+    span {
+      font: 12px;
+    }
+  }
+
+  #single-post-likeshare {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding: 2vh 4vw;
+  }
+
+  #likesharecomment {
+    display: grid;
+    grid-template-columns: 33% 33% 34%;
+    border-bottom: 1px solid lightgray;
+    padding: 2vh 5vw;
+    span {
+      font-size: small;
+      i {
+        font-size: small;
+      }
+    }
+  }
+
+  #notific-head {
+    padding: 2vh 2vw;
+    border-bottom: 1px solid lightgray;
+  }
+
+  #notific {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    padding: 2vh 1vw;
+    border-bottom: 1px solid lightgray;
+    line-height: 7vw;
+    img {
+      width: 15vw;
+      height: 15vw;
+      border-radius: 100px;
+      margin: 0 auto;
+    }
+  }
+
+  #no-notific {
+    text-align: center;
+    padding: 5vh 0;
   }
 }
