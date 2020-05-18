@@ -18,7 +18,11 @@ function MessagesLeft(props) {
   useEffect(() => {
     if (Object.keys(ctx.userInfoForMsg).length > 0) {
       const interval = setInterval(() => getMessages(), 2000);
-      return () => clearInterval(interval);
+      document.getElementById("tweet-button-phone").style.display = "none";
+      return () => {
+        clearInterval(interval);
+        document.getElementById("tweet-button-phone").style.display = "block";
+      };
     }
   }, [ctx.userInfoForMsg]);
 

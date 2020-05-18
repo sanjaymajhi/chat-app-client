@@ -63,6 +63,7 @@ function UserPosts(props) {
       .then((res) => res.json())
       .then(async (details) => {
         if (details.saved === "success") {
+          details.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
           await setPostsObject(details);
         }
       });

@@ -1,9 +1,11 @@
 import React, { useEffect, useContext } from "react";
 import Context from "./Context";
 import moment from "moment";
+import { useHistory } from "react-router-dom";
 
 function Notifications() {
   const ctx = useContext(Context);
+  const history = useHistory();
 
   const myheaders = new Headers();
   myheaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
@@ -16,9 +18,7 @@ function Notifications() {
       .then((data) => {
         if (data.saved === "success") {
           data.notifics.sort(
-            (a, b) =>
-              new Date(a.datetime).getMilliseconds -
-              new Date(b.datetime).getMilliseconds
+            (a, b) => new Date(b.datetime) - new Date(a.datetime)
           );
           ctx.dispatch({ type: "setNotifics", payload: data.notifics });
         }
@@ -43,7 +43,6 @@ function Notifications() {
 
   return (
     <div id="notific-div">
-      {console.log(ctx.notifics)}
       <div id="notific-head">
         <h3>Notifications</h3>
       </div>
@@ -55,7 +54,17 @@ function Notifications() {
                 src={notific.userWhoPushed.imageUri}
                 alt={notific.userWhoPushed.f_name + " pic"}
               />
-              <div>
+              <div
+                onClick={
+                  notific.type !== "follow"
+                    ? () => history.push("/user/post/" + notific.postId)
+                    : () =>
+                        history.push(
+                          "/user/profile/" +
+                            notific.userWhoPushed.username.split("@")[1]
+                        )
+                }
+              >
                 <strong>
                   {notific.userWhoPushed._id === localStorage.getItem("id")
                     ? "You"

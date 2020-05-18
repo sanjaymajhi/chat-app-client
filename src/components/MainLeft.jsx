@@ -7,11 +7,12 @@ import MessagesRight from "./messagesRight";
 import Post from "./Post";
 import Context from "./Context";
 import Notifications from "./Notifications";
+import ExploreLeft from "./ExploreLeft";
 
 function MainLeft() {
   const ctx = useContext(Context);
   return (
-    <div class="main-left">
+    <div className="main-left">
       <Switch>
         <Route path="/user/" exact component={Home} />
 
@@ -30,6 +31,8 @@ function MainLeft() {
         <Route path="/user/post/:id" component={Post} />
 
         <Route path="/user/notifications/" component={Notifications} />
+
+        <Route path="/user/explore/" component={ExploreLeft} />
       </Switch>
     </div>
   );

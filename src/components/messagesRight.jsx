@@ -1,9 +1,11 @@
 import React, { useEffect, useContext } from "react";
 import { InputGroup, FormControl } from "react-bootstrap";
 import Context from "./Context";
+import { useHistory } from "react-router-dom";
 
 function MessagesRight() {
   const ctx = useContext(Context);
+  const history = useHistory();
 
   useEffect(() => {
     getFriendList();
@@ -31,34 +33,45 @@ function MessagesRight() {
   return (
     <div id="messages-right">
       <p>
-        <strong>Messages</strong>{" "}
+        <strong>
+          {history.location.pathname === "/user/messages"
+            ? "Messages"
+            : "Friends"}
+        </strong>{" "}
       </p>
-      <div id="msg-people-search">
-        <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-            <InputGroup.Text>
-              <i className="material-icons">&#xe8b6;</i>
-            </InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl placeholder="Search your Friends" />
-        </InputGroup>
-      </div>
+      {history.location.pathname === "/user/messages" && (
+        <div id="msg-people-search">
+          <InputGroup className="mb-3">
+            <InputGroup.Prepend>
+              <InputGroup.Text>
+                <i className="material-icons">&#xe8b6;</i>
+              </InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl placeholder="Search your Friends" />
+          </InputGroup>
+        </div>
+      )}
       {ctx.friendList.map((friend) => (
         <div
           key={friend.id}
-          id="msg-profile-pic"
-          onClick={() =>
+          id="msg-profile-div"
+          onClick={() => {
             context.dispatch({
               type: "changeUserInfoForMsg",
               payload: friend,
-            })
-          }
+            });
+            history.push("/user/messages");
+          }}
         >
-          <img src={friend.imageUri} alt={friend.name + " pic"} />
+          <div id="msg-profile-pic">
+            <img src={friend.imageUri} alt={friend.name + " pic"} />
+            {friend.isOnline && <span id="dot"></span>}
+          </div>
           <div>
-            {friend.name}
+            <strong> {friend.name}</strong>
+
             <br />
-            {friend.username}
+            <span>{"@" + friend.username}</span>
           </div>
         </div>
       ))}

@@ -4,6 +4,7 @@ import moment from "moment";
 import CreatePostOrCommentComponent from "./CreatePostOrComment";
 import Posts from "./Posts";
 import Context from "./Context";
+import likeSharePost from "./functions";
 
 function Post(props) {
   const { id } = useParams();
@@ -71,53 +72,50 @@ function Post(props) {
       });
   };
 
-  const likeSharePost = (e, type) => {
-    e.preventDefault();
-    const target = e.target;
-    const myheaders = new Headers();
-    myheaders.append(
-      "Authorization",
-      "Bearer " + localStorage.getItem("token")
-    );
-    myheaders.append("content-type", "application/json");
-    fetch("/users/posts/" + type, {
-      method: "post",
-      body: JSON.stringify({
-        post_id: id,
-      }),
-      headers: myheaders,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.saved === "success") {
-          console.log("done");
-          target.style.color = target.style.color === "blue" ? "gray" : "blue";
-        }
-      });
-  };
-
   return (
-    Object.keys(ctx.postDetails).length > 0 && (
-      <div>
-        <div id="single-post-head">
-          <h3>
-            <strong>Post</strong>
-          </h3>
-        </div>
-        <div id="single-post-profile">
-          <img
-            src={ctx.postDetails.imageUri}
-            alt={ctx.postDetails.name + " profile pic"}
-          />
-          <div>
-            <strong>{ctx.postDetails.name}</strong>
-
-            <br />
-            <span>{ctx.postDetails.username}</span>
-          </div>
-        </div>
+    <React.Fragment>
+      {Object.keys(ctx.postDetails).length > 0 && (
         <div>
-          <div id="single-post-detail">{ctx.postDetails.postText}</div>
+          <div id="single-post-head">
+            <h3>Post</h3>
+          </div>
+
+          <div id="single-post-div">
+            <div id="single-post-profile-pic">
+              <img
+                src={ctx.postDetails.imageUri}
+                alt={ctx.postDetails.name + " profile pic"}
+              />
+            </div>
+            <div>
+              <strong>{ctx.postDetails.name}</strong>
+              <span>{" · " + ctx.postDetails.username}</span>
+              <div id="single-post-text">{ctx.postDetails.postText}</div>
+              <br />
+              <div
+                id="single-post-img-div"
+                onClick={() => {
+                  ctx.dispatch({
+                    type: "setOverlayPicSrc",
+                    payload: ctx.postDetails.postImg
+                      ? ctx.postDetails.postImg
+                      : ctx.postDetails.postGif,
+                  });
+                  document.getElementById("overlay-pics").style.display =
+                    "block";
+                }}
+              >
+                {ctx.postDetails.postImg && (
+                  <img src={ctx.postDetails.postImg} alt="" />
+                )}
+                {ctx.postDetails.postGif && (
+                  <div>
+                    <img src={ctx.postDetails.postGif} alt="" />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
 
           <div id="single-post-date">
             <span>
@@ -126,39 +124,54 @@ function Post(props) {
                 moment(ctx.postDetails.date).format("ll")}
             </span>
           </div>
+
           <div id="single-post-likeshare">
             <strong>{ctx.postDetails.likes.length}</strong>
             <span> Likes</span> &emsp;
             <strong>{ctx.postDetails.shares.length}</strong>
             <span> Shares</span>
           </div>
+
           <div id="likesharecomment">
-            <span
-              onClick={(e) => likeSharePost(e, "like")}
-              style={{
-                color:
-                  ctx.postDetails.likes.indexOf(localStorage.getItem("id")) ===
-                  -1
-                    ? "gray"
-                    : "blue",
-              }}
-            >
-              <i className="material-icons">thumb_up</i>
+            <span>
+              <i
+                className="material-icons"
+                onClick={(e) => likeSharePost(e, "like", "post")}
+                id={ctx.postDetails._id}
+                style={{
+                  color:
+                    ctx.postDetails.likes.indexOf(
+                      localStorage.getItem("id")
+                    ) === -1
+                      ? "gray"
+                      : "blue",
+                }}
+              >
+                thumb_up
+              </i>
               &ensp; Like
             </span>
-            <span
-              onClick={(e) => likeSharePost(e, "share")}
-              style={{
-                color:
-                  ctx.postDetails.shares.indexOf(localStorage.getItem("id")) ===
-                  -1
-                    ? "gray"
-                    : "blue",
-              }}
-            >
-              <i className="material-icons"> share</i>
+
+            <span>
+              <i
+                className="material-icons"
+                onClick={(e) => likeSharePost(e, "share", "post")}
+                id={ctx.postDetails._id}
+                style={{
+                  color:
+                    ctx.postDetails.shares.indexOf(
+                      localStorage.getItem("id")
+                    ) === -1
+                      ? "gray"
+                      : "blue",
+                }}
+              >
+                {" "}
+                share
+              </i>
               &ensp; Share
             </span>
+
             <span>
               <i className="material-icons" onClick={handleShowCreateComment}>
                 {" "}
@@ -167,36 +180,50 @@ function Post(props) {
               &ensp; Comment
             </span>
           </div>
+
+          <div
+            id="overlay-pics"
+            onClick={() => {
+              document.getElementById("overlay-pics").style.display = "none";
+              ctx.dispatch({
+                type: "setOverlayPicSrc",
+                payload: "",
+              });
+            }}
+          >
+            <img src={ctx.overlayPicSrc} alt="large size pic" />
+          </div>
+
+          <Posts
+            {...props}
+            type="comment"
+            posts={ctx.postDetails.comments}
+            setFormData={setFormDataForCmtOnCmt}
+            formData={ctx.formDataForCmtOnCmt}
+            handleCloseCreatePostOrComment={handleCloseCreateCommentForCmt}
+            setGif={setGifForCommentOnComment}
+            ShowCreatePostOrComment={ctx.ShowCreateCommentForCmt}
+            gif={ctx.gifForCommentOnComment}
+            postId={ctx.commentIdForComment}
+            handleShowCreateComment={handleShowCreateCommentForCmt}
+          />
+
+          {/* comment on opened post */}
+
+          <CreatePostOrCommentComponent
+            {...props}
+            setFormData={setFormDataForPostComment}
+            formData={ctx.formDataForPostComment}
+            handleCloseCreatePostOrComment={handleCloseCreateComment}
+            setGif={setGifForPostComment}
+            ShowCreatePostOrComment={ShowCreateComment}
+            gif={ctx.gifForPostComment}
+            type="comment"
+            postId={id}
+          />
         </div>
-        <Posts
-          {...props}
-          type="comment"
-          posts={ctx.postDetails.comments}
-          setFormData={setFormDataForCmtOnCmt}
-          formData={ctx.formDataForCmtOnCmt}
-          handleCloseCreatePostOrComment={handleCloseCreateCommentForCmt}
-          setGif={setGifForCommentOnComment}
-          ShowCreatePostOrComment={ctx.ShowCreateCommentForCmt}
-          gif={ctx.gifForCommentOnComment}
-          postId={ctx.commentIdForComment}
-          handleShowCreateComment={handleShowCreateCommentForCmt}
-        />
-
-        {/* comment on opened post */}
-
-        <CreatePostOrCommentComponent
-          {...props}
-          setFormData={setFormDataForPostComment}
-          formData={ctx.formDataForPostComment}
-          handleCloseCreatePostOrComment={handleCloseCreateComment}
-          setGif={setGifForPostComment}
-          ShowCreatePostOrComment={ShowCreateComment}
-          gif={ctx.gifForPostComment}
-          type="comment"
-          postId={id}
-        />
-      </div>
-    )
+      )}
+    </React.Fragment>
   );
 }
 

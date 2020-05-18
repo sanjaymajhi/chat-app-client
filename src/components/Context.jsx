@@ -70,6 +70,19 @@ function reducer(state, action) {
       return { ...state, Register: action.payload };
     case "setNotifics":
       return { ...state, notifics: action.payload };
+    case "setOverlayPicSrc":
+      return { ...state, overlayPicSrc: action.payload };
+    case "setFriendSuggesstions":
+      return { ...state, friendSuggesstions: action.payload };
+    case "setTrendingPosts":
+      return {
+        ...state,
+        trendingPosts: [...state.trendingPosts, ...action.payload],
+      };
+    case "setTab":
+      return { ...state, tab: action.payload };
+    case "setIsFetching":
+      return { ...state, isFetching: action.payload };
 
     default:
       return state;
@@ -127,6 +140,11 @@ const initialState = {
   postsObject: {},
   postIdForUserPostsComment: "",
   notifics: [],
+  overlayPicSrc: "",
+  friendSuggesstions: [],
+  trendingPosts: [],
+  tab: "",
+  isFetching: false,
 };
 
 export function ContextProvider({ children }) {

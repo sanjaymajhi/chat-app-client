@@ -2,13 +2,16 @@ import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Posts from "./Posts";
 import Context from "./Context";
+import useInfiniteScroll from "./useInfiniteScroll";
 
 function Home(props) {
   const ctx = useContext(Context);
 
   const history = useHistory();
 
-  useEffect(() => getHomePosts(), []);
+  useEffect(() => {
+    getHomePosts();
+  }, []);
 
   const handleCloseCreateComment = () => {
     ctx.dispatch({ type: "setFormDataForHomeComments", payload: {} });
@@ -30,18 +33,14 @@ function Home(props) {
       "Authorization",
       "Bearer " + localStorage.getItem("token")
     );
-    fetch("/users/homePosts", {
+    fetch("/users/homePosts/", {
       method: "get",
       headers: myheaders,
     })
       .then((res) => res.json())
       .then(async (data) => {
         if (data.saved === "success") {
-          data.details.sort(
-            (a, b) =>
-              new Date(b.sent_time).getSeconds -
-              new Date(a.sent_time).getSeconds
-          );
+          data.details.sort((a, b) => new Date(b.date) - new Date(a.date));
           ctx.dispatch({ type: "setHomePosts", payload: [...data.details] });
         }
       });

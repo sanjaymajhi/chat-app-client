@@ -70,7 +70,7 @@ function Profile(props) {
           document.querySelector(".follow-button").innerHTML =
             data.details.followers.indexOf(data.id) === -1
               ? "Follow"
-              : "Unfollow";
+              : "Following";
         }
       });
   };
@@ -227,7 +227,15 @@ function Profile(props) {
             onClick={
               localStorage.getItem("username") === id
                 ? handleShowEditProfileCoverPic
-                : ""
+                : () => {
+                    document.getElementById("overlay-pics").style.display =
+                      "block";
+
+                    ctx.dispatch({
+                      type: "setOverlayPicSrc",
+                      payload: ctx.profile.coverImageUri,
+                    });
+                  }
             }
           />
         )}
@@ -250,7 +258,15 @@ function Profile(props) {
             onClick={
               localStorage.getItem("username") === id
                 ? handleShowEditProfilePic
-                : ""
+                : () => {
+                    document.getElementById("overlay-pics").style.display =
+                      "block";
+
+                    ctx.dispatch({
+                      type: "setOverlayPicSrc",
+                      payload: ctx.profile.imageUri,
+                    });
+                  }
             }
           />
         )}
@@ -291,7 +307,7 @@ function Profile(props) {
           <div>{ctx.profile.bio}</div>
           <div>
             <span>
-              <i class="material-icons">location_on</i>
+              <i className="material-icons">location_on</i>
               {ctx.profile.location + " "}&nbsp;
               <i class="material-icons"> date_range</i>{" "}
               {" Joined " +
@@ -326,6 +342,19 @@ function Profile(props) {
 
         <div>
           <UserPosts />
+        </div>
+
+        <div
+          id="overlay-pics"
+          onClick={() => {
+            document.getElementById("overlay-pics").style.display = "none";
+            ctx.dispatch({
+              type: "setOverlayPicSrc",
+              payload: "",
+            });
+          }}
+        >
+          <img src={ctx.overlayPicSrc} alt="large size pic" />
         </div>
         <Modal
           show={ctx.showEditProfile}

@@ -1,32 +1,9 @@
 import React from "react";
 import CreatePostOrCommentComponent from "./CreatePostOrComment";
+import likeSharePost from "./functions";
+import moment from "moment";
 
 function Posts(props) {
-  const likeSharePost = (e, type) => {
-    e.preventDefault();
-    e.target.style.color =
-      e.target.style.color === "#063c5e" ? "gray" : "#063c5e";
-    const myheaders = new Headers();
-    myheaders.append(
-      "Authorization",
-      "Bearer " + localStorage.getItem("token")
-    );
-    myheaders.append("content-type", "application/json");
-    fetch("/users/posts/" + type, {
-      method: "post",
-      body: JSON.stringify({
-        postId: e.target.id,
-      }),
-      headers: myheaders,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.saved === "success") {
-          console.log("done");
-        }
-      });
-  };
-
   return (
     <div id="home-posts">
       {props.type === "home" ? (
@@ -84,11 +61,17 @@ function Posts(props) {
                       : props.type === "home"
                       ? post.username
                       : post.userId.username}
-                    {" · "}
-                    {new Date(post.date).toLocaleDateString("en-us", {
-                      day: "numeric",
-                      month: "short",
-                    })}
+                    {window.matchMedia("(max-width: 480px)").matches ? (
+                      <br />
+                    ) : (
+                      " · "
+                    )}
+                    {new Date() - new Date(post.date) < 3600 * 12 * 1000
+                      ? moment(post.date).fromNow()
+                      : new Date(post.date).toLocaleDateString("en-US", {
+                          day: "numeric",
+                          month: "short",
+                        })}
                   </span>
                 </p>
                 <div
@@ -110,38 +93,40 @@ function Posts(props) {
                   )}
                 </div>
                 <div id="like-share">
-                  <span onClick={(e) => likeSharePost(e, "like")}>
+                  <span>
                     <i
                       className="material-icons"
+                      onClick={(e) => likeSharePost(e, "like")}
                       id={post._id}
                       style={{
                         color:
                           post.likes.indexOf(localStorage.getItem("id")) === -1
                             ? "gray"
-                            : "#063c5e",
+                            : "blue",
                       }}
                     >
                       thumb_up
-                    </i>{" "}
-                    &ensp;
+                    </i>
+                    &emsp;
                     {post.likes.length}
                   </span>
                   {props.type !== "comment" ? (
-                    <span onClick={(e) => likeSharePost(e, "share")}>
+                    <span>
                       <i
                         className="material-icons"
+                        onClick={(e) => likeSharePost(e, "share")}
                         id={post._id}
                         style={{
                           color:
                             post.shares.indexOf(localStorage.getItem("id")) ===
                             -1
                               ? "gray"
-                              : "#063c5e",
+                              : "blue",
                         }}
                       >
                         {" "}
                         share
-                      </i>{" "}
+                      </i>
                       &ensp;
                       {post.shares.length}
                     </span>
@@ -182,7 +167,7 @@ function Posts(props) {
           setGif={props.setGif}
           ShowCreatePostOrComment={props.ShowCreatePostOrComment}
           gif={props.gif}
-          type={props.type === "cooment" ? "commentOnComment" : "comment"}
+          type={props.type === "comment" ? "commentOnComment" : "comment"}
           postId={props.postId}
         />
       </div>

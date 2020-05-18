@@ -24,27 +24,27 @@ function SideNav(props) {
       <ul id="side-nav-phone">
         <Link to="/user/">
           <li>
-            <i class="material-icons">store</i>
+            <i className="material-icons">store</i>
           </li>
         </Link>
         <Link to="/user/explore">
           <li>
-            <i class="material-icons">explore</i>
+            <i className="material-icons">explore</i>
           </li>
         </Link>
         <Link to="/user/notifications">
           <li>
-            <i class="material-icons">notifications</i>
+            <i className="material-icons">notifications</i>
           </li>
         </Link>
         <Link to="/user/messages">
           <li>
-            <i class="material-icons">message</i>
+            <i className="material-icons">message</i>
           </li>
         </Link>
       </ul>
       <button id="tweet-button-phone" onClick={handleShowCreatePost}>
-        <i class="material-icons"> edit</i>
+        <i className="material-icons"> edit</i>
       </button>
 
       <ul id="side-nav">
@@ -55,27 +55,27 @@ function SideNav(props) {
         </Link>
         <Link to="/user/">
           <li>
-            <i class="material-icons">store</i>&emsp;Home
+            <i className="material-icons">store</i>&emsp;Home
           </li>
         </Link>
         <Link to="/user/explore">
           <li>
-            <i class="material-icons">explore</i>&emsp;Explore
+            <i className="material-icons">explore</i>&emsp;Explore
           </li>
         </Link>
         <Link to="/user/notifications">
           <li>
-            <i class="material-icons">notifications</i>&emsp;Notifications
+            <i className="material-icons">notifications</i>&emsp;Notifications
           </li>
         </Link>
         <Link to="/user/messages">
           <li>
-            <i class="material-icons">message</i>&emsp;Messages
+            <i className="material-icons">message</i>&emsp;Messages
           </li>
         </Link>
         <Link to={"/user/profile/" + localStorage.getItem("username")}>
           <li>
-            <i class="material-icons">account_circle</i>&emsp;Profile
+            <i className="material-icons">account_circle</i>&emsp;Profile
           </li>
         </Link>
         <button onClick={handleShowCreatePost}>Tweet</button>
@@ -89,33 +89,33 @@ function SideNav(props) {
         </Link>
         <Link to="/user/">
           <li>
-            <i class="material-icons">store</i>
+            <i className="material-icons">store</i>
           </li>
         </Link>
         <Link to="/user/explore">
           <li>
-            <i class="material-icons">explore</i>
+            <i className="material-icons">explore</i>
           </li>
         </Link>
         <Link to="/user/notifications">
           <li>
-            <i class="material-icons">notifications</i>
+            <i className="material-icons">notifications</i>
           </li>
         </Link>
         <Link to="/user/messages">
           <li>
-            <i class="material-icons">message</i>
+            <i className="material-icons">message</i>
           </li>
         </Link>
         <Link to={"/user/profile/" + localStorage.getItem("username")}>
           <li>
-            <i class="material-icons">account_circle</i>
+            <i className="material-icons">account_circle</i>
           </li>
         </Link>
         <br />
         <br />
         <button onClick={handleShowCreatePost} id="tweet-button-tablet">
-          <i class="material-icons"> edit</i>
+          <i className="material-icons"> edit</i>
         </button>
       </ul>
 
