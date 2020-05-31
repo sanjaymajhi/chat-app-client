@@ -90,30 +90,44 @@ function Post(props) {
             <div>
               <strong>{ctx.postDetails.name}</strong>
               <span>{" · " + ctx.postDetails.username}</span>
-              <div id="single-post-text">{ctx.postDetails.postText}</div>
+              <div id="single-post-text">
+                {ctx.postDetails.postText !== "null" &&
+                  ctx.postDetails.postText}
+              </div>
               <br />
-              <div
-                id="single-post-img-div"
-                onClick={() => {
-                  ctx.dispatch({
-                    type: "setOverlayPicSrc",
-                    payload: ctx.postDetails.postImg
-                      ? ctx.postDetails.postImg
-                      : ctx.postDetails.postGif,
-                  });
-                  document.getElementById("overlay-pics").style.display =
-                    "block";
-                }}
-              >
-                {ctx.postDetails.postImg && (
-                  <img src={ctx.postDetails.postImg} alt="" />
-                )}
-                {ctx.postDetails.postGif && (
+              <div id="single-post-img-div">
+                {ctx.postDetails.postImg.length > 0 &&
+                  ctx.postDetails.postImg.map((img) => (
+                    <img
+                      src={img}
+                      alt=""
+                      onClick={() => {
+                        ctx.dispatch({
+                          type: "setOverlayPicSrc",
+                          payload: img ? img : ctx.postDetails.postGif,
+                        });
+                        document.getElementById("overlay-pics").style.display =
+                          "block";
+                      }}
+                    />
+                  ))}
+                {ctx.postDetails.postGif !== undefined && (
                   <div>
                     <img src={ctx.postDetails.postGif} alt="" />
                   </div>
                 )}
               </div>
+              {ctx.postDetails.embedLink !== null && (
+                <iframe
+                  title="Youtube Video"
+                  src={
+                    "https://www.youtube.com/embed/" + ctx.postDetails.embedLink
+                  }
+                ></iframe>
+              )}
+              {ctx.postDetails.postVideo !== null && (
+                <video src={ctx.postDetails.postVideo} controls />
+              )}
             </div>
           </div>
 

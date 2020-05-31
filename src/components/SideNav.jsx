@@ -9,7 +9,12 @@ function SideNav(props) {
     ctx.dispatch({ type: "setShowCreatePost", payload: data });
 
   const handleCloseCreatePost = () => {
-    setFormDataForPost({});
+    setFormDataForPost({
+      "post-text": null,
+      embedLink: null,
+      "post-img": [],
+      "post-video": null,
+    });
     setShowCreatePost(false);
   };
   const handleShowCreatePost = () => setShowCreatePost(true);
@@ -122,6 +127,7 @@ function SideNav(props) {
       {/* create post modal */}
       <CreatePostOrCommentComponent
         {...props}
+        type="post"
         setFormData={setFormDataForPost}
         formData={ctx.formDataForPost}
         handleCloseCreatePostOrComment={handleCloseCreatePost}

@@ -81,15 +81,35 @@ function Posts(props) {
                       : ""
                   }
                 >
-                  {post.postText}
+                  {post.postText !== "null" && post.postText}
                   <br />
-                  {post.postImg && (
-                    <img src={post.postImg} alt="" id="post-detail-img" />
-                  )}
-                  {post.postGif && (
+                  <div id="post-images">
+                    {post.postImg.length > 0 &&
+                      post.postImg.map((img, index) => (
+                        <img
+                          src={img}
+                          alt=""
+                          key={index}
+                          id="post-detail-img"
+                        />
+                      ))}
+                  </div>
+                  <div id="post-images">
+                    {post.postVideo !== null && (
+                      <video src={post.postVideo} controls />
+                    )}
+                  </div>
+
+                  {post.postGif !== undefined && (
                     <div id="post-detail-gif-div">
-                      <img src={post.postGif} alt="" />
+                      <img src={post.postGif} alt="" />{" "}
                     </div>
+                  )}
+                  {post.embedLink !== null && (
+                    <iframe
+                      title="Youtube Video"
+                      src={"https://www.youtube.com/embed/" + post.embedLink}
+                    ></iframe>
                   )}
                 </div>
                 <div id="like-share">

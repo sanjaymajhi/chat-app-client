@@ -24,3 +24,21 @@ export default function likeSharePost(e, type, origin = "posts") {
       }
     });
 }
+
+export function errorDisplay(data, elem) {
+  const alert = document.getElementById(elem);
+  alert.style.display = "block";
+  if (data.error) {
+    alert.innerHTML += data.error.msg;
+  }
+  if (data.errors) {
+    let count = 1;
+    data.errors.map((err) => {
+      alert.innerHTML += "<p>" + count + ". " + err.msg + "<br/></p>";
+      count++;
+    });
+  }
+  setTimeout(function () {
+    alert.style.display = "none";
+  }, 10000);
+}

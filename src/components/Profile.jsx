@@ -309,7 +309,7 @@ function Profile(props) {
             <span>
               <i className="material-icons">location_on</i>
               {ctx.profile.location + " "}&nbsp;
-              <i class="material-icons"> date_range</i>{" "}
+              <i className="material-icons"> date_range</i>{" "}
               {" Joined " +
                 new Date(ctx.profile.join_date).toLocaleDateString("en-US", {
                   month: "long",

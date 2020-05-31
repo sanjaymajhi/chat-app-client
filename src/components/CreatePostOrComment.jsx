@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import { Grid, Gif } from "@giphy/react-components";
+import { errorDisplay } from "./functions";
 
 import {
   Modal,
@@ -10,6 +11,10 @@ import {
   Alert,
   FormGroup,
   Spinner,
+  InputGroup,
+  FormControl,
+  Tooltip,
+  OverlayTrigger,
 } from "react-bootstrap";
 
 function CreatePostOrCommentComponent(props) {
@@ -20,52 +25,65 @@ function CreatePostOrCommentComponent(props) {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+
+    var data = {};
     if (e.target.name === "post-img") {
-      props.setFormData({
-        ...props.formData,
-        [name]: e.target.files[0],
-      });
+      data = props.formData;
+      [...e.target.files].map((file) => data["post-img"].push(file));
+      props.setFormData(data);
+    } else if (e.target.name === "post-video") {
+      data = props.formData;
+      data["post-video"] =
+        e.target.files[0] === undefined ? null : e.target.files[0];
+      props.setFormData(data);
     } else {
-      props.setFormData({ ...props.formData, [name]: value });
+      data = { ...props.formData, [name]: value };
+      props.setFormData(data);
     }
-  };
 
-  const errorDisplay = (data) => {
-    const alert = document.getElementById("post-alert");
-    alert.style.display = "block";
-    if (data.error) {
-      alert.innerHTML += data.error.msg;
-    }
-    if (data.errors) {
-      let count = 1;
-      data.errors.map((err) => {
-        alert.innerHTML += "<p>" + count + ". " + err.msg + "<br/></p>";
-        count++;
-      });
-    }
-    setTimeout(function () {
-      alert.style.display = "none";
-    }, 10000);
+    console.log(data);
+    document.getElementById("post-button").disabled = isNull(data);
   };
-
-  const history = useHistory();
 
   const CreatePostOrComment = (e) => {
     e.preventDefault();
+    if (
+      !(
+        props.formData.embedLink === null ||
+        (/[-]?[A-Za-z0-9]*[_]?[A-Za-z0-9]*/.test(props.formData.embedLink) &&
+          props.formData.embedLink.length === 11)
+      )
+    ) {
+      alert("Not a valid Youtube Video ID...");
+      return;
+    }
     document.getElementById("post-spinner").style.display = "inline-block";
     const form = new FormData();
     form.append("post-text", props.formData["post-text"]);
-    form.append("post-gif", props.formData["gif-id"]);
-    form.append("image", props.formData["post-img"]);
+    if (props.type === "post") {
+      form.append("embedLink", props.formData.embedLink);
+      form.append("post-video", props.formData["post-video"]);
+    } else {
+      form.append("post-gif", props.formData["gif-id"]);
+    }
+    if (props.formData["post-img"].length > 0) {
+      props.formData["post-img"].map((data) => form.append("image", data));
+    } else {
+      form.append("image", null);
+    }
+
     if (props.type === "comment") {
       form.append("postId", props.postId);
     }
+
     const url =
       props.type === "comment"
         ? "/users/profile/post/comment"
         : props.type === "commentOnComment"
         ? "/users/profile/post/commentOnComment"
-        : "/users/profile/post/";
+        : props.formData["post-video"] === null
+        ? "/users/profile/postWithImage/"
+        : "/users/profile/postWithVideo/";
 
     const myheaders = new Headers();
     myheaders.append(
@@ -89,27 +107,62 @@ function CreatePostOrCommentComponent(props) {
           }, 2000);
         } else {
           document.getElementById("post-spinner").style.display = "none";
-          errorDisplay(data);
+          errorDisplay(data, "post-alert");
         }
       });
   };
 
-  const uploadPicInputStyling = (e) => {
+  const uploadVideoInputStyling = (e) => {
     const file = e.target.files[0];
     const alert = document.getElementById("post-alert");
-    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+    if (file.type !== "video/mp4") {
       alert.style.display = "block";
-      alert.innerHTML = "Only .jpeg or .png files allowed...";
+      alert.innerHTML = "Only .mp4 files allowed...";
       e.target.value = "";
     } else {
-      var reader = new FileReader();
+      const reader = new FileReader();
       reader.onload = (e) => {
-        const img = document.getElementById("post-img-show");
-        img.src = e.target.result;
+        document.getElementById("post-video-div").childNodes[1].src =
+          e.target.result;
       };
       reader.readAsDataURL(file);
+      document.getElementById("post-video-div").style.display = "block";
       document.getElementById("post-gif-div").style.display = "none";
-      document.getElementById("post-img-div").style.display = "block";
+      document.getElementById("post-img-div").style.display = "none";
+      document.getElementById("embedLink").style.display = "none";
+    }
+  };
+
+  const uploadPicInputStyling = (e) => {
+    const files = [...e.target.files];
+    const alert = document.getElementById("post-alert");
+    if (files.length > 4) {
+      alert.style.display = "block";
+      alert.innerHTML = "Max 4 images allowed...";
+      e.target.value = "";
+    } else {
+      files.map((file) => {
+        if (file.type !== "image/jpeg" && file.type !== "image/png") {
+          alert.style.display = "block";
+          alert.innerHTML = "Only .jpeg or .png files allowed...";
+          e.target.value = "";
+        } else {
+          var reader = new FileReader();
+          reader.onload = (e) => {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.id = "post-img-show";
+            document
+              .getElementById("post-img-div")
+              .childNodes[0].appendChild(img);
+          };
+          reader.readAsDataURL(file);
+          document.getElementById("post-video-div").style.display = "none";
+          document.getElementById("post-gif-div").style.display = "none";
+          document.getElementById("post-img-div").style.display = "block";
+          document.getElementById("embedLink").style.display = "none";
+        }
+      });
     }
   };
 
@@ -130,11 +183,43 @@ function CreatePostOrCommentComponent(props) {
     document.getElementById("post-img-div").style.display = "none";
     document.getElementById("post-gif-div").style.display = "block";
     const { data } = await gf.gif(gif.id);
-    await props.setFormData({
-      "post-text": props.formData["post-text"],
+    const formData = {
+      ...props.formData,
       "gif-id": data.images.preview_webp.url,
-    });
+    };
+    props.setFormData(formData);
     props.setGif(data);
+    document.getElementById("post-button").disabled = isNull(formData);
+  };
+
+  const isNull = (data) => {
+    console.log(data);
+    for (var key in data) {
+      if (data[key] !== null && data[key] !== "" && data[key].length !== 0) {
+        var flag = 1;
+        break;
+      }
+    }
+    if (flag === 1) {
+      return false;
+    }
+    return true;
+  };
+
+  const renderTooltip = (props) => {
+    return (
+      <Tooltip id="button-tooltip" {...props}>
+        Step 1. Search a video on youtube.
+        <br />
+        Step 2. Find video link in the browser url bar.
+        <br />
+        Example : https://www.youtube.com/watch?v=xQnIN9bW0og
+        <br />
+        Step 3. Copy the video id of length 11 ie. xQnIN9bW0og.
+        <br />
+        Step 4. Paste it here.
+      </Tooltip>
+    );
   };
 
   return (
@@ -173,7 +258,7 @@ function CreatePostOrCommentComponent(props) {
           </div>
 
           <Form onChange={handleChange} onSubmit={CreatePostOrComment}>
-            <FormGroup>
+            <FormGroup style={{ margin: "0" }}>
               <Form.Control
                 plaintext
                 as="textarea"
@@ -185,11 +270,11 @@ function CreatePostOrCommentComponent(props) {
                 }
                 name="post-text"
                 id="post-text"
-                required={true}
+                style={{ resize: "none" }}
               />
             </FormGroup>
 
-            <FormGroup>
+            <FormGroup style={{ margin: "0" }}>
               <Form.File
                 id="post-pic-upload"
                 custom
@@ -197,10 +282,41 @@ function CreatePostOrCommentComponent(props) {
               >
                 <Form.File.Input
                   name="post-img"
+                  multiple
                   onChange={uploadPicInputStyling}
                 />
               </Form.File>
             </FormGroup>
+
+            <FormGroup style={{ margin: "0" }}>
+              <Form.File
+                id="post-video-upload"
+                custom
+                style={{ display: "none" }}
+              >
+                <Form.File.Input
+                  name="post-video"
+                  onChange={uploadVideoInputStyling}
+                />
+              </Form.File>
+            </FormGroup>
+
+            <InputGroup
+              className="mb-3"
+              id="embedLink"
+              style={{ display: "none" }}
+            >
+              <FormControl
+                placeholder="Put youtube video link here..."
+                aria-describedby="basic-addon2"
+                name="embedLink"
+              />
+              <OverlayTrigger placement="top" overlay={renderTooltip}>
+                <InputGroup.Append>
+                  <InputGroup.Text id="basic-addon2">?</InputGroup.Text>
+                </InputGroup.Append>
+              </OverlayTrigger>
+            </InputGroup>
 
             <div id="post-img-div">
               <div>
@@ -210,16 +326,42 @@ function CreatePostOrCommentComponent(props) {
                     document.getElementById("post-pic-upload").value = "";
                     document.getElementById("post-img-div").style.display =
                       "none";
-                    props.setFormData({
-                      "post-text": props.formData["post-text"],
-                    });
+                    const data = {
+                      ...props.formData,
+                      "post-img": [],
+                    };
+                    props.setFormData(data);
+                    document.getElementById("post-button").disabled = isNull(
+                      data
+                    );
                   }}
                 >
                   {" "}
                   remove_circle
                 </i>
-                <img src="#" alt="" id="post-img-show" />
               </div>
+            </div>
+
+            <div id="post-video-div">
+              <i
+                className="material-icons"
+                onClick={() => {
+                  const data = {
+                    ...props.formData,
+                    "post-video": [],
+                  };
+                  props.setFormData(data);
+                  document.getElementById("post-button").disabled = isNull(
+                    data
+                  );
+                  document.getElementById("post-video-div").style.display =
+                    "none";
+                }}
+              >
+                {" "}
+                remove_circle
+              </i>
+              <video width="400" height="240" controls name="post-video" />
             </div>
 
             <div id="post-gif-div">
@@ -236,9 +378,14 @@ function CreatePostOrCommentComponent(props) {
                 className="material-icons"
                 onClick={() => {
                   props.setGif(null);
-                  props.setFormData({
-                    "post-text": props.formData["post-text"],
-                  });
+                  const data = {
+                    ...props.formData,
+                    "gif-id": null,
+                  };
+                  props.setFormData(data);
+                  document.getElementById("post-button").disabled = isNull(
+                    data
+                  );
                   document.getElementById("post-gif-div").style.display =
                     "none";
                 }}
@@ -253,6 +400,7 @@ function CreatePostOrCommentComponent(props) {
               type="submit"
               id="post-button"
               style={{ width: "100%" }}
+              disabled={true}
             >
               <strong>{props.type || "Post"}</strong>&emsp;
               <Spinner
@@ -270,26 +418,77 @@ function CreatePostOrCommentComponent(props) {
           <strong style={{ justifySelf: "left" }}>
             Add to your {props.type || "post"}
           </strong>
-          <Button variant={"light"}>
+          <Button variant={"light"} title="Upload image">
             <i
               className="material-icons"
-              onClick={() => document.getElementById("post-pic-upload").click()}
+              onClick={() => {
+                props.setFormData({
+                  ...props.formData,
+                  embedLink: null,
+                  "post-video": null,
+                });
+                document.getElementById("post-pic-upload").click();
+              }}
             >
               image
             </i>
           </Button>
-          <Button variant={"light"}>
-            {" "}
-            <i
-              className="material-icons"
-              onClick={() => gifOrEmojiClick("gif")}
-            >
-              gif
-            </i>
-          </Button>
-          <Button variant={"light"} onClick={() => gifOrEmojiClick("emoji")}>
-            <span>&#128516;</span>{" "}
-          </Button>
+          {props.type === "post" ? (
+            <Button variant={"light"} title="Upload videos">
+              {" "}
+              <i
+                className="material-icons"
+                onClick={() => {
+                  props.setFormData({
+                    ...props.formData,
+                    embedLink: null,
+                    "post-img": [],
+                  });
+                  document.getElementById("post-video-upload").click();
+                }}
+              >
+                videocam
+              </i>
+            </Button>
+          ) : (
+            <Button variant={"light"}>
+              {" "}
+              <i
+                className="material-icons"
+                onClick={() => gifOrEmojiClick("gif")}
+              >
+                gif
+              </i>
+            </Button>
+          )}
+
+          {props.type === "post" ? (
+            <Button variant={"light"} title="Embed youtube videos">
+              {" "}
+              <i
+                className="material-icons"
+                onClick={() => {
+                  props.setFormData({
+                    ...props.formData,
+                    "post-video": null,
+                    "post-img": [],
+                  });
+                  document.getElementById("post-img-div").style.display =
+                    "none";
+                  document.getElementById("post-video-div").style.display =
+                    "none";
+                  document.getElementById("embedLink").style.display = "flex";
+                }}
+              >
+                insert_link
+              </i>
+            </Button>
+          ) : (
+            <Button variant={"light"} onClick={() => gifOrEmojiClick("emoji")}>
+              <span>&#128516;</span>{" "}
+            </Button>
+          )}
+
           <div id="post-emoji-select">
             {" "}
             <Grid
