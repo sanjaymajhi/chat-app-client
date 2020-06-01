@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { GiphyFetch } from "@giphy/js-fetch-api";
-import { Grid, Gif } from "@giphy/react-components";
+import { Grid } from "@giphy/react-components";
 import { errorDisplay } from "./functions";
 
 import {
@@ -28,7 +28,7 @@ function CreatePostOrCommentComponent(props) {
 
     var data = {};
     if (e.target.name === "post-img") {
-      data = props.formData;
+      data = { ...props.formData, "post-img": [] };
       [...e.target.files].map((file) => data["post-img"].push(file));
       props.setFormData(data);
     } else if (e.target.name === "post-video") {
@@ -141,6 +141,7 @@ function CreatePostOrCommentComponent(props) {
       alert.innerHTML = "Max 4 images allowed...";
       e.target.value = "";
     } else {
+      document.getElementById("post-img-div").childNodes[1].innerHTML = "";
       files.map((file) => {
         if (file.type !== "image/jpeg" && file.type !== "image/png") {
           alert.style.display = "block";
@@ -154,7 +155,7 @@ function CreatePostOrCommentComponent(props) {
             img.id = "post-img-show";
             document
               .getElementById("post-img-div")
-              .childNodes[0].appendChild(img);
+              .childNodes[1].appendChild(img);
           };
           reader.readAsDataURL(file);
           document.getElementById("post-video-div").style.display = "none";
@@ -188,12 +189,10 @@ function CreatePostOrCommentComponent(props) {
       "gif-id": data.images.preview_webp.url,
     };
     props.setFormData(formData);
-    props.setGif(data);
     document.getElementById("post-button").disabled = isNull(formData);
   };
 
   const isNull = (data) => {
-    console.log(data);
     for (var key in data) {
       if (data[key] !== null && data[key] !== "" && data[key].length !== 0) {
         var flag = 1;
@@ -319,27 +318,29 @@ function CreatePostOrCommentComponent(props) {
             </InputGroup>
 
             <div id="post-img-div">
-              <div>
-                <i
-                  className="material-icons"
-                  onClick={() => {
-                    document.getElementById("post-pic-upload").value = "";
-                    document.getElementById("post-img-div").style.display =
-                      "none";
-                    const data = {
-                      ...props.formData,
-                      "post-img": [],
-                    };
-                    props.setFormData(data);
-                    document.getElementById("post-button").disabled = isNull(
-                      data
-                    );
-                  }}
-                >
-                  {" "}
-                  remove_circle
-                </i>
-              </div>
+              <i
+                className="material-icons"
+                onClick={() => {
+                  document.getElementById("post-pic-upload").value = "";
+                  document.getElementById("post-img-div").style.display =
+                    "none";
+                  const data = {
+                    ...props.formData,
+                    "post-img": [],
+                  };
+                  props.setFormData(data);
+                  document.getElementById("post-button").disabled = isNull(
+                    data
+                  );
+                  document.getElementById(
+                    "post-img-div"
+                  ).childNodes[1].innerHTML = "";
+                }}
+              >
+                {" "}
+                remove_circle
+              </i>
+              <div></div>
             </div>
 
             <div id="post-video-div">
@@ -365,19 +366,12 @@ function CreatePostOrCommentComponent(props) {
             </div>
 
             <div id="post-gif-div">
-              {props.gif && (
-                <Gif
-                  gif={props.gif}
-                  width={
-                    window.matchMedia("(max-width: 480px)").matches ? 150 : 200
-                  }
-                  hideAttribution={true}
-                />
+              {props.formData !== undefined && (
+                <img src={props.formData["gif-id"]} alt="gif" />
               )}
               <i
                 className="material-icons"
                 onClick={() => {
-                  props.setGif(null);
                   const data = {
                     ...props.formData,
                     "gif-id": null,
@@ -426,6 +420,7 @@ function CreatePostOrCommentComponent(props) {
                   ...props.formData,
                   embedLink: null,
                   "post-video": null,
+                  "gif-id": null,
                 });
                 document.getElementById("post-pic-upload").click();
               }}
@@ -455,7 +450,13 @@ function CreatePostOrCommentComponent(props) {
               {" "}
               <i
                 className="material-icons"
-                onClick={() => gifOrEmojiClick("gif")}
+                onClick={() => {
+                  props.setFormData({
+                    ...props.formData,
+                    "post-img": [],
+                  });
+                  gifOrEmojiClick("gif");
+                }}
               >
                 gif
               </i>
@@ -484,7 +485,16 @@ function CreatePostOrCommentComponent(props) {
               </i>
             </Button>
           ) : (
-            <Button variant={"light"} onClick={() => gifOrEmojiClick("emoji")}>
+            <Button
+              variant={"light"}
+              onClick={() => {
+                props.setFormData({
+                  ...props.formData,
+                  "post-img": [],
+                });
+                gifOrEmojiClick("emoji");
+              }}
+            >
               <span>&#128516;</span>{" "}
             </Button>
           )}

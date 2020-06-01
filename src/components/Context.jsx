@@ -12,8 +12,6 @@ function reducer(state, action) {
       return { ...state, ShowCreateComment: action.payload };
     case "setFormDataForHomeComments":
       return { ...state, formDataForHomeComments: action.payload };
-    case "setGifForHomeComments":
-      return { ...state, gifForHomeComments: action.payload };
     case "changeUserInfoForMsg":
       return { ...state, userInfoForMsg: action.payload };
     case "setMessages":
@@ -22,8 +20,6 @@ function reducer(state, action) {
       return { ...state, showGifsForMsg: action.payload };
     case "setFriendList":
       return { ...state, friendList: action.payload };
-    case "setGifForPostComment":
-      return { ...state, setGifForPostComment: action.payload };
     case "setFormDataForPostComment":
       return { ...state, formDataForPostComment: action.payload };
     case "setShowCreateCommentForCmt":
@@ -111,20 +107,22 @@ const initialState = {
   formDataForHomeComments: {
     "post-text": null,
     "gif-id": null,
-    "post-img": null,
+    "post-img": [],
     postId: null,
+    embedLink: null,
+    "post-video": null,
   },
-  gifForHomeComments: null,
   userInfoForMsg: {},
   messages: {},
   showGifsForMsg: false,
   friendList: [],
-  gifForPostComment: null,
   formDataForPostComment: {
     "post-text": null,
     "gif-id": null,
-    "post-img": null,
+    "post-img": [],
     postId: null,
+    embedLink: null,
+    "post-video": null,
   },
   ShowCreateCommentForCmt: false,
   postDetails: {},
@@ -148,14 +146,18 @@ const initialState = {
     embedLink: null,
     "post-img": [],
     "post-video": null,
+    "gif-id": null,
+    postId: null,
   },
   ShowCreateCommentForProfilePosts: false,
   gifForUserPostsCmnt: null,
   formDataForUserPostsCmnt: {
     "post-text": null,
     "gif-id": null,
-    "post-img": null,
+    "post-img": [],
     postId: null,
+    embedLink: null,
+    "post-video": null,
   },
   postsObject: {},
   postIdForUserPostsComment: "",

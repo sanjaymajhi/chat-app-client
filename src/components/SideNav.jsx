@@ -14,6 +14,8 @@ function SideNav(props) {
       embedLink: null,
       "post-img": [],
       "post-video": null,
+      "gif-id": null,
+      postId: null,
     });
     setShowCreatePost(false);
   };

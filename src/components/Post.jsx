@@ -10,22 +10,23 @@ function Post(props) {
   const { id } = useParams();
   const ctx = useContext(Context);
 
-  const [postIdForComment, setPostIdForComment] = useState("");
-
   useEffect(() => getPost(), []);
 
   const [ShowCreateComment, setShowCreateComment] = useState(false);
   const handleCloseCreateComment = () => {
-    setFormDataForPostComment({});
+    setFormDataForPostComment({
+      "post-text": null,
+      embedLink: null,
+      "post-img": [],
+      "post-video": null,
+      "gif-id": null,
+      postId: null,
+    });
     setShowCreateComment(false);
   };
-  const handleShowCreateComment = (e) => {
-    setPostIdForComment(e.target.id);
+  const handleShowCreateComment = () => {
     setShowCreateComment(true);
   };
-
-  const setGifForPostComment = (data) =>
-    ctx.dispatch({ type: "setGifForPostComment", payload: data });
 
   const setFormDataForPostComment = (data) =>
     ctx.dispatch({ type: "setFormDataForPostComment", payload: data });
@@ -229,7 +230,6 @@ function Post(props) {
             setFormData={setFormDataForPostComment}
             formData={ctx.formDataForPostComment}
             handleCloseCreatePostOrComment={handleCloseCreateComment}
-            setGif={setGifForPostComment}
             ShowCreatePostOrComment={ShowCreateComment}
             gif={ctx.gifForPostComment}
             type="comment"

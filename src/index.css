@@ -265,6 +265,11 @@
     display: none;
     margin: 1vh auto;
   }
+  #post-img-div i {
+    position: absolute;
+    top: 160px;
+    right: 30px;
+  }
   #post-img-div div {
     height: 30vh;
     overflow: auto;
@@ -273,13 +278,9 @@
     -ms-grid-columns: auto auto;
         grid-template-columns: auto auto;
   }
-  #post-img-div div i {
-    position: absolute;
-    top: 240px;
-    right: 40px;
-  }
   #post-img-div div img {
     width: 100%;
+    max-height: 50vh;
     padding: 1vh;
   }
   #post-video-div {
@@ -298,6 +299,11 @@
     width: 50%;
     margin: 1vh auto;
     display: none;
+  }
+  #post-gif-div img {
+    display: block;
+    margin: 0 auto;
+    max-width: 70%;
   }
   #post-gif-div i {
     position: absolute;
@@ -710,6 +716,14 @@
   span {
     color: gray;
   }
+  #dot {
+    height: 2vw;
+    width: 2vw;
+    background-color: green;
+    border: 2px solid white;
+    border-radius: 100px;
+    display: inline-block;
+  }
   video {
     width: 90%;
     max-height: 60vh;
@@ -827,7 +841,8 @@
     width: 77%;
   }
   .main-left {
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     border-right: 1px solid lightgray;
   }
   #profile-head {
@@ -855,13 +870,46 @@
         grid-template-columns: auto;
     padding: 2vh 1vw 1vh 1vw;
     border-bottom: 1px solid lightgray;
-    border-right: 1px solid lightgray;
   }
   #profile-div div {
     padding: 1vh 0;
   }
   .main-right {
     display: none;
+  }
+  #search-people-results {
+    position: fixed;
+    width: 50.5%;
+    -webkit-box-shadow: 0 0 5px lightgray;
+            box-shadow: 0 0 5px lightgray;
+    display: none;
+    background-color: white;
+    z-index: 10000;
+    left: 31%;
+    padding: 0;
+  }
+  #search-people-results a {
+    text-decoration: none;
+    color: black;
+  }
+  #search-people-results li {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 15% 85%;
+        grid-template-columns: 15% 85%;
+    padding: 2vh 2vw;
+  }
+  #search-people-results li div {
+    font-size: 1.5vw;
+    padding-left: 1vw;
+  }
+  #search-people-results li img {
+    width: 6vw;
+    height: 6vw;
+    border-radius: 100px;
+  }
+  #search-people-results li:hover {
+    background-color: #d7e9f0;
   }
   #post-profile-div img {
     width: 50px;
@@ -902,6 +950,18 @@
   #post-img-div div img {
     width: 100%;
   }
+  #post-video-div {
+    display: none;
+  }
+  #post-video-div video {
+    display: block;
+    margin: 2vh auto;
+  }
+  #post-video-div i {
+    position: absolute;
+    top: 200px;
+    right: 20px;
+  }
   #post-gif-div {
     width: 50%;
     margin: 1vh auto;
@@ -919,7 +979,6 @@
         grid-template-columns: 15% 85%;
     padding: 2vh 0.5vw;
     border-bottom: 1px solid lightgray;
-    border-right: 1px solid lightgray;
   }
   .user_posts img {
     width: 7vw;
@@ -968,9 +1027,9 @@
     height: 100%;
   }
   #messages-right {
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     overflow-y: auto;
-    border-right: 1px solid lightgray;
   }
   #messages-right p {
     padding: 1vh 1vw;
@@ -1001,7 +1060,7 @@
   }
   #msg-profile-pic span {
     position: absolute;
-    top: 2.8vw;
+    top: 5vw;
     right: 1.5vw;
   }
   #msg-not-selected {
@@ -1106,7 +1165,7 @@
     overflow: auto;
   }
   #home-posts h2 {
-    width: 60.8vw;
+    width: 60vw;
     position: fixed;
     padding: 2vh 2vw;
     top: 0;
@@ -1184,7 +1243,7 @@
   #explore-fixed {
     position: fixed;
     top: 0;
-    width: 61.5%;
+    width: 61%;
     background-color: white;
     z-index: 1000;
     border-bottom: 1px solid lightgray;
@@ -1211,8 +1270,8 @@
     margin-top: 18vh;
   }
   #notific-div {
-    border-right: 1px solid lightgray;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
   }
   #notific-head {
     padding: 2vh 2vw;
@@ -1253,6 +1312,14 @@
   i {
     vertical-align: middle;
     font-size: 14px;
+  }
+  #dot {
+    height: 3.5vw;
+    width: 3.5vw;
+    background-color: green;
+    border: 2px solid white;
+    border-radius: 100px;
+    display: inline-block;
   }
   video {
     width: 90%;
@@ -1479,28 +1546,50 @@
     display: none;
     margin: 1vh auto;
   }
-  #post-img-div div {
-    height: 30vh;
-    overflow: auto;
-  }
-  #post-img-div div i {
+  #post-img-div i {
     position: absolute;
     top: 170px;
     right: 17px;
   }
+  #post-img-div div {
+    height: 30vh;
+    overflow: auto;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: auto auto;
+        grid-template-columns: auto auto;
+  }
   #post-img-div div img {
     width: 100%;
+    max-height: 50vh;
+    padding: 1vh;
+  }
+  #post-video-div {
+    display: none;
+  }
+  #post-video-div video {
+    display: block;
+    margin: 2vh auto;
+    max-height: 30vh;
+  }
+  #post-video-div i {
+    position: absolute;
+    top: 150px;
+    right: 20px;
   }
   #post-gif-div {
-    width: 50%;
+    width: 100%;
     margin: 1vh auto;
     display: none;
   }
   #post-gif-div i {
     position: absolute;
-    top: 175px;
-    right: 70px;
-    color: white;
+    top: 160px;
+    right: 40px;
+  }
+  #post-gif-div img {
+    display: block;
+    margin: 0 auto;
   }
   .user_posts {
     display: -ms-grid;
@@ -1599,8 +1688,8 @@
   }
   #msg-profile-pic span {
     position: absolute;
-    top: 2.8vw;
-    right: 1.5vw;
+    top: 11vw;
+    right: 6vw;
   }
   #msg-not-selected {
     margin-top: 40vh;

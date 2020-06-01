@@ -14,7 +14,17 @@ function Home(props) {
   }, []);
 
   const handleCloseCreateComment = () => {
-    ctx.dispatch({ type: "setFormDataForHomeComments", payload: {} });
+    ctx.dispatch({
+      type: "setFormDataForHomeComments",
+      payload: {
+        "post-text": null,
+        embedLink: null,
+        "post-img": [],
+        "post-video": null,
+        "gif-id": null,
+        postId: null,
+      },
+    });
     ctx.dispatch({ type: "setShowCreateComment", payload: false });
   };
   const handleShowCreateComment = (e) => {
@@ -22,8 +32,6 @@ function Home(props) {
     ctx.dispatch({ type: "setShowCreateComment", payload: true });
   };
 
-  const setGifForHomeComments = (data) =>
-    ctx.dispatch({ type: "setGifForHomeComments", payload: data });
   const setFormDataForHomeComments = (data) =>
     ctx.dispatch({ type: "setFormDataForHomeComments", payload: data });
 
@@ -55,9 +63,7 @@ function Home(props) {
       setFormData={setFormDataForHomeComments}
       formData={ctx.formDataForHomeComments}
       handleCloseCreatePostOrComment={handleCloseCreateComment}
-      setGifForHomeComments={setGifForHomeComments}
       ShowCreatePostOrComment={ctx.ShowCreateComment}
-      gifForHomeComments={ctx.gifForHomeComments}
       postId={ctx.postIdForComment}
       handleShowCreateComment={handleShowCreateComment}
     />

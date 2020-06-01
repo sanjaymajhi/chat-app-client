@@ -95,17 +95,17 @@ function Posts(props) {
                       ))}
                   </div>
                   <div id="post-images">
-                    {post.postVideo !== null && (
+                    {[null, undefined].indexOf(post.postVideo) === -1 && (
                       <video src={post.postVideo} controls />
                     )}
                   </div>
 
-                  {post.postGif !== undefined && (
+                  {[undefined, null].indexOf(post.postGif) === -1 && (
                     <div id="post-detail-gif-div">
                       <img src={post.postGif} alt="" />{" "}
                     </div>
                   )}
-                  {post.embedLink !== null && (
+                  {[null, undefined].indexOf(post.embedLink) === -1 && (
                     <iframe
                       title="Youtube Video"
                       src={"https://www.youtube.com/embed/" + post.embedLink}
