@@ -8,6 +8,7 @@ import Post from "./Post";
 import Context from "./Context";
 import Notifications from "./Notifications";
 import ExploreLeft from "./ExploreLeft";
+import NoMsgBox from "./NoMsgBox";
 
 function MainLeft() {
   const ctx = useContext(Context);
@@ -19,7 +20,7 @@ function MainLeft() {
         <Route path="/user/profile/:id" component={Profile} />
 
         <Route
-          path="/user/messages"
+          path="/user/messages/:id"
           component={
             window.matchMedia("(min-width: 901px)").matches
               ? MessagesLeft
@@ -28,6 +29,16 @@ function MainLeft() {
               : MessagesRight
           }
         />
+
+        <Route
+          path="/user/messages/"
+          component={
+            window.matchMedia("(min-width: 901px)").matches
+              ? NoMsgBox
+              : MessagesRight
+          }
+        />
+
         <Route path="/user/post/:id" component={Post} />
 
         <Route path="/user/notifications/" component={Notifications} />

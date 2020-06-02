@@ -30,6 +30,38 @@ function MessagesRight() {
         }
       });
   };
+
+  const getMsgBoxId = (friend) => {
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    myheaders.append("content-type", "application/json");
+    fetch("/users/getMsgBoxId", {
+      method: "post",
+      body: JSON.stringify({
+        friend_id: friend.id,
+      }),
+      headers: myheaders,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.saved === "success") {
+          context.dispatch({
+            type: "changeUserInfoForMsg",
+            payload: friend,
+          });
+          history.push("/user/messages/" + data.msgBoxId);
+        } else {
+          ctx.dispatch({
+            type: "setMessages",
+            payload: { saved: "unsuccessful" },
+          });
+        }
+      });
+  };
+
   return (
     <div id="messages-right">
       <p>
@@ -55,13 +87,7 @@ function MessagesRight() {
         <div
           key={friend.id}
           id="msg-profile-div"
-          onClick={() => {
-            context.dispatch({
-              type: "changeUserInfoForMsg",
-              payload: friend,
-            });
-            history.push("/user/messages");
-          }}
+          onClick={() => getMsgBoxId(friend)}
         >
           <div id="msg-profile-pic">
             <img src={friend.imageUri} alt={friend.name + " pic"} />

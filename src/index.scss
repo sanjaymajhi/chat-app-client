@@ -338,17 +338,30 @@
     overflow-wrap: break-word;
     img {
       width: 95%;
-      height: 95%;
-      max-height: 80vh;
+      height: auto;
+      max-height: 60vh;
       margin: 1vh 0;
       border-radius: 1vh;
       border: 1px solid lightgray;
     }
   }
 
+  #overlayOnImage {
+    position: absolute;
+    top: 2.5%;
+    left: 0;
+    right: 6%;
+    bottom: 2.5%;
+    background-color: rgba(19, 17, 17, 0.5);
+    h1 {
+      text-align: center;
+      color: white;
+      padding: 20%;
+    }
+  }
+
   #post-images {
-    display: grid;
-    grid-template-columns: auto auto;
+    position: relative;
     width: 95%;
   }
 
@@ -577,7 +590,7 @@
     padding-right: 2vw;
     img {
       width: 95%;
-      height: 95%;
+      height: auto;
       max-height: 70vh;
       border-radius: 1vh;
       border: 1px solid lightgray;
@@ -1020,17 +1033,30 @@
     overflow-wrap: break-word;
     img {
       width: 95%;
-      height: 95%;
-      max-height: 70vh;
+      height: auto;
+      max-height: 60vh;
       margin: 1vh 0;
       border-radius: 1vh;
       border: 1px solid lightgray;
     }
   }
 
+  #overlayOnImage {
+    position: absolute;
+    top: 2.5%;
+    left: 0;
+    right: 6%;
+    bottom: 2.5%;
+    background-color: rgba(19, 17, 17, 0.5);
+    h1 {
+      text-align: center;
+      color: white;
+      padding: 20%;
+    }
+  }
+
   #post-images {
-    display: grid;
-    grid-template-columns: auto auto;
+    position: relative;
     width: 95%;
   }
 
@@ -1672,17 +1698,31 @@
     line-height: 18.33px;
     img {
       width: 95%;
-      height: 95%;
-      max-height: 40vh;
+      height: auto;
+      max-height: 60vh;
       margin: 1vh 0;
       border-radius: 1vh;
       border: 1px solid lightgray;
     }
   }
 
+  #overlayOnImage {
+    position: absolute;
+    top: 2.5%;
+    left: 0;
+    right: 6%;
+    bottom: 2.5%;
+    background-color: rgba(19, 17, 17, 0.5);
+    h1 {
+      font-size: 1em;
+      text-align: center;
+      color: white;
+      padding: 20%;
+    }
+  }
+
   #post-images {
-    display: grid;
-    grid-template-columns: auto auto;
+    position: relative;
     width: 95%;
   }
 
@@ -1935,6 +1975,7 @@
   #single-post-img-div {
     display: grid;
     grid-template-columns: auto auto;
+    width: 95%;
     img {
       width: 95%;
       height: 95%;

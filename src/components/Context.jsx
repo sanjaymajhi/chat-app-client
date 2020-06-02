@@ -15,7 +15,7 @@ function reducer(state, action) {
     case "changeUserInfoForMsg":
       return { ...state, userInfoForMsg: action.payload };
     case "setMessages":
-      return { ...state, messages: action.payload };
+      return { ...state, messages: [...state.messages, ...action.payload] };
     case "setShowGifsForMsg":
       return { ...state, showGifsForMsg: action.payload };
     case "setFriendList":
@@ -113,7 +113,7 @@ const initialState = {
     "post-video": null,
   },
   userInfoForMsg: {},
-  messages: {},
+  messages: [],
   showGifsForMsg: false,
   friendList: [],
   formDataForPostComment: {

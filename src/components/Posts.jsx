@@ -2,6 +2,7 @@ import React from "react";
 import CreatePostOrCommentComponent from "./CreatePostOrComment";
 import likeSharePost from "./functions";
 import moment from "moment";
+import { Carousel } from "react-bootstrap";
 
 function Posts(props) {
   return (
@@ -75,30 +76,30 @@ function Posts(props) {
                   </span>
                 </p>
                 <div
-                  onClick={
+                  onClick={() =>
                     props.type !== "comment"
-                      ? () => props.history.push("/user/post/" + post._id)
+                      ? props.history.push("/user/post/" + post._id)
                       : ""
                   }
                 >
                   {post.postText !== "null" && post.postText}
                   <br />
-                  <div id="post-images">
-                    {post.postImg.length > 0 &&
-                      post.postImg.map((img, index) => (
-                        <img
-                          src={img}
-                          alt=""
-                          key={index}
-                          id="post-detail-img"
-                        />
-                      ))}
-                  </div>
-                  <div id="post-images">
-                    {[null, undefined].indexOf(post.postVideo) === -1 && (
+
+                  {post.postImg.length > 0 && (
+                    <div id="post-images">
+                      {post.postImg.length > 1 && (
+                        <div id="overlayOnImage">
+                          <h1>+{post.postImg.length - 1} more</h1>
+                        </div>
+                      )}
+                      <img src={post.postImg[0]} alt="" />
+                    </div>
+                  )}
+                  {[null, undefined].indexOf(post.postVideo) === -1 && (
+                    <div id="post-images">
                       <video src={post.postVideo} controls />
-                    )}
-                  </div>
+                    </div>
+                  )}
 
                   {[undefined, null].indexOf(post.postGif) === -1 && (
                     <div id="post-detail-gif-div">

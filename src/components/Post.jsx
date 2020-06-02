@@ -5,6 +5,7 @@ import CreatePostOrCommentComponent from "./CreatePostOrComment";
 import Posts from "./Posts";
 import Context from "./Context";
 import likeSharePost from "./functions";
+import { Carousel } from "react-bootstrap";
 
 function Post(props) {
   const { id } = useParams();
@@ -98,19 +99,38 @@ function Post(props) {
               <br />
               <div id="single-post-img-div">
                 {ctx.postDetails.postImg.length > 0 &&
-                  ctx.postDetails.postImg.map((img) => (
+                  (ctx.postDetails.postImg.length === 1 ? (
                     <img
-                      src={img}
+                      className="d-block w-100"
+                      src={ctx.postDetails.postImg[0]}
                       alt=""
                       onClick={() => {
                         ctx.dispatch({
                           type: "setOverlayPicSrc",
-                          payload: img ? img : ctx.postDetails.postGif,
+                          payload: ctx.postDetails.postImg[0],
                         });
                         document.getElementById("overlay-pics").style.display =
                           "block";
                       }}
                     />
+                  ) : (
+                    <Carousel>
+                      {ctx.postDetails.postImg.map((img) => (
+                        <Carousel.Item
+                          onClick={() => {
+                            ctx.dispatch({
+                              type: "setOverlayPicSrc",
+                              payload: ctx.postDetails.postImg[0],
+                            });
+                            document.getElementById(
+                              "overlay-pics"
+                            ).style.display = "block";
+                          }}
+                        >
+                          <img className="d-block w-100" src={img} alt="" />
+                        </Carousel.Item>
+                      ))}
+                    </Carousel>
                   ))}
                 {ctx.postDetails.postGif !== undefined && (
                   <div>

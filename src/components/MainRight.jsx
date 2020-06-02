@@ -8,7 +8,7 @@ function MainRight() {
     <div className="main-right">
       <Switch>
         <Route path="/user/profile/:id" component={MessagesRight} />
-        <Route path="/user/messages" component={MessagesRight} />
+        <Route path="/user/messages/" component={MessagesRight} />
         <Route path="/user/explore" component={FriendSuggesstion} />
         <Route path="/user/" exact component={FriendSuggesstion} />
       </Switch>
