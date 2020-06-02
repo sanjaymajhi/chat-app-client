@@ -120,7 +120,7 @@ function Post(props) {
                           onClick={() => {
                             ctx.dispatch({
                               type: "setOverlayPicSrc",
-                              payload: ctx.postDetails.postImg[0],
+                              payload: img,
                             });
                             document.getElementById(
                               "overlay-pics"
