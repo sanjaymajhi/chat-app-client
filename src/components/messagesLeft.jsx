@@ -19,8 +19,12 @@ function MessagesLeft(props) {
     ctx.dispatch({ type: "setShowGifsForMsg", payload: true });
 
   useEffect(() => {
+    getMessages(id);
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(
-      () => getMessages(id, ctx.messages.length),
+      () => getNewMessages(id, ctx.messages.length),
       1000
     );
     document.getElementById("tweet-button-phone").style.display = "none";
@@ -32,7 +36,40 @@ function MessagesLeft(props) {
     };
   }, [ctx.userInfoForMsg]);
 
-  const getMessages = (id, leave) => {
+  const getMessages = (id) => {
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    myheaders.append("content-type", "application/json");
+    fetch("/users/messages/" + id, {
+      method: "get",
+      headers: myheaders,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.saved === "success") {
+          ctx.dispatch({ type: "setMessages", payload: data.msgs });
+          ctx.dispatch({
+            type: "changeUserInfoForMsg",
+            payload:
+              data.user1 === localStorage.getItem("id")
+                ? data.user2
+                : data.user1,
+          });
+          const elem = document.getElementById("msg-box-msgs");
+          elem.scrollTop = elem.scrollHeight;
+        } else {
+          ctx.dispatch({
+            type: "setMessages",
+            payload: { saved: "unsuccessful" },
+          });
+        }
+      });
+  };
+
+  const getNewMessages = (id, leave) => {
     //leave no. of messages as already present in state
     const myheaders = new Headers();
     myheaders.append(
@@ -50,11 +87,6 @@ function MessagesLeft(props) {
           ctx.dispatch({ type: "setMessages", payload: data.msgs });
           const elem = document.getElementById("msg-box-msgs");
           elem.scrollTop = elem.scrollHeight;
-        } else {
-          ctx.dispatch({
-            type: "setMessages",
-            payload: { saved: "unsuccessful" },
-          });
         }
       });
   };

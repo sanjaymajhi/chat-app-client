@@ -11,8 +11,6 @@ function MessagesRight() {
     getFriendList();
   }, []);
 
-  const context = useContext(Context);
-
   const getFriendList = () => {
     const myheaders = new Headers();
     myheaders.append(
@@ -48,7 +46,7 @@ function MessagesRight() {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
-          context.dispatch({
+          ctx.dispatch({
             type: "changeUserInfoForMsg",
             payload: friend,
           });
@@ -60,6 +58,14 @@ function MessagesRight() {
           });
         }
       });
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    const list = ctx.friendList.filter(
+      (friend) => new RegExp("(" + value + ")", "i").test(friend.name) && friend
+    );
+    ctx.dispatch({ type: "filterFriendList", payload: list });
   };
 
   return (
@@ -79,28 +85,50 @@ function MessagesRight() {
                 <i className="material-icons">&#xe8b6;</i>
               </InputGroup.Text>
             </InputGroup.Prepend>
-            <FormControl placeholder="Search your Friends" />
+            <FormControl
+              placeholder="Search your Friends"
+              onChange={handleChange}
+            />
           </InputGroup>
         </div>
       )}
-      {ctx.friendList.map((friend) => (
-        <div
-          key={friend.id}
-          id="msg-profile-div"
-          onClick={() => getMsgBoxId(friend)}
-        >
-          <div id="msg-profile-pic">
-            <img src={friend.imageUri} alt={friend.name + " pic"} />
-            {friend.isOnline && <span id="dot"></span>}
-          </div>
-          <div>
-            <strong> {friend.name}</strong>
+      {ctx.filterFriendList.length > 0
+        ? ctx.filterFriendList.map((friend) => (
+            <div
+              key={friend.id}
+              id="msg-profile-div"
+              onClick={() => getMsgBoxId(friend)}
+            >
+              <div id="msg-profile-pic">
+                <img src={friend.imageUri} alt={friend.name + " pic"} />
+                {friend.isOnline && <span id="dot"></span>}
+              </div>
+              <div>
+                <strong> {friend.name}</strong>
 
-            <br />
-            <span>{"@" + friend.username}</span>
-          </div>
-        </div>
-      ))}
+                <br />
+                <span>{"@" + friend.username}</span>
+              </div>
+            </div>
+          ))
+        : ctx.friendList.map((friend) => (
+            <div
+              key={friend.id}
+              id="msg-profile-div"
+              onClick={() => getMsgBoxId(friend)}
+            >
+              <div id="msg-profile-pic">
+                <img src={friend.imageUri} alt={friend.name + " pic"} />
+                {friend.isOnline && <span id="dot"></span>}
+              </div>
+              <div>
+                <strong> {friend.name}</strong>
+
+                <br />
+                <span>{"@" + friend.username}</span>
+              </div>
+            </div>
+          ))}
     </div>
   );
 }

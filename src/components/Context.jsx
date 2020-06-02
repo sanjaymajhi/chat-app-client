@@ -20,6 +20,8 @@ function reducer(state, action) {
       return { ...state, showGifsForMsg: action.payload };
     case "setFriendList":
       return { ...state, friendList: action.payload };
+    case "filterFriendList":
+      return { ...state, filterFriendList: action.payload };
     case "setFormDataForPostComment":
       return { ...state, formDataForPostComment: action.payload };
     case "setShowCreateCommentForCmt":
@@ -116,6 +118,7 @@ const initialState = {
   messages: [],
   showGifsForMsg: false,
   friendList: [],
+  filterFriendList: [],
   formDataForPostComment: {
     "post-text": null,
     "gif-id": null,
