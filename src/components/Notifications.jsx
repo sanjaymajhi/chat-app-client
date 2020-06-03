@@ -2,30 +2,17 @@ import React, { useEffect, useContext } from "react";
 import Context from "./Context";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
+import { get_notifications } from "./functions";
 
 function Notifications() {
   const ctx = useContext(Context);
   const history = useHistory();
 
-  const myheaders = new Headers();
-  myheaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
-  const get_notifications = () =>
-    fetch("/users/notifications", {
-      method: "GET",
-      headers: myheaders,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.saved === "success") {
-          data.notifics.sort(
-            (a, b) => new Date(b.datetime) - new Date(a.datetime)
-          );
-          ctx.dispatch({ type: "setNotifics", payload: data.notifics });
-        }
-      });
+  const setNotifics = (data) =>
+    ctx.dispatch({ type: "setNotifics", payload: data });
 
   useEffect(() => {
-    get_notifications();
+    get_notifications(ctx.notifics.length, setNotifics);
   }, []);
 
   const switchInJsx = (data) => {
@@ -49,7 +36,7 @@ function Notifications() {
       <div id="notifics">
         {ctx.notifics.length > 0 ? (
           ctx.notifics.map((notific) => (
-            <div id="notific">
+            <div id="notific" key={notific._id}>
               <img
                 src={notific.userWhoPushed.imageUri}
                 alt={notific.userWhoPushed.f_name + " pic"}

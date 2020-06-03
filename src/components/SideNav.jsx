@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CreatePostOrCommentComponent from "./CreatePostOrComment";
 import Context from "./Context";
+import { get_notifications } from "./functions";
 
 function SideNav(props) {
   const ctx = useContext(Context);
@@ -25,6 +26,18 @@ function SideNav(props) {
     ctx.dispatch({ type: "setGifForPost", payload: data });
   const setFormDataForPost = (data) =>
     ctx.dispatch({ type: "setFormDataForPost", payload: data });
+
+  const setNotifics = (data) =>
+    ctx.dispatch({ type: "setNotifics", payload: data });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      get_notifications(ctx.notifics.length, setNotifics);
+    }, 20000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [ctx.notifics]);
 
   return (
     <div>

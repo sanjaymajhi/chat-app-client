@@ -5,10 +5,38 @@ import { GiphyFetch } from "@giphy/js-fetch-api";
 import { Grid } from "@giphy/react-components";
 import moment from "moment";
 import { useParams } from "react-router-dom";
+import io from "socket.io-client";
+import { useState } from "react";
+const ENDPOINT = "http://localhost:9000";
+
+const socket = io(ENDPOINT);
 
 function MessagesLeft(props) {
   const ctx = useContext(Context);
   const { id } = useParams();
+
+  const [msg, setMsg] = useState({});
+  const [typing, setTyping] = useState(false);
+  useEffect(() => {
+    ctx.dispatch({ type: "appendMessages", payload: [msg] });
+  }, [msg]);
+  socket.on("newMsg", (data) => {
+    console.log("new msg");
+    setMsg(data);
+  });
+
+  socket.on("typing", () => {
+    setTyping(true);
+  });
+
+  socket.on("stopped", () => {
+    setTyping(false);
+  });
+
+  useEffect(() => {
+    const elem = document.getElementById("msg-box-msgs");
+    elem.scrollTop = elem.scrollHeight;
+  }, [ctx.messages]);
 
   const gf = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
   const fetchEmojis = (offset) => gf.emoji({ offset, limit: 10 });
@@ -20,21 +48,13 @@ function MessagesLeft(props) {
 
   useEffect(() => {
     getMessages(id);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(
-      () => getNewMessages(id, ctx.messages.length),
-      1000
-    );
     document.getElementById("tweet-button-phone").style.display = "none";
     return () => {
-      clearInterval(interval);
       if (window.matchMedia("(max-width: 480px)").matches) {
         document.getElementById("tweet-button-phone").style.display = "block";
       }
     };
-  }, [ctx.userInfoForMsg]);
+  }, [id]);
 
   const getMessages = (id) => {
     const myheaders = new Headers();
@@ -50,41 +70,15 @@ function MessagesLeft(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
+          console.log(data.msgs);
           ctx.dispatch({ type: "setMessages", payload: data.msgs });
           ctx.dispatch({
             type: "changeUserInfoForMsg",
             payload:
-              data.user1 === localStorage.getItem("id")
+              data.user1._id === localStorage.getItem("id")
                 ? data.user2
                 : data.user1,
           });
-          const elem = document.getElementById("msg-box-msgs");
-          elem.scrollTop = elem.scrollHeight;
-        } else {
-          ctx.dispatch({
-            type: "setMessages",
-            payload: { saved: "unsuccessful" },
-          });
-        }
-      });
-  };
-
-  const getNewMessages = (id, leave) => {
-    //leave no. of messages as already present in state
-    const myheaders = new Headers();
-    myheaders.append(
-      "Authorization",
-      "Bearer " + localStorage.getItem("token")
-    );
-    myheaders.append("content-type", "application/json");
-    fetch("/users/messages/" + id + "/" + leave, {
-      method: "get",
-      headers: myheaders,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.saved === "success") {
-          ctx.dispatch({ type: "setMessages", payload: data.msgs });
           const elem = document.getElementById("msg-box-msgs");
           elem.scrollTop = elem.scrollHeight;
         }
@@ -92,40 +86,19 @@ function MessagesLeft(props) {
   };
 
   const sendMessage = (name, value) => {
-    const formData = new FormData();
-    formData.append(name, value);
-    formData.append("friendId", ctx.userInfoForMsg.id);
-    formData.append("msgBoxId", id);
-
-    const myheaders = new Headers();
-    myheaders.append(
-      "Authorization",
-      "Bearer " + localStorage.getItem("token")
-    );
-
-    fetch("/users/sendMsg", {
-      method: "post",
-      body: formData,
-      headers: myheaders,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.saved === "success") {
-          if (name === "gif") {
-            handleCloseShowGifsForMsg();
-          }
-          if (name === "text") {
-            document.getElementById("text").value = "";
-          }
-          getMessages(id, ctx.messages.length - 1);
-        }
-      });
+    const msg = {
+      senderId: localStorage.getItem("id"),
+      [name]: value,
+    };
+    console.log("sent msg");
+    socket.emit("message", { msg: msg, roomId: id });
   };
 
   const sendGiphy = async (gif, e) => {
     e.preventDefault();
     const { data } = await gf.gif(gif.id);
     sendMessage("gif", data.images.preview_webp.url);
+    handleCloseShowGifsForMsg();
   };
 
   const sendImage = (e) => {
@@ -150,9 +123,13 @@ function MessagesLeft(props) {
             alt={ctx.userInfoForMsg.name + " pic"}
           />
           <div>
-            <strong>{ctx.userInfoForMsg.name}</strong>
+            <strong>
+              {ctx.userInfoForMsg.f_name + " " + ctx.userInfoForMsg.l_name}
+            </strong>
             <br />
-            <span>{ctx.userInfoForMsg.username}</span>
+            <span>
+              {ctx.userInfoForMsg.username} {typing ? "Typing..." : ""}
+            </span>
           </div>
         </div>
 
@@ -163,40 +140,49 @@ function MessagesLeft(props) {
         ></Alert>
         <div id="msg-box-msgs">
           {ctx.messages.length > 0 &&
-            ctx.messages.map((msg) => {
-              var direction = "";
-              if (msg.senderId === localStorage.getItem("id")) {
-                direction = "right";
-              } else {
-                direction = "left";
-              }
-              if (msg.text) {
-                return (
-                  <div key={msg._id} class={direction}>
-                    <li>
-                      {msg.text}&ensp;
-                      <span>{moment(msg.sent_time).format("HH:mm A")}</span>
-                    </li>
-                  </div>
-                );
-              } else if (msg.image) {
-                return (
-                  <div key={msg._id} class={direction}>
-                    <img src={msg.image} alt="" />
-                    <br />
+            ctx.messages.map((msg) =>
+              msg.text ? (
+                <div
+                  key={msg._id}
+                  className={
+                    msg.senderId === localStorage.getItem("id")
+                      ? "right"
+                      : "left"
+                  }
+                >
+                  <li>
+                    {msg.text}&ensp;
                     <span>{moment(msg.sent_time).format("HH:mm A")}</span>
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={msg._id} class={direction}>
-                    <img src={msg.gif} alt="" />
-                    <br />
-                    <span>{moment(msg.sent_time).format("HH:mm A")}</span>
-                  </div>
-                );
-              }
-            })}
+                  </li>
+                </div>
+              ) : msg.image ? (
+                <div
+                  key={msg._id}
+                  className={
+                    msg.senderId === localStorage.getItem("id")
+                      ? "right"
+                      : "left"
+                  }
+                >
+                  <img src={msg.image} alt="" />
+                  <br />
+                  <span>{moment(msg.sent_time).format("HH:mm A")}</span>
+                </div>
+              ) : (
+                <div
+                  key={msg._id}
+                  className={
+                    msg.senderId === localStorage.getItem("id")
+                      ? "right"
+                      : "left"
+                  }
+                >
+                  <img src={msg.gif} alt="" />
+                  <br />
+                  <span>{moment(msg.sent_time).format("HH:mm A")}</span>
+                </div>
+              )
+            )}
         </div>
         <div id="msg-box-bottom-div">
           <i
@@ -211,10 +197,15 @@ function MessagesLeft(props) {
           <input
             type="text"
             placeholder="Type your msg here... press enter to send"
-            id="text"
+            onChange={(e) => {
+              e.target.value !== ""
+                ? socket.emit("typing")
+                : socket.emit("stopped");
+            }}
             onKeyDown={(e) => {
-              if (e.keyCode === 13) {
-                sendMessage("text", document.getElementById("text").value);
+              if (e.keyCode === 13 && e.target.value !== "") {
+                sendMessage("text", e.target.value);
+                e.target.value = "";
               }
             }}
           />

@@ -42,3 +42,21 @@ export function errorDisplay(data, elem) {
     alert.style.display = "none";
   }, 10000);
 }
+
+export function get_notifications(skip, setNotifics) {
+  const myheaders = new Headers();
+  myheaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+  fetch("/users/notifications/" + skip, {
+    method: "GET",
+    headers: myheaders,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.saved === "success") {
+        data.notifics.sort(
+          (a, b) => new Date(b.datetime) - new Date(a.datetime)
+        );
+        setNotifics(data.notifics);
+      }
+    });
+}

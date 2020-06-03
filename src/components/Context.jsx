@@ -15,6 +15,8 @@ function reducer(state, action) {
     case "changeUserInfoForMsg":
       return { ...state, userInfoForMsg: action.payload };
     case "setMessages":
+      return { ...state, messages: [...action.payload] };
+    case "appendMessages":
       return { ...state, messages: [...state.messages, ...action.payload] };
     case "setShowGifsForMsg":
       return { ...state, showGifsForMsg: action.payload };
@@ -67,7 +69,7 @@ function reducer(state, action) {
     case "setRegister":
       return { ...state, Register: action.payload };
     case "setNotifics":
-      return { ...state, notifics: action.payload };
+      return { ...state, notifics: [...action.payload, ...state.notifics] };
     case "setOverlayPicSrc":
       return { ...state, overlayPicSrc: action.payload };
     case "setFriendSuggesstions":
