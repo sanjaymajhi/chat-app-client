@@ -2,7 +2,6 @@ import React from "react";
 import CreatePostOrCommentComponent from "./CreatePostOrComment";
 import likeSharePost from "./functions";
 import moment from "moment";
-import { Carousel } from "react-bootstrap";
 
 function Posts(props) {
   return (
@@ -97,7 +96,9 @@ function Posts(props) {
                   <span>
                     <i
                       className="material-icons"
-                      onClick={(e) => likeSharePost(e, "like")}
+                      onClick={(e) =>
+                        likeSharePost(e, "like", "posts", props.type)
+                      }
                       id={post._id}
                       style={{
                         color:

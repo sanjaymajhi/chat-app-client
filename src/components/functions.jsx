@@ -1,13 +1,20 @@
-export default function likeSharePost(e, type, origin = "posts") {
+export default function likeSharePost(
+  e,
+  type,
+  origin = "posts",
+  parentType = "post"
+) {
   e.preventDefault();
   const target = e.target;
   const myheaders = new Headers();
   myheaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
   myheaders.append("content-type", "application/json");
-  fetch("/users/posts/" + type, {
+  const url =
+    parentType !== "comment" ? "/users/posts/" + type : "/users/comment/like";
+  fetch(url, {
     method: "post",
     body: JSON.stringify({
-      postId: e.target.id,
+      postId: e.target.id, //commment id for comments and post id for posts
     }),
     headers: myheaders,
   })

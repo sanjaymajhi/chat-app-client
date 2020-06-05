@@ -23,6 +23,10 @@ function Notifications() {
         return "liked your post.";
       case "comment":
         return "commented on your post.";
+      case "likeComment":
+        return "liked your comment.";
+      case "replyComment":
+        return "replied to your comment.";
       default:
         return "started following you.";
     }
@@ -53,11 +57,9 @@ function Notifications() {
                 }
               >
                 <strong>
-                  {notific.userWhoPushed._id === localStorage.getItem("id")
-                    ? "You"
-                    : notific.userWhoPushed.f_name +
-                      " " +
-                      notific.userWhoPushed.l_name}
+                  {notific.userWhoPushed.f_name +
+                    " " +
+                    notific.userWhoPushed.l_name}
                 </strong>{" "}
                 {switchInJsx(notific.type)}
                 <br />

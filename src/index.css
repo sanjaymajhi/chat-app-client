@@ -1448,6 +1448,7 @@
   }
   #main {
     width: 100vw;
+    min-height: 100vh;
   }
   .main-left {
     width: 100vw;
@@ -2009,14 +2010,14 @@
   width: 100%;
   display: none;
   background-color: rgba(19, 18, 18, 0.9);
-  background-size: cover;
+  background-size: contain;
   z-index: 10000;
   padding-top: 5vh;
+  overflow: auto;
 }
 
 #overlay-pics img {
   display: block;
   margin: 0 auto;
-  max-height: 90vh;
 }
 /*# sourceMappingURL=index.css.map */
