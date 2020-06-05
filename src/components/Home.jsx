@@ -49,7 +49,7 @@ function Home(props) {
       .then(async (data) => {
         if (data.saved === "success") {
           data.details.sort((a, b) => new Date(b.date) - new Date(a.date));
-          ctx.dispatch({ type: "setHomePosts", payload: [...data.details] });
+          ctx.dispatch({ type: "setHomePosts", payload: data.details });
         }
       });
   };

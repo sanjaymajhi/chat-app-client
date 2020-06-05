@@ -874,7 +874,6 @@
 
   .main-left {
     min-height: 100vh;
-    height: 100%;
     border-right: 1px solid lightgray;
   }
 
@@ -1521,10 +1520,10 @@
     border-bottom: 1px solid lightgray;
   }
 
-  #body {
+  #profile-body {
     position: fixed;
     top: 10vh;
-    height: 80vh;
+    bottom: 10vh;
     overflow-y: scroll;
   }
 

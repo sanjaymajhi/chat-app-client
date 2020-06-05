@@ -14,6 +14,7 @@ import {
 import { useParams } from "react-router-dom";
 import UserPosts from "./userPosts";
 import Context from "./Context";
+import { errorDisplay } from "./functions";
 
 function Profile(props) {
   const ctx = useContext(Context);
@@ -63,9 +64,7 @@ function Profile(props) {
       .then((res) => res.json())
       .then(async (data) => {
         await ctx.dispatch({ type: "setProfile", payload: data.details });
-        localStorage.setItem("f_name", data.details.f_name);
-        localStorage.setItem("l_name", data.details.l_name);
-        localStorage.setItem("imageUri", data.details.imageUri);
+        await ctx.dispatch({ type: "setEditProfile", payload: data.details });
         if (document.querySelector(".follow-button") !== null) {
           document.querySelector(".follow-button").innerHTML =
             data.details.followers.indexOf(data.id) === -1
@@ -112,7 +111,7 @@ function Profile(props) {
           }, 2000);
           history.push("/user/profile/" + id); //used to update the url as well as call getProfile
         } else {
-          errorDisplay(data);
+          errorDisplay(data, "edit-alert");
         }
       });
   };
@@ -134,24 +133,6 @@ function Profile(props) {
           getProfile();
         }
       });
-  };
-
-  const errorDisplay = (data) => {
-    const alert = document.getElementById("edit-alert");
-    alert.style.display = "block";
-    if (data.error) {
-      alert.innerHTML += data.error.msg;
-    }
-    if (data.errors) {
-      let count = 1;
-      data.errors.map((err) => {
-        alert.innerHTML += "<p>" + count + ". " + err.msg + "<br/></p>";
-        count++;
-      });
-    }
-    setTimeout(function () {
-      alert.style.display = "none";
-    }, 10000);
   };
 
   const uploadPic = (e, type) => {
@@ -209,8 +190,8 @@ function Profile(props) {
         <br />
         {ctx.profile.posts && ctx.profile.posts.length} Tweets
       </div>
-      <div id="body">
-        {ctx.profile.coverImageUri === "" ? (
+      <div id="profile-body">
+        {ctx.profile.coverImageUri === null ? (
           <div
             id="cover-image"
             onClick={
@@ -239,7 +220,7 @@ function Profile(props) {
             }
           />
         )}
-        {ctx.profile.imageUri === "" ? (
+        {ctx.profile.imageUri === null ? (
           <img
             src={avtar}
             alt="no profile"
@@ -377,7 +358,7 @@ function Profile(props) {
               style={{ display: "none" }}
               id="edit-alert"
             ></Alert>
-            <Form onChange={handleChange} onSubmit={updateProfile}>
+            <Form onSubmit={updateProfile}>
               <Row>
                 <Col>
                   <Form.Group controlId="formBasicFirstName">
@@ -387,6 +368,8 @@ function Profile(props) {
                       placeholder="Enter First Name"
                       name="f_name"
                       required={true}
+                      onChange={handleChange}
+                      value={ctx.editProfile.f_name}
                     />
                   </Form.Group>
                 </Col>
@@ -398,6 +381,8 @@ function Profile(props) {
                       placeholder="Enter Last Name"
                       name="l_name"
                       required={true}
+                      onChange={handleChange}
+                      value={ctx.editProfile.l_name}
                     />
                   </Form.Group>
                 </Col>
@@ -409,6 +394,8 @@ function Profile(props) {
                   placeholder="Enter Username"
                   name="username"
                   required={true}
+                  onChange={handleChange}
+                  value={ctx.editProfile.username}
                 />
               </Form.Group>
 
@@ -419,6 +406,8 @@ function Profile(props) {
                   placeholder="Add Your Bio"
                   name="bio"
                   required={true}
+                  onChange={handleChange}
+                  value={ctx.editProfile.bio}
                 />
               </Form.Group>
 
@@ -429,6 +418,8 @@ function Profile(props) {
                   placeholder="Add Your location"
                   name="location"
                   required={true}
+                  onChange={handleChange}
+                  value={ctx.editProfile.location}
                 />
               </Form.Group>
               <Button variant="primary" type="submit" id="login-button">

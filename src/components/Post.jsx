@@ -33,8 +33,6 @@ function Post(props) {
     ctx.dispatch({ type: "setFormDataForPostComment", payload: data });
 
   //comment on comment
-  const setGifForCommentOnComment = (data) =>
-    ctx.dispatch({ type: "setGifForCommentOnComment", payload: data });
 
   const setFormDataForCmtOnCmt = (data) =>
     ctx.dispatch({ type: "setFormDataForCmtOnCmt", payload: data });
@@ -85,13 +83,17 @@ function Post(props) {
           <div id="single-post-div">
             <div id="single-post-profile-pic">
               <img
-                src={ctx.postDetails.imageUri}
-                alt={ctx.postDetails.name + " profile pic"}
+                src={ctx.postDetails.user_id.imageUri}
+                alt={ctx.postDetails.user_id.f_name + " profile pic"}
               />
             </div>
             <div>
-              <strong>{ctx.postDetails.name}</strong>
-              <span>{" · " + ctx.postDetails.username}</span>
+              <strong>
+                {ctx.postDetails.user_id.f_name +
+                  " " +
+                  ctx.postDetails.user_id.l_name}
+              </strong>
+              <span>{" · " + ctx.postDetails.user_id.username}</span>
               <div id="single-post-text">
                 {ctx.postDetails.postText !== "null" &&
                   ctx.postDetails.postText}
@@ -236,9 +238,7 @@ function Post(props) {
             setFormData={setFormDataForCmtOnCmt}
             formData={ctx.formDataForCmtOnCmt}
             handleCloseCreatePostOrComment={handleCloseCreateCommentForCmt}
-            setGif={setGifForCommentOnComment}
             ShowCreatePostOrComment={ctx.ShowCreateCommentForCmt}
-            gif={ctx.gifForCommentOnComment}
             postId={ctx.commentIdForComment}
             handleShowCreateComment={handleShowCreateCommentForCmt}
           />

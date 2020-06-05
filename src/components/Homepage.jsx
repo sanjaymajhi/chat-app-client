@@ -2,6 +2,7 @@ import React, { useRef, useContext } from "react";
 import { Modal, Button, Form, Row, Col, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import Context from "./Context";
+import { errorDisplay } from "./functions";
 
 function Homepage(props) {
   const ctx = useContext(Context);
@@ -100,24 +101,6 @@ function Homepage(props) {
     const name = e.target.name;
     const value = e.target.value;
     setRegister({ ...ctx.Register, [name]: value });
-  };
-
-  const errorDisplay = (data, id) => {
-    const alert = document.getElementById(id);
-    alert.style.display = "block";
-    if (data.error) {
-      alert.innerHTML += data.error.msg;
-    }
-    if (data.errors) {
-      let count = 1;
-      data.errors.map((err) => {
-        alert.innerHTML += "<p>" + count + ". " + err.msg + "<br/></p>";
-        count++;
-      });
-    }
-    setTimeout(function () {
-      alert.style.display = "none";
-    }, 10000);
   };
 
   const history = useHistory();

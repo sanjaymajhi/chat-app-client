@@ -4,6 +4,7 @@ import { InputGroup, FormControl, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Posts from "./Posts";
 import useInfiniteScroll from "./useInfiniteScroll";
+import avtar from "../images/avtar.png";
 
 function ExploreLeft(props) {
   const ctx = useContext(Context);
@@ -11,9 +12,17 @@ function ExploreLeft(props) {
 
   useEffect(() => {
     if (isFetching) {
-      getTrendingPosts(ctx.trendingPosts.length);
+      console.log("called from fetching");
+      ctx.tab === "posts"
+        ? getTrendingPosts(ctx.trendingPosts.length)
+        : getTrendingVideos(ctx.trendingVideos.length);
     }
   }, [isFetching]);
+
+  useEffect(() => {
+    getTrendingPosts(ctx.trendingPosts.length);
+    getTrendingVideos(ctx.trendingVideos.length);
+  }, []);
 
   const searchPeople = (e) => {
     document.getElementById("search-people-results").style.display = "block";
@@ -53,15 +62,29 @@ function ExploreLeft(props) {
       .then((data) => {
         if (data.saved === "success") {
           ctx.dispatch({ type: "setTrendingPosts", payload: data.data });
-          ctx.dispatch({ type: "setTab", payload: "posts" });
+        }
+        setIsFetching(false);
+      });
+  };
+
+  const getTrendingVideos = (index) => {
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    fetch("/users/get-trending-videos/from/" + index, {
+      method: "get",
+      headers: myheaders,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.saved === "success") {
+          ctx.dispatch({ type: "setTrendingVideos", payload: data.data });
           setIsFetching(false);
         }
       });
   };
-
-  useEffect(() => {
-    getTrendingPosts(0);
-  }, []);
 
   const [postIdForComment, setPostIdForComment] = useState("");
 
@@ -74,9 +97,6 @@ function ExploreLeft(props) {
     setPostIdForComment(e.target.id);
     setShowCreateComment(true);
   };
-
-  const setGifForPostComment = (data) =>
-    ctx.dispatch({ type: "setGifForPostComment", payload: data });
 
   const setFormDataForPostComment = (data) =>
     ctx.dispatch({ type: "setFormDataForPostComment", payload: data });
@@ -101,7 +121,7 @@ function ExploreLeft(props) {
             {ctx.searchResults.map((item) => (
               <Link to={"/user/profile/" + item.username.split("@")[1]}>
                 <li>
-                  <img src={item.imageUri} alt="profile" />
+                  <img src={item.imageUri || avtar} alt="profile" />
                   <div>
                     <strong>{item.f_name + " " + item.l_name}</strong> <br />
                     <span>{item.username}</span>
@@ -142,14 +162,22 @@ function ExploreLeft(props) {
             setFormData={setFormDataForPostComment}
             formData={ctx.formDataForPostComment}
             handleCloseCreatePostOrComment={handleCloseCreateComment}
-            setGif={setGifForPostComment}
             ShowCreatePostOrComment={ctx.ShowCreateComment}
-            gif={ctx.gifForPostComment}
             postId={ctx.postIdForComment}
             handleShowCreateComment={handleShowCreateComment}
           />
         ) : (
-          ""
+          <Posts
+            {...props}
+            type="user"
+            posts={ctx.trendingVideos}
+            setFormData={setFormDataForPostComment}
+            formData={ctx.formDataForPostComment}
+            handleCloseCreatePostOrComment={handleCloseCreateComment}
+            ShowCreatePostOrComment={ctx.ShowCreateComment}
+            postId={ctx.postIdForComment}
+            handleShowCreateComment={handleShowCreateComment}
+          />
         )}
       </div>
       {isFetching === true && (

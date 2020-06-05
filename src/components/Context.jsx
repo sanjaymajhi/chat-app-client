@@ -46,8 +46,6 @@ function reducer(state, action) {
       return { ...state, searchResults: action.payload };
     case "setShowCreatePost":
       return { ...state, showCreatePost: action.payload };
-    case "setGifForPost":
-      return { ...state, gifForPost: action.payload };
     case "setFormDataForPost":
       return { ...state, formDataForPost: action.payload };
     case "setShowCreateCommentForProfilePosts":
@@ -78,6 +76,11 @@ function reducer(state, action) {
       return {
         ...state,
         trendingPosts: [...state.trendingPosts, ...action.payload],
+      };
+    case "setTrendingVideos":
+      return {
+        ...state,
+        trendingVideos: [...state.trendingVideos, ...action.payload],
       };
     case "setTab":
       return { ...state, tab: action.payload };
@@ -145,7 +148,6 @@ const initialState = {
   },
   searchResults: [],
   showCreatePost: false,
-  gifForPost: null,
   formDataForPost: {
     "post-text": null,
     embedLink: null,
@@ -170,7 +172,8 @@ const initialState = {
   overlayPicSrc: "",
   friendSuggesstions: [],
   trendingPosts: [],
-  tab: "",
+  trendingVideos: [],
+  tab: "posts",
   isFetching: false,
 };
 

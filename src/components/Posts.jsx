@@ -33,35 +33,15 @@ function Posts(props) {
         {props.posts !== undefined && props.posts.length > 0 ? (
           props.posts.map((post) => (
             <div key={post._id} className="user_posts">
-              <img
-                src={
-                  props.type === "user"
-                    ? localStorage.getItem("imageUri")
-                    : props.type === "home"
-                    ? post.user_imageUri
-                    : post.userId.imageUri
-                }
-                alt="pic"
-                id="user-post-img"
-              />
+              <img src={post.user_id.imageUri} alt="pic" id="user-post-img" />
               <div id="post_detail">
                 <p id="post-user-detail">
                   <strong>
-                    {props.type === "user"
-                      ? localStorage.getItem("f_name") +
-                        " " +
-                        localStorage.getItem("l_name")
-                      : props.type === "home"
-                      ? post.name
-                      : post.userId.f_name + " " + post.userId.l_name}
+                    {post.user_id.f_name + " " + post.user_id.l_name}
                   </strong>
                   &ensp;
                   <span>
-                    {props.type === "user"
-                      ? "@" + props.id
-                      : props.type === "home"
-                      ? post.username
-                      : post.userId.username}
+                    {post.user_id.username}
                     {window.matchMedia("(max-width: 480px)").matches ? (
                       <br />
                     ) : (

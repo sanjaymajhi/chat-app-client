@@ -20,6 +20,10 @@ function MessagesLeft(props) {
   useEffect(() => {
     ctx.dispatch({ type: "appendMessages", payload: [msg] });
   }, [msg]);
+
+  socket.on("connect", () => {
+    socket.emit("join", id);
+  });
   socket.on("newMsg", (data) => {
     console.log("new msg");
     setMsg(data);
@@ -70,7 +74,6 @@ function MessagesLeft(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
-          console.log(data.msgs);
           ctx.dispatch({ type: "setMessages", payload: data.msgs });
           ctx.dispatch({
             type: "changeUserInfoForMsg",
@@ -211,7 +214,7 @@ function MessagesLeft(props) {
           />
         </div>
       </div>
-      )}
+
       <input
         type="file"
         name="image"
