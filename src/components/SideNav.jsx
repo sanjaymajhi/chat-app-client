@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import CreatePostOrCommentComponent from "./CreatePostOrComment";
+import CreatePost from "./CreatePost";
 import Context from "./Context";
 import { get_notifications } from "./functions";
 
@@ -15,15 +15,11 @@ function SideNav(props) {
       embedLink: null,
       "post-img": [],
       "post-video": null,
-      "gif-id": null,
-      postId: null,
     });
     setShowCreatePost(false);
   };
   const handleShowCreatePost = () => setShowCreatePost(true);
 
-  const setGifForPost = (data) =>
-    ctx.dispatch({ type: "setGifForPost", payload: data });
   const setFormDataForPost = (data) =>
     ctx.dispatch({ type: "setFormDataForPost", payload: data });
 
@@ -140,15 +136,12 @@ function SideNav(props) {
       </ul>
 
       {/* create post modal */}
-      <CreatePostOrCommentComponent
+      <CreatePost
         {...props}
-        type="post"
         setFormData={setFormDataForPost}
         formData={ctx.formDataForPost}
-        handleCloseCreatePostOrComment={handleCloseCreatePost}
-        setGif={setGifForPost}
-        ShowCreatePostOrComment={ctx.showCreatePost}
-        gif={ctx.gifForPost}
+        handleCloseCreatePost={handleCloseCreatePost}
+        ShowCreatePost={ctx.showCreatePost}
       />
     </div>
   );

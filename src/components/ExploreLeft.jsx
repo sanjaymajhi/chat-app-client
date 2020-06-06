@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Context from "./Context";
 import { InputGroup, FormControl, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -86,21 +86,6 @@ function ExploreLeft(props) {
       });
   };
 
-  const [postIdForComment, setPostIdForComment] = useState("");
-
-  const [ShowCreateComment, setShowCreateComment] = useState(false);
-  const handleCloseCreateComment = () => {
-    setFormDataForPostComment({});
-    setShowCreateComment(false);
-  };
-  const handleShowCreateComment = (e) => {
-    setPostIdForComment(e.target.id);
-    setShowCreateComment(true);
-  };
-
-  const setFormDataForPostComment = (data) =>
-    ctx.dispatch({ type: "setFormDataForPostComment", payload: data });
-
   return (
     <div className="explore-left">
       <div id="explore-fixed">
@@ -155,29 +140,9 @@ function ExploreLeft(props) {
       </div>
       <div id="explore-posts">
         {ctx.tab === "posts" ? (
-          <Posts
-            {...props}
-            type="user"
-            posts={ctx.trendingPosts}
-            setFormData={setFormDataForPostComment}
-            formData={ctx.formDataForPostComment}
-            handleCloseCreatePostOrComment={handleCloseCreateComment}
-            ShowCreatePostOrComment={ctx.ShowCreateComment}
-            postId={ctx.postIdForComment}
-            handleShowCreateComment={handleShowCreateComment}
-          />
+          <Posts {...props} type="user" posts={ctx.trendingPosts} />
         ) : (
-          <Posts
-            {...props}
-            type="user"
-            posts={ctx.trendingVideos}
-            setFormData={setFormDataForPostComment}
-            formData={ctx.formDataForPostComment}
-            handleCloseCreatePostOrComment={handleCloseCreateComment}
-            ShowCreatePostOrComment={ctx.ShowCreateComment}
-            postId={ctx.postIdForComment}
-            handleShowCreateComment={handleShowCreateComment}
-          />
+          <Posts {...props} type="user" posts={ctx.trendingVideos} />
         )}
       </div>
       {isFetching === true && (

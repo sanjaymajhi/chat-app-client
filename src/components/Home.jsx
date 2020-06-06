@@ -13,28 +13,6 @@ function Home(props) {
     getHomePosts();
   }, []);
 
-  const handleCloseCreateComment = () => {
-    ctx.dispatch({
-      type: "setFormDataForHomeComments",
-      payload: {
-        "post-text": null,
-        embedLink: null,
-        "post-img": [],
-        "post-video": null,
-        "gif-id": null,
-        postId: null,
-      },
-    });
-    ctx.dispatch({ type: "setShowCreateComment", payload: false });
-  };
-  const handleShowCreateComment = (e) => {
-    ctx.dispatch({ type: "setPostIdForComment", payload: e.target.id });
-    ctx.dispatch({ type: "setShowCreateComment", payload: true });
-  };
-
-  const setFormDataForHomeComments = (data) =>
-    ctx.dispatch({ type: "setFormDataForHomeComments", payload: data });
-
   const getHomePosts = () => {
     const myheaders = new Headers();
     myheaders.append(
@@ -55,18 +33,7 @@ function Home(props) {
   };
 
   return (
-    <Posts
-      {...props}
-      type="home"
-      history={history}
-      posts={ctx.homePosts}
-      setFormData={setFormDataForHomeComments}
-      formData={ctx.formDataForHomeComments}
-      handleCloseCreatePostOrComment={handleCloseCreateComment}
-      ShowCreatePostOrComment={ctx.ShowCreateComment}
-      postId={ctx.postIdForComment}
-      handleShowCreateComment={handleShowCreateComment}
-    />
+    <Posts {...props} type="home" history={history} posts={ctx.homePosts} />
   );
 }
 

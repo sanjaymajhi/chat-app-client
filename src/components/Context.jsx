@@ -6,12 +6,10 @@ function reducer(state, action) {
   switch (action.type) {
     case "setHomePosts":
       return { ...state, homePosts: action.payload };
-    case "setPostIdForComment":
-      return { ...state, postIdForComment: action.payload };
     case "setShowCreateComment":
       return { ...state, ShowCreateComment: action.payload };
-    case "setFormDataForHomeComments":
-      return { ...state, formDataForHomeComments: action.payload };
+    case "setFormDataForComments":
+      return { ...state, formDataForComments: action.payload };
     case "changeUserInfoForMsg":
       return { ...state, userInfoForMsg: action.payload };
     case "setMessages":
@@ -24,14 +22,8 @@ function reducer(state, action) {
       return { ...state, friendList: action.payload };
     case "filterFriendList":
       return { ...state, filterFriendList: action.payload };
-    case "setFormDataForPostComment":
-      return { ...state, formDataForPostComment: action.payload };
-    case "setShowCreateCommentForCmt":
-      return { ...state, ShowCreateCommentForCmt: action.payload };
     case "setPostDetails":
       return { ...state, postDetails: action.payload };
-    case "setCommentIdForComment":
-      return { ...state, commentIdForComment: action.payload };
     case "setShowEditProfile":
       return { ...state, showEditProfile: action.payload };
     case "setShowEditProfilePic":
@@ -48,16 +40,8 @@ function reducer(state, action) {
       return { ...state, showCreatePost: action.payload };
     case "setFormDataForPost":
       return { ...state, formDataForPost: action.payload };
-    case "setShowCreateCommentForProfilePosts":
-      return { ...state, ShowCreateCommentForProfilePosts: action.payload };
-    case "setGifForUserPostsCmnt":
-      return { ...state, gifForUserPostsCmnt: action.payload };
-    case "setFormDataForUserPostsCmnt":
-      return { ...state, formDataForUserPostsCmnt: action.payload };
     case "setPostsObject":
       return { ...state, postsObject: action.payload };
-    case "setPostIdForUserPostsComment":
-      return { ...state, postIdForUserPostsComment: action.payload };
     case "setShowLogin":
       return { ...state, showLogin: action.payload };
     case "setShowRegister":
@@ -87,6 +71,11 @@ function reducer(state, action) {
     case "setIsFetching":
       return { ...state, isFetching: action.payload };
 
+    case "setFormDataForCmtOnCmt":
+      return { ...state, formDataForCmtOnCmt: action.payload };
+    case "setShowCreateCommentForCmt":
+      return { ...state, ShowCreateCommentForCmt: action.payload };
+
     default:
       return state;
   }
@@ -109,32 +98,20 @@ const initialState = {
     imageUri: "",
   },
   homePosts: [],
-  postIdForComment: "",
   ShowCreateComment: false,
-  formDataForHomeComments: {
-    "post-text": null,
-    "gif-id": null,
-    "post-img": [],
+  formDataForComments: {
+    text: null,
+    gif: null,
+    img: [],
     postId: null,
-    embedLink: null,
-    "post-video": null,
   },
   userInfoForMsg: {},
   messages: [],
   showGifsForMsg: false,
   friendList: [],
   filterFriendList: [],
-  formDataForPostComment: {
-    "post-text": null,
-    "gif-id": null,
-    "post-img": [],
-    postId: null,
-    embedLink: null,
-    "post-video": null,
-  },
   ShowCreateCommentForCmt: false,
   postDetails: {},
-  commentIdForComment: "",
   showEditProfile: false,
   showEditProfilePic: false,
   showEditProfileCoverPic: false,
@@ -149,25 +126,12 @@ const initialState = {
   searchResults: [],
   showCreatePost: false,
   formDataForPost: {
-    "post-text": null,
+    text: null,
     embedLink: null,
-    "post-img": [],
-    "post-video": null,
-    "gif-id": null,
-    postId: null,
-  },
-  ShowCreateCommentForProfilePosts: false,
-  gifForUserPostsCmnt: null,
-  formDataForUserPostsCmnt: {
-    "post-text": null,
-    "gif-id": null,
-    "post-img": [],
-    postId: null,
-    embedLink: null,
-    "post-video": null,
+    img: [],
+    video: null,
   },
   postsObject: {},
-  postIdForUserPostsComment: "",
   notifics: [],
   overlayPicSrc: "",
   friendSuggesstions: [],
@@ -175,6 +139,12 @@ const initialState = {
   trendingVideos: [],
   tab: "posts",
   isFetching: false,
+  formDataForCmtOnCmt: {
+    text: null,
+    gif: null,
+    img: [],
+    commentId: null,
+  },
 };
 
 export function ContextProvider({ children }) {

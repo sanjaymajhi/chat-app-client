@@ -9,40 +9,9 @@ function UserPosts(props) {
   const { id } = useParams();
   const history = useHistory();
 
-  const setPostIdForUserPostsComment = (data) =>
-    ctx.dispatch({
-      type: "setPostIdForUserPostsComment",
-      payload: data,
-    });
-
   const setPostsObject = (data) =>
     ctx.dispatch({
       type: "setPostsObject",
-      payload: data,
-    });
-
-  const setShowCreateCommentForProfilePosts = (data) =>
-    ctx.dispatch({
-      type: "setShowCreateCommentForProfilePosts",
-      payload: data,
-    });
-  const handleCloseCreateComment = () => {
-    setFormDataForUserPostsCmnt({});
-    setShowCreateCommentForProfilePosts(false);
-  };
-  const handleShowCreateCommentForProfilePosts = (e) => {
-    setPostIdForUserPostsComment(e.target.id);
-    setShowCreateCommentForProfilePosts(true);
-  };
-
-  const setGifForUserPostsCmnt = (data) =>
-    ctx.dispatch({
-      type: "setGifForUserPostsCmnt",
-      payload: data,
-    });
-  const setFormDataForUserPostsCmnt = (data) =>
-    ctx.dispatch({
-      type: "setFormDataForUserPostsCmnt",
       payload: data,
     });
 
@@ -75,16 +44,6 @@ function UserPosts(props) {
       type="user"
       history={history}
       posts={ctx.postsObject.posts}
-      setPosts={setPostsObject}
-      setFormData={setFormDataForUserPostsCmnt}
-      formData={ctx.formDataForUserPostsCmnt}
-      handleCloseCreatePostOrComment={handleCloseCreateComment}
-      setGif={setGifForUserPostsCmnt}
-      ShowCreatePostOrComment={ctx.ShowCreateCommentForProfilePosts}
-      gif={ctx.gifForUserPostsCmnt}
-      postId={ctx.postIdForUserPostsComment}
-      handleShowCreateComment={handleShowCreateCommentForProfilePosts}
-      id={id}
     />
   );
 }

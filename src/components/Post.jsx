@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import CreatePostOrCommentComponent from "./CreatePostOrComment";
-import Posts from "./Posts";
+import CreateComment from "./CreateComment";
+import Comment from "./Comment";
 import Context from "./Context";
-import likeSharePost from "./functions";
+import { likeSharePost } from "./functions";
 import { Carousel } from "react-bootstrap";
 
 function Post(props) {
@@ -13,44 +13,33 @@ function Post(props) {
 
   useEffect(() => getPost(), []);
 
-  const [ShowCreateComment, setShowCreateComment] = useState(false);
   const handleCloseCreateComment = () => {
-    setFormDataForPostComment({
-      "post-text": null,
-      embedLink: null,
-      "post-img": [],
-      "post-video": null,
-      "gif-id": null,
-      postId: null,
+    ctx.dispatch({
+      type: "setFormDataForComments",
+      payload: {
+        text: null,
+        img: [],
+        gif: null,
+        postId: null,
+      },
     });
-    setShowCreateComment(false);
+    ctx.dispatch({ type: "setShowCreateComment", payload: false });
   };
   const handleShowCreateComment = () => {
-    setShowCreateComment(true);
+    ctx.dispatch({
+      type: "setFormDataForComments",
+      payload: {
+        text: null,
+        img: [],
+        gif: null,
+        postId: id,
+      },
+    });
+    ctx.dispatch({ type: "setShowCreateComment", payload: true });
   };
 
-  const setFormDataForPostComment = (data) =>
-    ctx.dispatch({ type: "setFormDataForPostComment", payload: data });
-
-  //comment on comment
-
-  const setFormDataForCmtOnCmt = (data) =>
-    ctx.dispatch({ type: "setFormDataForCmtOnCmt", payload: data });
-
-  const setCommentIdForComment = (data) =>
-    ctx.dispatch({ type: "setCommentIdForComment", payload: data });
-
-  const setShowCreateCommentForCmt = (data) =>
-    ctx.dispatch({ type: "setShowCreateCommentForCmt", payload: data });
-
-  const handleCloseCreateCommentForCmt = () => {
-    setFormDataForCmtOnCmt({});
-    setShowCreateCommentForCmt(false);
-  };
-  const handleShowCreateCommentForCmt = (e) => {
-    setCommentIdForComment(e.target.id);
-    setShowCreateCommentForCmt(true);
-  };
+  const setFormDataForComments = (data) =>
+    ctx.dispatch({ type: "setFormDataForComments", payload: data });
 
   const getPost = () => {
     const myheaders = new Headers();
@@ -98,7 +87,6 @@ function Post(props) {
                 {ctx.postDetails.postText !== "null" &&
                   ctx.postDetails.postText}
               </div>
-              <br />
               <div id="single-post-img-div">
                 {ctx.postDetails.postImg.length > 0 &&
                   (ctx.postDetails.postImg.length === 1 ? (
@@ -231,29 +219,21 @@ function Post(props) {
             <img src={ctx.overlayPicSrc} alt="large size pic" />
           </div>
 
-          <Posts
+          <Comment
             {...props}
             type="comment"
-            posts={ctx.postDetails.comments}
-            setFormData={setFormDataForCmtOnCmt}
-            formData={ctx.formDataForCmtOnCmt}
-            handleCloseCreatePostOrComment={handleCloseCreateCommentForCmt}
-            ShowCreatePostOrComment={ctx.ShowCreateCommentForCmt}
-            postId={ctx.commentIdForComment}
-            handleShowCreateComment={handleShowCreateCommentForCmt}
+            comments={ctx.postDetails.comments}
           />
 
           {/* comment on opened post */}
 
-          <CreatePostOrCommentComponent
+          <CreateComment
             {...props}
-            setFormData={setFormDataForPostComment}
-            formData={ctx.formDataForPostComment}
-            handleCloseCreatePostOrComment={handleCloseCreateComment}
-            ShowCreatePostOrComment={ShowCreateComment}
-            gif={ctx.gifForPostComment}
-            type="comment"
-            postId={id}
+            setFormData={setFormDataForComments}
+            formData={ctx.formDataForComments}
+            handleCloseCreateComment={handleCloseCreateComment}
+            ShowCreateComment={ctx.ShowCreateComment}
+            type="post"
           />
         </div>
       )}

@@ -1,9 +1,40 @@
 import React from "react";
-import CreatePostOrCommentComponent from "./CreatePostOrComment";
-import likeSharePost from "./functions";
+import CreateComment from "./CreateComment";
+import { likeSharePost } from "./functions";
 import moment from "moment";
+import { useContext } from "react";
+import Context from "./Context";
 
 function Posts(props) {
+  const ctx = useContext(Context);
+  const handleCloseCreateComment = () => {
+    ctx.dispatch({
+      type: "setFormDataForComments",
+      payload: {
+        text: null,
+        img: [],
+        gif: null,
+        postId: null,
+      },
+    });
+    ctx.dispatch({ type: "setShowCreateComment", payload: false });
+  };
+  const handleShowCreateComment = (e) => {
+    ctx.dispatch({
+      type: "setFormDataForComments",
+      payload: {
+        text: null,
+        img: [],
+        gif: null,
+        postId: e.target.id,
+      },
+    });
+    ctx.dispatch({ type: "setShowCreateComment", payload: true });
+  };
+
+  const setFormDataForComments = (data) =>
+    ctx.dispatch({ type: "setFormDataForComments", payload: data });
+
   return (
     <div id="home-posts">
       {props.type === "home" ? (
@@ -55,14 +86,9 @@ function Posts(props) {
                   </span>
                 </p>
                 <div
-                  onClick={() =>
-                    props.type !== "comment"
-                      ? props.history.push("/user/post/" + post._id)
-                      : ""
-                  }
+                  onClick={() => props.history.push("/user/post/" + post._id)}
                 >
                   {post.postText !== "null" && post.postText}
-                  <br />
 
                   {post.postImg.length > 0 && (
                     <div id="post-images">
@@ -79,12 +105,6 @@ function Posts(props) {
                       <video src={post.postVideo} controls />
                     </div>
                   )}
-
-                  {[undefined, null].indexOf(post.postGif) === -1 && (
-                    <div id="post-detail-gif-div">
-                      <img src={post.postGif} alt="" />{" "}
-                    </div>
-                  )}
                   {[null, undefined].indexOf(post.embedLink) === -1 && (
                     <iframe
                       title="Youtube Video"
@@ -96,9 +116,7 @@ function Posts(props) {
                   <span>
                     <i
                       className="material-icons"
-                      onClick={(e) =>
-                        likeSharePost(e, "like", "posts", props.type)
-                      }
+                      onClick={(e) => likeSharePost(e, "like", "posts")}
                       id={post._id}
                       style={{
                         color:
@@ -112,42 +130,35 @@ function Posts(props) {
                     &emsp;
                     {post.likes.length}
                   </span>
-                  {props.type !== "comment" ? (
-                    <span>
-                      <i
-                        className="material-icons"
-                        onClick={(e) => likeSharePost(e, "share")}
-                        id={post._id}
-                        style={{
-                          color:
-                            post.shares.indexOf(localStorage.getItem("id")) ===
-                            -1
-                              ? "gray"
-                              : "blue",
-                        }}
-                      >
-                        {" "}
-                        share
-                      </i>
-                      &ensp;
-                      {post.shares.length}
-                    </span>
-                  ) : (
-                    ""
-                  )}
                   <span>
                     <i
                       className="material-icons"
-                      onClick={props.handleShowCreateComment}
+                      onClick={(e) => likeSharePost(e, "share", "posts")}
+                      id={post._id}
+                      style={{
+                        color:
+                          post.shares.indexOf(localStorage.getItem("id")) === -1
+                            ? "gray"
+                            : "blue",
+                      }}
+                    >
+                      {" "}
+                      share
+                    </i>
+                    &ensp;
+                    {post.shares.length}
+                  </span>
+                  <span>
+                    <i
+                      className="material-icons"
+                      onClick={handleShowCreateComment}
                       id={post._id}
                     >
                       {" "}
                       message
                     </i>{" "}
                     &ensp;
-                    {props.type !== "comment"
-                      ? post.comments.length
-                      : post.sub_comments.length}
+                    {post.comments.length}
                   </span>
                 </div>
               </div>
@@ -161,16 +172,13 @@ function Posts(props) {
         ) : (
           ""
         )}
-        <CreatePostOrCommentComponent
+        <CreateComment
           {...props}
-          setFormData={props.setFormData}
-          formData={props.formData}
-          handleCloseCreatePostOrComment={props.handleCloseCreatePostOrComment}
-          setGif={props.setGif}
-          ShowCreatePostOrComment={props.ShowCreatePostOrComment}
-          gif={props.gif}
-          type={props.type === "comment" ? "commentOnComment" : "comment"}
-          postId={props.postId}
+          setFormData={setFormDataForComments}
+          formData={ctx.formDataForComments}
+          handleCloseCreateComment={handleCloseCreateComment}
+          ShowCreateComment={ctx.ShowCreateComment}
+          type="post"
         />
       </div>
     </div>
