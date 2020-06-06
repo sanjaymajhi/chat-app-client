@@ -4,6 +4,7 @@ import moment from "moment";
 import { useContext } from "react";
 import Context from "./Context";
 import CommentReplies from "./CommentReplies";
+import { Carousel } from "react-bootstrap";
 
 function Comment(props) {
   const ctx = useContext(Context);
@@ -103,12 +104,39 @@ function Comment(props) {
                 {comment.commentText !== "null" && comment.commentText}
                 {comment.commentImg.length > 0 && (
                   <div id="comment-images">
-                    {comment.commentImg.length > 1 && (
-                      <div id="overlayOnCmtImage">
-                        <h1>+{comment.commentImg.length - 1} more</h1>
-                      </div>
+                    {comment.commentImg.length > 1 ? (
+                      <Carousel>
+                        {comment.commentImg.map((img) => (
+                          <Carousel.Item
+                            onClick={() => {
+                              ctx.dispatch({
+                                type: "setOverlayPicSrc",
+                                payload: img,
+                              });
+                              document.getElementById(
+                                "overlay-pics"
+                              ).style.display = "block";
+                            }}
+                          >
+                            <img className="d-block w-100" src={img} alt="" />
+                          </Carousel.Item>
+                        ))}
+                      </Carousel>
+                    ) : (
+                      <img
+                        src={comment.commentImg[0]}
+                        alt=""
+                        onClick={() => {
+                          ctx.dispatch({
+                            type: "setOverlayPicSrc",
+                            payload: comment.commentImg[0],
+                          });
+                          document.getElementById(
+                            "overlay-pics"
+                          ).style.display = "block";
+                        }}
+                      />
                     )}
-                    <img src={comment.commentImg[0]} alt="" />
                   </div>
                 )}
 
@@ -167,6 +195,18 @@ function Comment(props) {
         ShowCreateComment={ctx.ShowCreateCommentForCmt}
         type="comment"
       />
+      <div
+        id="overlay-pics"
+        onClick={() => {
+          document.getElementById("overlay-pics").style.display = "none";
+          ctx.dispatch({
+            type: "setOverlayPicSrc",
+            payload: "",
+          });
+        }}
+      >
+        <img src={ctx.overlayPicSrc} alt="large size pic" />
+      </div>
     </div>
   );
 }

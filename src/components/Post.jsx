@@ -53,10 +53,11 @@ function Post(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.saved === "success") {
+          data.details.comments.sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          );
           ctx.dispatch({ type: "setPostDetails", payload: data.details });
-          console.log(data.details);
         }
       });
   };

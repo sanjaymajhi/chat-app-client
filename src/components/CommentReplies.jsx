@@ -1,7 +1,11 @@
 import React from "react";
 import moment from "moment";
+import { useContext } from "react";
+import Context from "./Context";
+import { useEffect } from "react";
 
 function CommentReplies(props) {
+  const ctx = useContext(Context);
   const likeReply = (e) => {
     e.preventDefault();
     const target = e.target;
@@ -31,6 +35,7 @@ function CommentReplies(props) {
         }
       });
   };
+
   return (
     <React.Fragment>
       {props.replies !== undefined &&
@@ -63,7 +68,18 @@ function CommentReplies(props) {
                 {reply.replyText !== "null" && reply.replyText}
                 {[undefined, null].indexOf(reply.replyImg) === -1 && (
                   <div id="comment-images">
-                    <img src={reply.replyImg} alt="" />
+                    <img
+                      src={reply.replyImg}
+                      alt=""
+                      onClick={() => {
+                        ctx.dispatch({
+                          type: "setOverlayPicSrc",
+                          payload: reply.replyImg,
+                        });
+                        document.getElementById("overlay-pics").style.display =
+                          "block";
+                      }}
+                    />
                   </div>
                 )}
 
@@ -92,6 +108,18 @@ function CommentReplies(props) {
                   {reply.likes.length}
                 </span>
               </div>
+            </div>
+            <div
+              id="overlay-pics"
+              onClick={() => {
+                document.getElementById("overlay-pics").style.display = "none";
+                ctx.dispatch({
+                  type: "setOverlayPicSrc",
+                  payload: "",
+                });
+              }}
+            >
+              <img src={ctx.overlayPicSrc} alt="large size pic" />
             </div>
           </div>
         ))}

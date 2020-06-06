@@ -250,7 +250,6 @@ function CreateComment(props) {
             </div>
 
             <div id="post-gif-div">
-              {console.log(props.formData)}
               {props.formData !== undefined && (
                 <img src={props.formData["gif"]} alt="gif" />
               )}

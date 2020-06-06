@@ -27,6 +27,8 @@ function Notifications() {
         return "liked your comment.";
       case "replyComment":
         return "replied to your comment.";
+      case "likeReply":
+        return "liked your reply to a comment.";
       default:
         return "started following you.";
     }
