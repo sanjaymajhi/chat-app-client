@@ -1894,7 +1894,7 @@
     }
   }
   #messages-right {
-    height: 100vh;
+    height: 90vh;
     overflow-y: auto;
     p {
       padding: 1vh 5vw;
@@ -1958,28 +1958,33 @@
   }
 
   #msg-box-msgs {
-    display: grid;
-    grid-template-columns: auto;
+    display: flex;
+    flex-direction: column;
     padding: 1vh 1vw;
-    width: 100vw;
+    position: fixed;
+    top: 15vh;
+    width: 100%;
+    height: 73vh;
+    overflow-y: scroll;
     background-color: white;
     img {
       max-height: 70vh;
       max-width: 70vw;
     }
     div {
+      display: flex;
       padding: 0.5vh 0;
     }
   }
 
   .right {
+    justify-content: right;
     img {
       border-radius: 20px 20px 0 20px;
-      float: right;
     }
     li {
+      list-style-type: none;
       max-width: 70vw;
-      float: right;
       border-radius: 20px 20px 0 20px;
       padding: 2vh 4vw;
       background-color: #1da1f2;
@@ -1992,7 +1997,7 @@
       }
     }
     span {
-      float: right;
+      align-self: flex-end;
       color: gray;
       text-align: right;
       font-size: 10px;
@@ -2000,11 +2005,11 @@
   }
 
   .left {
+    justify-content: left;
     img {
       border-radius: 20px 20px 20px 0;
     }
     li {
-      float: left;
       max-width: 70vw;
       list-style-type: none;
       border-radius: 20px 20px 20px 0;
@@ -2018,6 +2023,7 @@
       }
     }
     span {
+      align-self: flex-end;
       text-align: left;
       font-size: 10px;
     }

@@ -21,6 +21,7 @@ function MessagesLeft(props) {
   }, [msg]);
 
   useEffect(() => {
+    console.log("scroll");
     const elem = document.getElementById("msg-box-msgs");
     elem.scrollTop = elem.scrollHeight;
   }, [ctx.messages]);
