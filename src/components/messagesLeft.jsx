@@ -94,6 +94,8 @@ function MessagesLeft(props) {
     };
     console.log("sent msg");
     socket.emit("message", { msg: msg, roomId: id });
+    const elem = document.getElementById("msg-box-msgs");
+    elem.scrollTop = elem.scrollHeight;
   };
 
   const sendGiphy = async (gif, e) => {
