@@ -7,7 +7,7 @@ import moment from "moment";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useState } from "react";
-const ENDPOINT = "http://localhost:9000";
+const ENDPOINT = "wss://chat-app-by-sanjay.herokuapp.com";
 const socket = io(ENDPOINT);
 
 function MessagesLeft(props) {
