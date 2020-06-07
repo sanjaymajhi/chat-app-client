@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useState } from "react";
 const ENDPOINT = "http://localhost:9000";
-
 const socket = io(ENDPOINT);
 
 function MessagesLeft(props) {
@@ -20,22 +19,6 @@ function MessagesLeft(props) {
   useEffect(() => {
     ctx.dispatch({ type: "appendMessages", payload: [msg] });
   }, [msg]);
-
-  socket.on("connect", () => {
-    socket.emit("join", id);
-  });
-  socket.on("newMsg", (data) => {
-    console.log("new msg");
-    setMsg(data);
-  });
-
-  socket.on("typing", () => {
-    setTyping(true);
-  });
-
-  socket.on("stopped", () => {
-    setTyping(false);
-  });
 
   useEffect(() => {
     const elem = document.getElementById("msg-box-msgs");
@@ -50,10 +33,25 @@ function MessagesLeft(props) {
   const handleShowGifsForMsg = () =>
     ctx.dispatch({ type: "setShowGifsForMsg", payload: true });
 
+  socket.on("newMsg", (data) => {
+    console.log("new msg");
+    setMsg(data);
+  });
+
+  socket.on("typing", () => {
+    setTyping(true);
+  });
+
+  socket.on("stopped", () => {
+    setTyping(false);
+  });
+
   useEffect(() => {
+    socket.emit("join", id);
     getMessages(id);
     document.getElementById("tweet-button-phone").style.display = "none";
     return () => {
+      socket.emit("leaveRoom", id);
       if (window.matchMedia("(max-width: 480px)").matches) {
         document.getElementById("tweet-button-phone").style.display = "block";
       }
@@ -202,8 +200,8 @@ function MessagesLeft(props) {
             placeholder="Type your msg here... press enter to send"
             onChange={(e) => {
               e.target.value !== ""
-                ? socket.emit("typing")
-                : socket.emit("stopped");
+                ? socket.emit("typing", id)
+                : socket.emit("stopped", id);
             }}
             onKeyDown={(e) => {
               if (e.keyCode === 13 && e.target.value !== "") {
