@@ -1915,9 +1915,10 @@
     padding: 0.5vh 0;
   }
   .right {
-    -webkit-box-pack: right;
-        -ms-flex-pack: right;
-            justify-content: right;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
   }
   .right img {
     border-radius: 20px 20px 0 20px;
@@ -1944,9 +1945,10 @@
     font-size: 10px;
   }
   .left {
-    -webkit-box-pack: left;
-        -ms-flex-pack: left;
-            justify-content: left;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
   }
   .left img {
     border-radius: 20px 20px 20px 0;

@@ -1978,7 +1978,7 @@
   }
 
   .right {
-    justify-content: right;
+    flex-direction: row-reverse;
     img {
       border-radius: 20px 20px 0 20px;
     }
@@ -2005,7 +2005,7 @@
   }
 
   .left {
-    justify-content: left;
+    flex-direction: row;
     img {
       border-radius: 20px 20px 20px 0;
     }
