@@ -88,14 +88,14 @@ function MessagesLeft(props) {
   };
 
   const sendMessage = (name, value) => {
+    const elem = document.getElementById("msg-box-msgs");
+    elem.scrollTop = elem.scrollHeight;
     const msg = {
       senderId: localStorage.getItem("id"),
       [name]: value,
     };
     console.log("sent msg");
     socket.emit("message", { msg: msg, roomId: id });
-    const elem = document.getElementById("msg-box-msgs");
-    elem.scrollTop = elem.scrollHeight;
   };
 
   const sendGiphy = async (gif, e) => {
