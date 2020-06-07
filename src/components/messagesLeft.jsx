@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import Context from "./Context";
-import { Modal, Alert } from "react-bootstrap";
+import { Modal, Toast } from "react-bootstrap";
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import { Grid } from "@giphy/react-components";
 import moment from "moment";
@@ -17,7 +17,9 @@ function MessagesLeft(props) {
   const [msg, setMsg] = useState({});
   const [typing, setTyping] = useState(false);
   useEffect(() => {
+    const alert = document.getElementById("alert");
     ctx.dispatch({ type: "appendMessages", payload: [msg] });
+    alert.className = "fade toast";
   }, [msg]);
 
   useEffect(() => {
@@ -95,6 +97,7 @@ function MessagesLeft(props) {
       [name]: value,
     };
     console.log("sent msg");
+    console.log(msg);
     socket.emit("message", { msg: msg, roomId: id });
   };
 
@@ -107,14 +110,86 @@ function MessagesLeft(props) {
 
   const sendImage = (e) => {
     const file = e.target.files[0];
-    const alert = document.getElementById("wrong-image-alert");
+    const alert = document.getElementById("alert");
+    const alertBody = document.querySelector(".toast-body");
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      alert.style.display = "block";
-      alert.innerHTML = "Only .jpeg or .png files allowed...";
-      setInterval(() => (alert.style.display = "none"), 2000);
+      alert.className = "fade toast show";
+      setInterval(() => (alert.className = "fade toast"), 5000);
       e.target.value = "";
     } else {
-      sendMessage("image", file);
+      alert.className = "fade toast show";
+      alertBody.innerHTML = "Uploading, Please Wait...";
+
+      const form = new FormData();
+      form.append("image", file);
+
+      const myheaders = new Headers();
+      myheaders.append(
+        "Authorization",
+        "Bearer " + localStorage.getItem("token")
+      );
+
+      fetch("/users/uploadChatImage", {
+        method: "Post",
+        body: form,
+        headers: myheaders,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Unable to Upload File");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          sendMessage("image", data.link);
+        })
+        .catch((err) => {
+          alertBody.innerHTML = "Unable to Upload...";
+          setInterval(() => (alert.className = "fade toast"), 5000);
+        });
+    }
+  };
+
+  const sendVideo = (e) => {
+    const file = e.target.files[0];
+    const alert = document.getElementById("alert");
+    const alertBody = document.querySelector(".toast-body");
+    if (file.type !== "video/mp4") {
+      alertBody.innerHTML = "Only MP4 files allowed...";
+      alert.className = "fade toast show";
+      setInterval(() => (alert.className = "fade toast"), 5000);
+      e.target.value = "";
+    } else {
+      alert.className = "fade toast show";
+      alertBody.innerHTML = "Uploading, Please Wait...";
+
+      const form = new FormData();
+      form.append("video", file);
+
+      const myheaders = new Headers();
+      myheaders.append(
+        "Authorization",
+        "Bearer " + localStorage.getItem("token")
+      );
+
+      fetch("/users/uploadChatVideo", {
+        method: "Post",
+        body: form,
+        headers: myheaders,
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Unable to Upload File");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          sendMessage("video", data.link);
+        })
+        .catch((err) => {
+          alertBody.innerHTML = "Unable to Upload...";
+          setInterval(() => (alert.className = "fade toast"), 5000);
+        });
     }
   };
 
@@ -137,11 +212,6 @@ function MessagesLeft(props) {
           </div>
         </div>
 
-        <Alert
-          variant={"danger"}
-          style={{ display: "none" }}
-          id="wrong-image-alert"
-        ></Alert>
         <div id="msg-box-msgs">
           {ctx.messages.length > 0 &&
             ctx.messages.map((msg) =>
@@ -154,6 +224,7 @@ function MessagesLeft(props) {
                       : "left"
                   }
                 >
+                  {console.log(msg.video)}
                   <li>
                     {msg.text}&ensp;
                     <span>{moment(msg.sent_time).format("HH:mm A")}</span>
@@ -172,7 +243,7 @@ function MessagesLeft(props) {
                   <br />
                   <span>{moment(msg.sent_time).format("HH:mm A")}</span>
                 </div>
-              ) : (
+              ) : msg.gif ? (
                 <div
                   key={msg._id}
                   className={
@@ -185,6 +256,14 @@ function MessagesLeft(props) {
                   <br />
                   <span>{moment(msg.sent_time).format("HH:mm A")}</span>
                 </div>
+              ) : (
+                <video
+                  src={msg.video}
+                  width="200"
+                  height="120"
+                  controls
+                  name="video"
+                />
               )
             )}
         </div>
@@ -194,6 +273,12 @@ function MessagesLeft(props) {
             onClick={() => document.getElementById("send-image").click()}
           >
             image
+          </i>
+          <i
+            className="material-icons"
+            onClick={() => document.getElementById("send-video").click()}
+          >
+            videocam
           </i>
           <i className="material-icons" onClick={handleShowGifsForMsg}>
             gif
@@ -218,9 +303,14 @@ function MessagesLeft(props) {
 
       <input
         type="file"
-        name="image"
         id="send-image"
         onChange={sendImage}
+        style={{ display: "none" }}
+      />
+      <input
+        type="file"
+        id="send-video"
+        onChange={sendVideo}
         style={{ display: "none" }}
       />
       <Modal
@@ -247,6 +337,21 @@ function MessagesLeft(props) {
           </div>
         </Modal.Body>
       </Modal>
+
+      <Toast
+        show={false}
+        id="alert"
+        style={{
+          position: "absolute",
+          bottom: "15vh",
+          right: "45vw",
+          backgroundColor: "black",
+          color: "white",
+          zIndex: "10000",
+        }}
+      >
+        <Toast.Body>Only jpg and png files allowed</Toast.Body>
+      </Toast>
     </div>
   );
 }

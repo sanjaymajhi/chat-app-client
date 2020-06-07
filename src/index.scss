@@ -516,7 +516,7 @@
 
   #msg-box-bottom-div {
     display: grid;
-    grid-template-columns: 10% 10% 80%;
+    grid-template-columns: 10% 10% 10% 70%;
     padding: 1vh 1vw;
     text-align: center;
     border-top: 1px solid lightgray;
@@ -1289,7 +1289,7 @@
 
   #msg-box-bottom-div {
     display: grid;
-    grid-template-columns: 10% 10% 80%;
+    grid-template-columns: 10% 10% 10% 70%;
     padding: 1vh 1vw;
     text-align: center;
     border-top: 1px solid lightgray;
@@ -1964,8 +1964,8 @@
     position: fixed;
     top: 12vh;
     width: 100%;
-    height: 73vh;
-    bottom: 15vh;
+    height: 70vh;
+    bottom: 18vh;
     overflow-y: scroll;
     background-color: white;
     img {
@@ -2037,7 +2037,7 @@
     width: 100%;
     background-color: white;
     display: grid;
-    grid-template-columns: 15% 15% 70%;
+    grid-template-columns: 10% 10% 10% 70%;
     justify-items: center;
     padding: 1vh 2vw;
     text-align: center;
