@@ -252,18 +252,27 @@ function MessagesLeft(props) {
                       : "left"
                   }
                 >
+                  <span>{moment(msg.sent_time).format("HH:mm A")}</span>
                   <img src={msg.gif} alt="" />
+                </div>
+              ) : (
+                <div
+                  key={msg._id}
+                  className={
+                    msg.senderId === localStorage.getItem("id")
+                      ? "right"
+                      : "left"
+                  }
+                >
+                  <video
+                    src={msg.video}
+                    controls
+                    name="video"
+                    style={{ width: "60%" }}
+                  />
                   <br />
                   <span>{moment(msg.sent_time).format("HH:mm A")}</span>
                 </div>
-              ) : (
-                <video
-                  src={msg.video}
-                  width="200"
-                  height="120"
-                  controls
-                  name="video"
-                />
               )
             )}
         </div>

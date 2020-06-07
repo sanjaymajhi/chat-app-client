@@ -44,7 +44,26 @@ export function errorDisplay(data, elem) {
   }, 10000);
 }
 
-export function get_notifications(skip, setNotifics) {
+export const switchInJsx = (data) => {
+  switch (data) {
+    case "share":
+      return "shared your post.";
+    case "like":
+      return "liked your post.";
+    case "comment":
+      return "commented on your post.";
+    case "likeComment":
+      return "liked your comment.";
+    case "replyComment":
+      return "replied to your comment.";
+    case "likeReply":
+      return "liked your reply to a comment.";
+    default:
+      return "started following you.";
+  }
+};
+
+export function get_notifications(skip, setNotifics, total, history) {
   const myheaders = new Headers();
   myheaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
   fetch("/users/notifications/" + skip, {
@@ -54,6 +73,31 @@ export function get_notifications(skip, setNotifics) {
     .then((res) => res.json())
     .then((data) => {
       if (data.saved === "success") {
+        if (total !== undefined && data.notifics.length > 0) {
+          data.notifics.map((notific) => {
+            const alert = document.getElementById("notific-alert");
+            alert.onclick =
+              notific.type !== "follow"
+                ? () => history.push("/user/post/" + notific.postId)
+                : () =>
+                    history.push(
+                      "/user/profile/" +
+                        notific.userWhoPushed.username.split("@")[1]
+                    );
+
+            const alertBody = alert.childNodes[0];
+            alertBody.innerHTML =
+              notific.userWhoPushed.f_name +
+              " " +
+              notific.userWhoPushed.l_name +
+              " " +
+              switchInJsx(notific.type);
+            alert.className = "fade toast show";
+            setTimeout(() => {
+              alert.className = "fade toast";
+            }, 5000);
+          });
+        }
         data.notifics.sort(
           (a, b) => new Date(b.datetime) - new Date(a.datetime)
         );

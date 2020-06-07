@@ -1,38 +1,12 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import Context from "./Context";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
-import { get_notifications } from "./functions";
+import { switchInJsx } from "./functions";
 
 function Notifications() {
   const ctx = useContext(Context);
   const history = useHistory();
-
-  const setNotifics = (data) =>
-    ctx.dispatch({ type: "setNotifics", payload: data });
-
-  useEffect(() => {
-    get_notifications(ctx.notifics.length, setNotifics);
-  }, []);
-
-  const switchInJsx = (data) => {
-    switch (data) {
-      case "share":
-        return "shared your post.";
-      case "like":
-        return "liked your post.";
-      case "comment":
-        return "commented on your post.";
-      case "likeComment":
-        return "liked your comment.";
-      case "replyComment":
-        return "replied to your comment.";
-      case "likeReply":
-        return "liked your reply to a comment.";
-      default:
-        return "started following you.";
-    }
-  };
 
   return (
     <div id="notific-div">

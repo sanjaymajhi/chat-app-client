@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import CreatePost from "./CreatePost";
 import Context from "./Context";
 import { get_notifications } from "./functions";
+import { Toast } from "react-bootstrap";
 
 function SideNav(props) {
   const ctx = useContext(Context);
+  const history = useHistory();
   const setShowCreatePost = (data) =>
     ctx.dispatch({ type: "setShowCreatePost", payload: data });
 
@@ -28,12 +30,21 @@ function SideNav(props) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      get_notifications(ctx.notifics.length, setNotifics);
+      get_notifications(
+        ctx.notifics.length,
+        setNotifics,
+        ctx.notifics,
+        history
+      );
     }, 20000);
     return () => {
       clearInterval(interval);
     };
   }, [ctx.notifics]);
+
+  useEffect(() => {
+    get_notifications(0, setNotifics);
+  }, []);
 
   return (
     <div>
@@ -143,6 +154,22 @@ function SideNav(props) {
         handleCloseCreatePost={handleCloseCreatePost}
         ShowCreatePost={ctx.showCreatePost}
       />
+      <Toast
+        show={false}
+        id="notific-alert"
+        style={{
+          position: "fixed",
+          bottom: "5vh",
+          left: "2vw",
+          backgroundColor: "black",
+          color: "white",
+          zIndex: "10000",
+        }}
+      >
+        <Toast.Body id="notific-toast-body">
+          Only jpg and png files allowed
+        </Toast.Body>
+      </Toast>
     </div>
   );
 }

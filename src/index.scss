@@ -450,8 +450,8 @@
 
   #msg-box-msgs {
     height: 79vh;
-    display: grid;
-    grid-template-columns: auto;
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
     padding: 1vh 1vw;
     img {
@@ -459,18 +459,18 @@
       max-width: 30vw;
     }
     div {
+      display: flex;
       padding: 0.5vh 0;
     }
   }
 
   .right {
+    flex-direction: row-reverse;
     img {
       border-radius: 20px 20px 0 20px;
-      float: right;
     }
     li {
       max-width: 25vw;
-      float: right;
       border-radius: 20px 20px 0 20px;
       padding: 1vh 1vw;
       background-color: #1da1f2;
@@ -483,19 +483,19 @@
       }
     }
     span {
-      float: right;
       color: gray;
-      text-align: right;
       font-size: 10px;
+      align-self: flex-end;
+      padding: 0 10px;
     }
   }
 
   .left {
+    flex-direction: row;
     img {
       border-radius: 20px 20px 20px 0;
     }
     li {
-      float: left;
       max-width: 60%;
       list-style-type: none;
       border-radius: 20px 20px 20px 0;
@@ -509,6 +509,7 @@
       }
     }
     span {
+      align-self: flex-end;
       text-align: left;
       font-size: 10px;
     }
@@ -1223,8 +1224,8 @@
 
   #msg-box-msgs {
     height: 79vh;
-    display: grid;
-    grid-template-columns: auto;
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
     padding: 1vh 1vw;
     img {
@@ -1232,18 +1233,18 @@
       max-width: 30vw;
     }
     div {
+      display: flex;
       padding: 0.5vh 0;
     }
   }
 
   .right {
+    flex-direction: row-reverse;
     img {
       border-radius: 20px 20px 0 20px;
-      float: right;
     }
     li {
       max-width: 25vw;
-      float: right;
       border-radius: 20px 20px 0 20px;
       padding: 1vh 1vw;
       background-color: #1da1f2;
@@ -1256,19 +1257,19 @@
       }
     }
     span {
-      float: right;
+      align-self: flex-end;
       color: gray;
-      text-align: right;
       font-size: 10px;
+      padding: 0 10px;
     }
   }
 
   .left {
+    flex-direction: row;
     img {
       border-radius: 20px 20px 20px 0;
     }
     li {
-      float: left;
       max-width: 60%;
       list-style-type: none;
       border-radius: 20px 20px 20px 0;
@@ -1282,8 +1283,9 @@
       }
     }
     span {
-      text-align: left;
+      align-self: flex-end;
       font-size: 10px;
+      padding: 0 10px;
     }
   }
 
@@ -2000,8 +2002,8 @@
     span {
       align-self: flex-end;
       color: gray;
-      text-align: right;
       font-size: 10px;
+      padding: 0 10px;
     }
   }
 
@@ -2025,8 +2027,8 @@
     }
     span {
       align-self: flex-end;
-      text-align: left;
       font-size: 10px;
+      padding: 0 10px;
     }
   }
 
