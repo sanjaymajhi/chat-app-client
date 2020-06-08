@@ -93,7 +93,7 @@ export function get_notifications(skip, setNotifics, total, history) {
               notific.userWhoPushed.l_name +
               " " +
               switchInJsx(notific.type);
-            alert.className = "fade toast show";
+            alert.style.display = "block";
             setTimeout(() => {
               alert.className = "fade toast";
             }, 5000);

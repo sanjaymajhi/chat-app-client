@@ -218,10 +218,20 @@ function Homepage(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header
+          closeButton
+          style={{
+            backgroundColor: "#2a2a2a",
+            borderBottom: "1px solid black",
+          }}
+        >
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body
+          style={{
+            backgroundColor: "#2a2a2a",
+          }}
+        >
           <Alert
             variant={"danger"}
             style={{ display: "none" }}
@@ -245,16 +255,21 @@ function Homepage(props) {
                 name="password"
               />
             </Form.Group>
-            <Button variant="primary" type="submit" id="login-button">
+            <Button variant="secondary" type="submit" id="login-button">
               Login
             </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button ref={googleButton} button_type="login">
+        <Modal.Footer
+          style={{
+            backgroundColor: "#2a2a2a",
+            borderTop: "1px solid black",
+          }}
+        >
+          <Button ref={googleButton} button_type="login" variant={"secondary"}>
             Login with Google
           </Button>
-          <Button onClick={(e) => fbButton(e, "login")}>
+          <Button onClick={(e) => fbButton(e, "login")} variant={"secondary"}>
             Login with FaceBook
           </Button>
         </Modal.Footer>
@@ -268,10 +283,20 @@ function Homepage(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header
+          closeButton
+          style={{
+            backgroundColor: "#2a2a2a",
+            borderBottom: "1px solid black",
+          }}
+        >
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body
+          style={{
+            backgroundColor: "#2a2a2a",
+          }}
+        >
           <Alert
             id="register-alert"
             variant={"danger"}
@@ -324,16 +349,28 @@ function Homepage(props) {
                 value={ctx.Register.password}
               />
             </Form.Group>
-            <Button variant="primary" type="submit" id="register-button">
+            <Button variant="secondary" type="submit" id="register-button">
               Sign Up
             </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button ref={googleButton} button_type="register">
+        <Modal.Footer
+          style={{
+            backgroundColor: "#2a2a2a",
+            borderTop: "1px solid black",
+          }}
+        >
+          <Button
+            ref={googleButton}
+            button_type="register"
+            variant={"secondary"}
+          >
             SignUp with Google
           </Button>
-          <Button onClick={(e) => fbButton(e, "register")}>
+          <Button
+            onClick={(e) => fbButton(e, "register")}
+            variant={"secondary"}
+          >
             SignUp with FaceBook
           </Button>
         </Modal.Footer>

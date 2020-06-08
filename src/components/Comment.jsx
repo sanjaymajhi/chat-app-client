@@ -67,8 +67,9 @@ function Comment(props) {
           //no of likes or shares before clicking
           let number = Number(target.nextSibling.nextSibling.textContent);
           target.nextSibling.nextSibling.textContent =
-            target.style.color === "blue" ? number - 1 : number + 1;
-          target.style.color = target.style.color === "blue" ? "gray" : "blue";
+            target.style.color === "skyblue" ? number - 1 : number + 1;
+          target.style.color =
+            target.style.color === "skyblue" ? "lightgray" : "skyblue";
         }
       });
   };
@@ -155,8 +156,8 @@ function Comment(props) {
                     style={{
                       color:
                         comment.likes.indexOf(localStorage.getItem("id")) === -1
-                          ? "gray"
-                          : "blue",
+                          ? "lightgray"
+                          : "skyblue",
                     }}
                   >
                     thumb_up

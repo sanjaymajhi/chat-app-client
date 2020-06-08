@@ -371,10 +371,10 @@
 
   #overlayOnImage {
     position: absolute;
-    top: 2.5%;
+    top: 2%;
     left: 0;
-    right: 6%;
-    bottom: 2.5%;
+    right: 5%;
+    bottom: 2%;
     background-color: rgba(19, 17, 17, 0.5);
     h1 {
       text-align: center;
@@ -833,6 +833,7 @@
   * {
     box-sizing: border-box;
     outline: 0;
+    color: white;
   }
 
   ul {
@@ -843,7 +844,7 @@
   }
 
   span {
-    color: gray;
+    color: lightgray;
   }
 
   #dot {
@@ -866,15 +867,19 @@
   }
 
   #button3 {
-    background-color: #063c5e;
-    color: white;
-    border: 0;
+    background-color: #2a2a2a;
+    border: 1px solid black;
     padding: 2vh 2vw;
     border-radius: 100px;
     font-weight: bold;
     font-size: small;
     width: 100%;
   }
+
+  #button3:hover {
+    background-color: black;
+  }
+
   #overlay-pics {
     position: fixed;
     top: 0;
@@ -946,20 +951,28 @@
     position: fixed;
     height: 100vh;
     padding: 0;
-    border-right: 1px solid lightgray;
+    border-right: 1px solid black;
     width: 23%;
+    background-color: #2a2a2a;
     li {
       padding: 3vh 2vw;
       font-weight: bold;
       font-size: large;
-      color: black;
       text-align: center;
       width: 100%;
+      background-color: #333333;
+      margin: 1vh 0;
       i {
         font-weight: bold;
         font-size: xx-large;
         vertical-align: middle;
       }
+    }
+    li:hover {
+      background-color: #444444;
+    }
+    button:hover {
+      background-color: black;
     }
   }
 
@@ -968,9 +981,8 @@
   }
 
   #tweet-button-tablet {
-    background-color: #063c5e;
-    border: 1px solid #063c5e;
-    color: white;
+    background-color: #2a2a2a;
+    border: 1px solid black;
     width: 10vw;
     height: 10vw;
     border-radius: 100px;
@@ -988,22 +1000,25 @@
     top: 0;
     left: 23%;
     width: 77%;
+    background-color: #2a2a2a;
   }
 
   .main-left {
     min-height: 100vh;
-    border-right: 1px solid #2a2a2a;
+    border-right: 1px solid black;
   }
 
   #profile-head {
     padding: 1vh 1vw;
     font-size: 1.5vw;
+    border: 1px solid black;
   }
 
   #cover-image {
     height: 15vw;
     width: 100%;
-    background-color: lightgray;
+    background-color: gray;
+    border-bottom: 1px solid black;
   }
 
   #profile-pic {
@@ -1020,7 +1035,7 @@
     display: grid;
     grid-template-columns: auto;
     padding: 2vh 1vw 1vh 1vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     div {
       padding: 1vh 0;
     }
@@ -1036,9 +1051,9 @@
   #search-people-results {
     position: fixed;
     width: 50.5%;
-    box-shadow: 0 0 5px lightgray;
+    box-shadow: 0 0 5px #2a2a2a;
     display: none;
-    background-color: white;
+    background-color: #333333;
     z-index: 10000;
     left: 31%;
     padding: 0;
@@ -1061,7 +1076,7 @@
       }
     }
     li:hover {
-      background-color: rgb(215, 233, 240);
+      background-color: #444444;
     }
   }
 
@@ -1081,6 +1096,10 @@
     display: grid;
     grid-template-columns: 70% 10% 10% 10%;
     justify-items: center;
+    button {
+      background-color: #2a2a2a;
+      border: 1px solid black;
+    }
   }
 
   #post-gif-select,
@@ -1136,13 +1155,16 @@
     display: grid;
     grid-template-columns: 15% 85%;
     padding: 2vh 0.5vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     img {
       width: 7vw;
       height: 7vw;
       border-radius: 100px;
       margin: 0 auto;
     }
+  }
+  .user_posts:hover {
+    background-color: #444444;
   }
 
   #post_detail {
@@ -1160,10 +1182,10 @@
 
   #overlayOnImage {
     position: absolute;
-    top: 2.5%;
+    top: 2%;
     left: 0;
-    right: 6%;
-    bottom: 2.5%;
+    right: 5%;
+    bottom: 2%;
     background-color: rgba(19, 17, 17, 0.5);
     h1 {
       text-align: center;
@@ -1192,6 +1214,9 @@
     padding-bottom: 1vh;
     width: 50%;
     height: 100%;
+    img {
+      border: 0;
+    }
   }
 
   #messages-right {
@@ -1201,20 +1226,20 @@
     p {
       padding: 1vh 1vw;
       font-size: 1.5em;
-      border-bottom: 1px solid lightgray;
+      border-bottom: 1px solid black;
     }
   }
 
   #msg-people-search {
     padding: 1vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
 
   #msg-profile-div {
     display: grid;
     grid-template-columns: 20% 80%;
     padding: 2vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
 
   #msg-profile-pic {
@@ -1225,6 +1250,7 @@
       height: 7vw;
       border-radius: 100px;
       margin: 0 auto;
+      border: 1px solid white;
     }
     span {
       position: absolute;
@@ -1246,13 +1272,14 @@
   #msg-box-profile {
     display: grid;
     grid-template-columns: 15% 85%;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     padding: 2vh 1vw;
     img {
       width: 4vw;
       height: 4vw;
       border-radius: 100px;
       margin: 0 auto;
+      border: 1px solid white;
     }
   }
 
@@ -1278,11 +1305,11 @@
       border-radius: 20px 20px 0 20px;
     }
     li {
+      list-style-type: none;
       max-width: 25vw;
       border-radius: 20px 20px 0 20px;
       padding: 1vh 1vw;
-      background-color: #1da1f2;
-      color: white;
+      background-color: #0084ff;
       overflow-wrap: break-word;
       span {
         color: white;
@@ -1308,10 +1335,9 @@
       list-style-type: none;
       border-radius: 20px 20px 20px 0;
       padding: 1vh 1vw;
-      background-color: lightgray;
+      background-color: #3a3b3c;
       overflow-wrap: break-word;
       span {
-        color: black;
         text-align: right;
         font-size: 10px;
       }
@@ -1328,11 +1354,12 @@
     grid-template-columns: 10% 10% 10% 70%;
     padding: 1vh 1vw;
     text-align: center;
-    border-top: 1px solid lightgray;
+    border-top: 1px solid black;
     input {
       border-radius: 1vw;
       border: 1px solid lightgray;
       padding: 0.5vh 1vw;
+      color: black;
     }
   }
 
@@ -1347,9 +1374,9 @@
       position: fixed;
       padding: 2vh 2vw;
       top: 0;
-      border-bottom: 1px solid lightgray;
+      border-bottom: 1px solid black;
       z-index: 1000;
-      background-color: white;
+      background-color: #333333;
     }
   }
   #home-div-posts {
@@ -1367,12 +1394,13 @@
     display: grid;
     grid-template-columns: 15% 85%;
     padding: 2vh 1vw;
-    border-top: 1px solid lightgray;
+    border-top: 1px solid black;
     img {
       width: 7vw;
       height: 7vw;
       border-radius: 100px;
       margin: 0 auto;
+      border: 1px solid white;
     }
   }
 
@@ -1395,7 +1423,7 @@
       height: auto;
       max-height: 70vh;
       border-radius: 1vh;
-      border: 1px solid lightgray;
+      border: 1px solid white;
     }
   }
 
@@ -1407,15 +1435,15 @@
   }
 
   #single-post-likeshare {
-    border-top: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     padding: 2vh 2vw;
   }
 
   #likesharecomment {
     display: grid;
     grid-template-columns: 34% 33% 33%;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     padding: 2vh 0;
     span {
       margin: 0 auto;
@@ -1426,9 +1454,8 @@
     position: fixed;
     top: 0;
     width: 61%;
-    background-color: white;
     z-index: 1000;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
 
   .explore-left {
@@ -1446,8 +1473,7 @@
     }
   }
   #explore-tabs div:hover {
-    background-color: rgb(237, 241, 243);
-    color: rgb(24, 94, 122);
+    background-color: #444444;
   }
 
   #explore-posts {
@@ -1461,14 +1487,14 @@
 
   #notific-head {
     padding: 2vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
 
   #notific {
     display: grid;
     grid-template-columns: 15% 85%;
     padding: 2vh 1vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     line-height: 3vw;
     img {
       width: 6vw;
@@ -1513,9 +1539,8 @@
       max-height: 60vh;
       margin: 1vh 0;
       border-radius: 1vh;
-      border: 1px solid lightgray;
     }
-    background-color: #f0f2f5;
+    background-color: #3a3b3c;
     border-radius: 30px;
     padding-left: 3vw;
   }
@@ -1560,6 +1585,7 @@
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-size: 15px;
     outline: 0;
+    color: white;
   }
 
   ul {
@@ -1590,18 +1616,21 @@
   }
 
   span {
-    color: gray;
+    color: lightgray;
     font-size: 14px;
   }
   #button2 {
-    background-color: #063c5e;
-    color: white;
-    border: 0;
+    background-color: #2a2a2a;
+    border: 1px solid black;
     padding: 2vh 5vw;
     border-radius: 100px;
     font-weight: bold;
     font-size: 15px;
     width: 100%;
+  }
+
+  #button2:hover {
+    background-color: black;
   }
 
   #home {
@@ -1646,14 +1675,17 @@
     display: grid;
     padding: 0;
     grid-template-columns: 25% 25% 25% 25%;
-    border: 1px solid lightgray;
-    background-color: white;
-    justify-items: center;
+    border: 1px solid black;
+    background-color: #333333;
     li {
+      text-align: center;
+      width: 25vw;
       i {
         line-height: 10vh;
-        color: #063c5e;
       }
+    }
+    li:hover {
+      background-color: #444444;
     }
 
     position: fixed;
@@ -1663,8 +1695,8 @@
   }
 
   #tweet-button-phone {
-    background-color: #063c5e;
-    border: 1px solid #063c5e;
+    background-color: #2a2a2a;
+    border: 1px solid black;
     color: white;
     position: fixed;
     width: 10vh;
@@ -1672,6 +1704,10 @@
     bottom: 15vh;
     left: 75vw;
     border-radius: 100px;
+  }
+
+  #tweet-button-phone:hover {
+    background-color: black;
   }
 
   #side-nav {
@@ -1685,6 +1721,7 @@
   #main {
     width: 100vw;
     min-height: 100vh;
+    background-color: #2a2a2a;
   }
 
   .main-left {
@@ -1701,9 +1738,9 @@
     font-size: 5vw;
     position: fixed;
     width: 100%;
-    background-color: white;
+    background-color: #2a2a2a;
     z-index: 10;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
 
   #profile-body {
@@ -1717,6 +1754,7 @@
     height: 35vw;
     width: 100%;
     background-color: lightgray;
+    border-bottom: 1px solid black;
   }
 
   #profile-pic {
@@ -1733,7 +1771,7 @@
     display: grid;
     grid-template-columns: auto;
     padding: 2vh 1vw 1vh 1vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     div {
       padding: 1vh 2vw;
       button {
@@ -1749,9 +1787,9 @@
   #search-people-results {
     position: fixed;
     width: 86%;
-    box-shadow: 0 0 5px lightgray;
+    box-shadow: 0 0 5px #333333;
     display: none;
-    background-color: white;
+    background-color: #333333;
     z-index: 10000;
     left: 7%;
     padding: 0;
@@ -1777,7 +1815,7 @@
       }
     }
     li:hover {
-      background-color: rgb(215, 233, 240);
+      background-color: #444444;
     }
   }
 
@@ -1862,13 +1900,17 @@
     display: grid;
     grid-template-columns: 20% 80%;
     padding: 2vh 0.5vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     img {
       width: 11vw;
       height: 11vw;
       border-radius: 100px;
       margin: 0 auto;
     }
+  }
+
+  .user_posts:hover {
+    background-color: #444444;
   }
 
   #post-user-detail {
@@ -1895,7 +1937,7 @@
     position: absolute;
     top: 2.5%;
     left: 0;
-    right: 6%;
+    right: 5%;
     bottom: 2.5%;
     background-color: rgba(19, 17, 17, 0.5);
     h1 {
@@ -1927,6 +1969,7 @@
     width: 50%;
     img {
       width: 90%;
+      border: 0;
     }
   }
   #messages-right {
@@ -1935,13 +1978,13 @@
     p {
       padding: 1vh 5vw;
       font-size: 1.5em;
-      border-bottom: 1px solid lightgray;
+      border-bottom: 1px solid black;
     }
   }
 
   #msg-people-search {
     padding: 1vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     i {
       font-size: 15px;
     }
@@ -1951,7 +1994,7 @@
     display: grid;
     grid-template-columns: 30% 70%;
     padding: 2vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
 
   #msg-profile-pic {
@@ -1962,6 +2005,7 @@
       height: 15vw;
       border-radius: 100px;
       margin: 0 auto;
+      border: 1px solid white;
     }
     span {
       position: absolute;
@@ -1978,18 +2022,19 @@
   #msg-box-profile {
     display: grid;
     grid-template-columns: 30% 70%;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     padding: 2vh 1vw;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 100;
-    background-color: white;
+    background-color: #2a2a2a;
     img {
       width: 15vw;
       height: 15vw;
       border-radius: 100px;
       margin: 0 auto;
+      border: 1px solid white;
     }
   }
 
@@ -2003,7 +2048,7 @@
     height: 70vh;
     bottom: 18vh;
     overflow-y: scroll;
-    background-color: white;
+    background-color: #444444;
     img {
       max-height: 70vh;
       max-width: 70vw;
@@ -2024,7 +2069,7 @@
       max-width: 70vw;
       border-radius: 20px 20px 0 20px;
       padding: 2vh 4vw;
-      background-color: #1da1f2;
+      background-color: #0084ff;
       color: white;
       overflow-wrap: break-word;
       span {
@@ -2035,7 +2080,6 @@
     }
     span {
       align-self: flex-end;
-      color: gray;
       font-size: 10px;
       padding: 0 10px;
     }
@@ -2051,10 +2095,9 @@
       list-style-type: none;
       border-radius: 20px 20px 20px 0;
       padding: 2vh 4vw;
-      background-color: lightgray;
+      background-color: #3a3b3c;
       overflow-wrap: break-word;
       span {
-        color: black;
         text-align: right;
         font-size: 10px;
       }
@@ -2071,13 +2114,13 @@
     bottom: 0;
     z-index: 100;
     width: 100%;
-    background-color: white;
+    background-color: #2a2a2a;
     display: grid;
     grid-template-columns: 10% 10% 10% 70%;
     justify-items: center;
     padding: 1vh 2vw;
     text-align: center;
-    border-top: 1px solid lightgray;
+    border-top: 1px solid black;
     margin: 0;
     i {
       font: 16px;
@@ -2090,6 +2133,7 @@
       border-radius: 100px;
       border: 1px solid lightgray;
       padding: 0.1vh 5vw;
+      color: black;
     }
   }
 
@@ -2107,8 +2151,8 @@
     width: 100%;
     height: 10vh;
     z-index: 2;
-    background-color: white;
-    border-bottom: 1px solid lightgray;
+    background-color: #2a2a2a;
+    border-bottom: 1px solid black;
     display: grid;
     grid-template-columns: 20% 70%;
     padding: 2vh 2vw;
@@ -2122,6 +2166,7 @@
       height: 10vw;
       border-radius: 100px;
       margin: 0 auto;
+      border: 1px solid white;
     }
   }
 
@@ -2133,8 +2178,8 @@
     top: 0;
     padding: 1vh 2vw;
     width: 100%;
-    border-bottom: 1px solid lightgray;
-    background-color: white;
+    border-bottom: 1px solid black;
+    background-color: #2a2a2a;
     z-index: 10;
     h3 {
       padding-left: 4vw;
@@ -2153,6 +2198,7 @@
       height: 15vw;
       border-radius: 100px;
       margin: 0 auto;
+      border: 1px solid white;
     }
   }
 
@@ -2182,15 +2228,15 @@
   }
 
   #single-post-likeshare {
-    border-top: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     padding: 2vh 2vw;
   }
 
   #likesharecomment {
     display: grid;
     grid-template-columns: 30% 30% 40%;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     justify-items: center;
     padding: 1vh 0;
     color: gray;
@@ -2202,7 +2248,7 @@
 
   #notific-head {
     padding: 2vh 4vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     h3 {
       margin: 0;
       font-size: large;
@@ -2214,7 +2260,7 @@
     display: grid;
     grid-template-columns: 20% 80%;
     padding: 2vh 1vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     line-height: 7vw;
     img {
       width: 15vw;
@@ -2233,9 +2279,8 @@
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: white;
     z-index: 1000;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
 
   .explore-left {
@@ -2258,8 +2303,7 @@
     }
   }
   #explore-tabs div:hover {
-    background-color: rgb(237, 241, 243);
-    color: rgb(24, 94, 122);
+    background-color: #444444;
   }
 
   #explore-posts {
@@ -2313,9 +2357,8 @@
       max-height: 60vh;
       margin: 1vh 0;
       border-radius: 1vh;
-      border: 1px solid lightgray;
     }
-    background-color: #f0f2f5;
+    background-color: #444444;
     border-radius: 30px;
     padding-left: 6vw;
   }

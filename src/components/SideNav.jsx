@@ -117,31 +117,31 @@ function SideNav(props) {
       <ul id="side-nav-tablet">
         <Link to="/user/">
           <li>
-            <h2>InstaChat</h2>
+            <h2>IChat</h2>
           </li>
         </Link>
         <Link to="/user/">
-          <li>
+          <li id="navHomeTablet" onClick={colorNavTab}>
             <i className="material-icons">store</i>
           </li>
         </Link>
         <Link to="/user/explore">
-          <li>
+          <li id="navExploreTablet" onClick={colorNavTab}>
             <i className="material-icons">explore</i>
           </li>
         </Link>
         <Link to="/user/notifications">
-          <li>
+          <li id="navNotificTablet" onClick={colorNavTab}>
             <i className="material-icons">notifications</i>
           </li>
         </Link>
         <Link to="/user/messages">
-          <li>
+          <li id="navMsgTablet" onClick={colorNavTab}>
             <i className="material-icons">message</i>
           </li>
         </Link>
         <Link to={"/user/profile/" + localStorage.getItem("username")}>
-          <li>
+          <li id="navProfileTablet" onClick={colorNavTab}>
             <i className="material-icons">account_circle</i>
           </li>
         </Link>
@@ -161,9 +161,10 @@ function SideNav(props) {
         ShowCreatePost={ctx.showCreatePost}
       />
       <Toast
-        show={false}
+        show={true}
         id="notific-alert"
         style={{
+          display: "none",
           position: "fixed",
           bottom: "5vh",
           left: "2vw",

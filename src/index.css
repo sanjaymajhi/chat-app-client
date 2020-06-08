@@ -362,10 +362,10 @@
   }
   #overlayOnImage {
     position: absolute;
-    top: 2.5%;
+    top: 2%;
     left: 0;
-    right: 6%;
-    bottom: 2.5%;
+    right: 5%;
+    bottom: 2%;
     background-color: rgba(19, 17, 17, 0.5);
   }
   #overlayOnImage h1 {
@@ -822,6 +822,7 @@
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     outline: 0;
+    color: white;
   }
   ul {
     list-style-type: none;
@@ -830,7 +831,7 @@
     vertical-align: middle;
   }
   span {
-    color: gray;
+    color: lightgray;
   }
   #dot {
     height: 2vw;
@@ -849,14 +850,16 @@
     height: 40vh;
   }
   #button3, #home div button, #profile-div button {
-    background-color: #063c5e;
-    color: white;
-    border: 0;
+    background-color: #2a2a2a;
+    border: 1px solid black;
     padding: 2vh 2vw;
     border-radius: 100px;
     font-weight: bold;
     font-size: small;
     width: 100%;
+  }
+  #button3:hover, #home div button:hover, #profile-div button:hover {
+    background-color: black;
   }
   #overlay-pics {
     position: fixed;
@@ -939,29 +942,36 @@
     position: fixed;
     height: 100vh;
     padding: 0;
-    border-right: 1px solid lightgray;
+    border-right: 1px solid black;
     width: 23%;
+    background-color: #2a2a2a;
   }
   #side-nav-tablet li {
     padding: 3vh 2vw;
     font-weight: bold;
     font-size: large;
-    color: black;
     text-align: center;
     width: 100%;
+    background-color: #333333;
+    margin: 1vh 0;
   }
   #side-nav-tablet li i {
     font-weight: bold;
     font-size: xx-large;
     vertical-align: middle;
   }
+  #side-nav-tablet li:hover {
+    background-color: #444444;
+  }
+  #side-nav-tablet button:hover {
+    background-color: black;
+  }
   #side-nav-phone {
     display: none;
   }
   #tweet-button-tablet {
-    background-color: #063c5e;
-    border: 1px solid #063c5e;
-    color: white;
+    background-color: #2a2a2a;
+    border: 1px solid black;
     width: 10vw;
     height: 10vw;
     border-radius: 100px;
@@ -979,19 +989,22 @@
     top: 0;
     left: 23%;
     width: 77%;
+    background-color: #2a2a2a;
   }
   .main-left {
     min-height: 100vh;
-    border-right: 1px solid #2a2a2a;
+    border-right: 1px solid black;
   }
   #profile-head {
     padding: 1vh 1vw;
     font-size: 1.5vw;
+    border: 1px solid black;
   }
   #cover-image {
     height: 15vw;
     width: 100%;
-    background-color: lightgray;
+    background-color: gray;
+    border-bottom: 1px solid black;
   }
   #profile-pic {
     width: 10vw;
@@ -1008,7 +1021,7 @@
     -ms-grid-columns: auto;
         grid-template-columns: auto;
     padding: 2vh 1vw 1vh 1vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #profile-div div {
     padding: 1vh 0;
@@ -1019,10 +1032,10 @@
   #search-people-results {
     position: fixed;
     width: 50.5%;
-    -webkit-box-shadow: 0 0 5px lightgray;
-            box-shadow: 0 0 5px lightgray;
+    -webkit-box-shadow: 0 0 5px #2a2a2a;
+            box-shadow: 0 0 5px #2a2a2a;
     display: none;
-    background-color: white;
+    background-color: #333333;
     z-index: 10000;
     left: 31%;
     padding: 0;
@@ -1048,7 +1061,7 @@
     border-radius: 100px;
   }
   #search-people-results li:hover {
-    background-color: #d7e9f0;
+    background-color: #444444;
   }
   #post-profile-div img {
     width: 50px;
@@ -1065,6 +1078,10 @@
     -ms-grid-columns: 70% 10% 10% 10%;
         grid-template-columns: 70% 10% 10% 10%;
     justify-items: center;
+  }
+  #post-footer button {
+    background-color: #2a2a2a;
+    border: 1px solid black;
   }
   #post-gif-select,
   #post-emoji-select {
@@ -1117,13 +1134,16 @@
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
     padding: 2vh 0.5vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   .user_posts img, #comments img {
     width: 7vw;
     height: 7vw;
     border-radius: 100px;
     margin: 0 auto;
+  }
+  .user_posts:hover, #comments:hover {
+    background-color: #444444;
   }
   #post_detail, #comment_detail {
     padding: 1.5vh 0 0 0.5vw;
@@ -1139,10 +1159,10 @@
   }
   #overlayOnImage {
     position: absolute;
-    top: 2.5%;
+    top: 2%;
     left: 0;
-    right: 6%;
-    bottom: 2.5%;
+    right: 5%;
+    bottom: 2%;
     background-color: rgba(19, 17, 17, 0.5);
   }
   #overlayOnImage h1 {
@@ -1171,6 +1191,9 @@
     width: 50%;
     height: 100%;
   }
+  #comment-gif-div img {
+    border: 0;
+  }
   #messages-right {
     min-height: 100vh;
     height: 100%;
@@ -1179,11 +1202,11 @@
   #messages-right p {
     padding: 1vh 1vw;
     font-size: 1.5em;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #msg-people-search {
     padding: 1vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #msg-profile-div {
     display: -ms-grid;
@@ -1191,7 +1214,7 @@
     -ms-grid-columns: 20% 80%;
         grid-template-columns: 20% 80%;
     padding: 2vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #msg-profile-pic {
     position: relative;
@@ -1202,6 +1225,7 @@
     height: 7vw;
     border-radius: 100px;
     margin: 0 auto;
+    border: 1px solid white;
   }
   #msg-profile-pic span {
     position: absolute;
@@ -1221,7 +1245,7 @@
     display: grid;
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     padding: 2vh 1vw;
   }
   #msg-box-profile img {
@@ -1229,6 +1253,7 @@
     height: 4vw;
     border-radius: 100px;
     margin: 0 auto;
+    border: 1px solid white;
   }
   #msg-box-msgs {
     height: 79vh;
@@ -1262,11 +1287,11 @@
     border-radius: 20px 20px 0 20px;
   }
   .right li {
+    list-style-type: none;
     max-width: 25vw;
     border-radius: 20px 20px 0 20px;
     padding: 1vh 1vw;
-    background-color: #1da1f2;
-    color: white;
+    background-color: #0084ff;
     overflow-wrap: break-word;
   }
   .right li span {
@@ -1295,11 +1320,10 @@
     list-style-type: none;
     border-radius: 20px 20px 20px 0;
     padding: 1vh 1vw;
-    background-color: lightgray;
+    background-color: #3a3b3c;
     overflow-wrap: break-word;
   }
   .left li span {
-    color: black;
     text-align: right;
     font-size: 10px;
   }
@@ -1316,12 +1340,13 @@
         grid-template-columns: 10% 10% 10% 70%;
     padding: 1vh 1vw;
     text-align: center;
-    border-top: 1px solid lightgray;
+    border-top: 1px solid black;
   }
   #msg-box-bottom-div input {
     border-radius: 1vw;
     border: 1px solid lightgray;
     padding: 0.5vh 1vw;
+    color: black;
   }
   #gif-modal {
     height: 60vh;
@@ -1332,9 +1357,9 @@
     position: fixed;
     padding: 2vh 2vw;
     top: 0;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     z-index: 1000;
-    background-color: white;
+    background-color: #333333;
   }
   #home-div-posts {
     margin-top: 10vh;
@@ -1351,13 +1376,14 @@
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
     padding: 2vh 1vw;
-    border-top: 1px solid lightgray;
+    border-top: 1px solid black;
   }
   #single-post-div img {
     width: 7vw;
     height: 7vw;
     border-radius: 100px;
     margin: 0 auto;
+    border: 1px solid white;
   }
   #single-post-detail {
     padding: 1vh 2vw;
@@ -1379,7 +1405,7 @@
     height: auto;
     max-height: 70vh;
     border-radius: 1vh;
-    border: 1px solid lightgray;
+    border: 1px solid white;
   }
   #single-post-date {
     padding: 1vh 2vw;
@@ -1388,8 +1414,8 @@
     font: 12px;
   }
   #single-post-likeshare {
-    border-top: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     padding: 2vh 2vw;
   }
   #likesharecomment {
@@ -1397,7 +1423,7 @@
     display: grid;
     -ms-grid-columns: 34% 33% 33%;
         grid-template-columns: 34% 33% 33%;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     padding: 2vh 0;
   }
   #likesharecomment span {
@@ -1407,9 +1433,8 @@
     position: fixed;
     top: 0;
     width: 61%;
-    background-color: white;
     z-index: 1000;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   .explore-left form {
     padding: 2vh 2vw 0.5vh 2vw;
@@ -1426,8 +1451,7 @@
     padding: 2vh 1vw;
   }
   #explore-tabs div:hover {
-    background-color: #edf1f3;
-    color: #185e7a;
+    background-color: #444444;
   }
   #explore-posts {
     margin-top: 18vh;
@@ -1438,7 +1462,7 @@
   }
   #notific-head {
     padding: 2vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #notific {
     display: -ms-grid;
@@ -1446,7 +1470,7 @@
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
     padding: 2vh 1vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     line-height: 3vw;
   }
   #notific img {
@@ -1483,7 +1507,7 @@
   #comment_detail {
     padding: 1.5vh 0 0 2vw;
     overflow-wrap: break-word;
-    background-color: #f0f2f5;
+    background-color: #3a3b3c;
     border-radius: 30px;
     padding-left: 3vw;
   }
@@ -1493,7 +1517,6 @@
     max-height: 60vh;
     margin: 1vh 0;
     border-radius: 1vh;
-    border: 1px solid lightgray;
   }
   #overlayOnCmtImage {
     position: absolute;
@@ -1538,6 +1561,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-size: 15px;
     outline: 0;
+    color: white;
   }
   ul {
     list-style-type: none;
@@ -1563,18 +1587,20 @@
     height: 30vh;
   }
   span {
-    color: gray;
+    color: lightgray;
     font-size: 14px;
   }
   #button2, #home div button, #profile-div div button {
-    background-color: #063c5e;
-    color: white;
-    border: 0;
+    background-color: #2a2a2a;
+    border: 1px solid black;
     padding: 2vh 5vw;
     border-radius: 100px;
     font-weight: bold;
     font-size: 15px;
     width: 100%;
+  }
+  #button2:hover, #home div button:hover, #profile-div div button:hover {
+    background-color: black;
   }
   #home {
     -webkit-animation: shine 7s infinite;
@@ -1631,21 +1657,26 @@
     padding: 0;
     -ms-grid-columns: 25% 25% 25% 25%;
         grid-template-columns: 25% 25% 25% 25%;
-    border: 1px solid lightgray;
-    background-color: white;
-    justify-items: center;
+    border: 1px solid black;
+    background-color: #333333;
     position: fixed;
     bottom: 0;
     margin: 0;
     z-index: 10;
   }
+  #side-nav-phone li {
+    text-align: center;
+    width: 25vw;
+  }
   #side-nav-phone li i {
     line-height: 10vh;
-    color: #063c5e;
+  }
+  #side-nav-phone li:hover {
+    background-color: #444444;
   }
   #tweet-button-phone {
-    background-color: #063c5e;
-    border: 1px solid #063c5e;
+    background-color: #2a2a2a;
+    border: 1px solid black;
     color: white;
     position: fixed;
     width: 10vh;
@@ -1653,6 +1684,9 @@
     bottom: 15vh;
     left: 75vw;
     border-radius: 100px;
+  }
+  #tweet-button-phone:hover {
+    background-color: black;
   }
   #side-nav {
     display: none;
@@ -1663,6 +1697,7 @@
   #main {
     width: 100vw;
     min-height: 100vh;
+    background-color: #2a2a2a;
   }
   .main-left {
     width: 100vw;
@@ -1678,9 +1713,9 @@
     font-size: 5vw;
     position: fixed;
     width: 100%;
-    background-color: white;
+    background-color: #2a2a2a;
     z-index: 10;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #profile-body {
     position: fixed;
@@ -1692,6 +1727,7 @@
     height: 35vw;
     width: 100%;
     background-color: lightgray;
+    border-bottom: 1px solid black;
   }
   #profile-pic {
     width: 25vw;
@@ -1708,7 +1744,7 @@
     -ms-grid-columns: auto;
         grid-template-columns: auto;
     padding: 2vh 1vw 1vh 1vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #profile-div div {
     padding: 1vh 2vw;
@@ -1719,10 +1755,10 @@
   #search-people-results {
     position: fixed;
     width: 86%;
-    -webkit-box-shadow: 0 0 5px lightgray;
-            box-shadow: 0 0 5px lightgray;
+    -webkit-box-shadow: 0 0 5px #333333;
+            box-shadow: 0 0 5px #333333;
     display: none;
-    background-color: white;
+    background-color: #333333;
     z-index: 10000;
     left: 7%;
     padding: 0;
@@ -1751,7 +1787,7 @@
     border: 1px solid lightgray;
   }
   #search-people-results li:hover {
-    background-color: #d7e9f0;
+    background-color: #444444;
   }
   #post-profile-div img {
     width: 50px;
@@ -1831,13 +1867,16 @@
     -ms-grid-columns: 20% 80%;
         grid-template-columns: 20% 80%;
     padding: 2vh 0.5vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   .user_posts img, #comments img {
     width: 11vw;
     height: 11vw;
     border-radius: 100px;
     margin: 0 auto;
+  }
+  .user_posts:hover, #comments:hover {
+    background-color: #444444;
   }
   #post-user-detail {
     padding-bottom: 1vh;
@@ -1861,7 +1900,7 @@
     position: absolute;
     top: 2.5%;
     left: 0;
-    right: 6%;
+    right: 5%;
     bottom: 2.5%;
     background-color: rgba(19, 17, 17, 0.5);
   }
@@ -1893,6 +1932,7 @@
   }
   #comment-gif-div img {
     width: 90%;
+    border: 0;
   }
   #messages-right {
     height: 90vh;
@@ -1901,11 +1941,11 @@
   #messages-right p {
     padding: 1vh 5vw;
     font-size: 1.5em;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #msg-people-search {
     padding: 1vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #msg-people-search i {
     font-size: 15px;
@@ -1916,7 +1956,7 @@
     -ms-grid-columns: 30% 70%;
         grid-template-columns: 30% 70%;
     padding: 2vh 2vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #msg-profile-pic {
     position: relative;
@@ -1927,6 +1967,7 @@
     height: 15vw;
     border-radius: 100px;
     margin: 0 auto;
+    border: 1px solid white;
   }
   #msg-profile-pic span {
     position: absolute;
@@ -1942,19 +1983,20 @@
     display: grid;
     -ms-grid-columns: 30% 70%;
         grid-template-columns: 30% 70%;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     padding: 2vh 1vw;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 100;
-    background-color: white;
+    background-color: #2a2a2a;
   }
   #msg-box-profile img {
     width: 15vw;
     height: 15vw;
     border-radius: 100px;
     margin: 0 auto;
+    border: 1px solid white;
   }
   #msg-box-msgs {
     display: -webkit-box;
@@ -1971,7 +2013,7 @@
     height: 70vh;
     bottom: 18vh;
     overflow-y: scroll;
-    background-color: white;
+    background-color: #444444;
   }
   #msg-box-msgs img {
     max-height: 70vh;
@@ -1997,7 +2039,7 @@
     max-width: 70vw;
     border-radius: 20px 20px 0 20px;
     padding: 2vh 4vw;
-    background-color: #1da1f2;
+    background-color: #0084ff;
     color: white;
     overflow-wrap: break-word;
   }
@@ -2009,7 +2051,6 @@
   .right span {
     -ms-flex-item-align: end;
         align-self: flex-end;
-    color: gray;
     font-size: 10px;
     padding: 0 10px;
   }
@@ -2027,11 +2068,10 @@
     list-style-type: none;
     border-radius: 20px 20px 20px 0;
     padding: 2vh 4vw;
-    background-color: lightgray;
+    background-color: #3a3b3c;
     overflow-wrap: break-word;
   }
   .left li span {
-    color: black;
     text-align: right;
     font-size: 10px;
   }
@@ -2046,7 +2086,7 @@
     bottom: 0;
     z-index: 100;
     width: 100%;
-    background-color: white;
+    background-color: #2a2a2a;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 10% 10% 10% 70%;
@@ -2054,7 +2094,7 @@
     justify-items: center;
     padding: 1vh 2vw;
     text-align: center;
-    border-top: 1px solid lightgray;
+    border-top: 1px solid black;
     margin: 0;
   }
   #msg-box-bottom-div i {
@@ -2068,6 +2108,7 @@
     border-radius: 100px;
     border: 1px solid lightgray;
     padding: 0.1vh 5vw;
+    color: black;
   }
   #gif-modal {
     height: 60vh;
@@ -2081,8 +2122,8 @@
     width: 100%;
     height: 10vh;
     z-index: 2;
-    background-color: white;
-    border-bottom: 1px solid lightgray;
+    background-color: #2a2a2a;
+    border-bottom: 1px solid black;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 20% 70%;
@@ -2099,6 +2140,7 @@
     height: 10vw;
     border-radius: 100px;
     margin: 0 auto;
+    border: 1px solid white;
   }
   #home-div-posts {
     margin-top: 10vh;
@@ -2108,8 +2150,8 @@
     top: 0;
     padding: 1vh 2vw;
     width: 100%;
-    border-bottom: 1px solid lightgray;
-    background-color: white;
+    border-bottom: 1px solid black;
+    background-color: #2a2a2a;
     z-index: 10;
   }
   #single-post-head h3 {
@@ -2129,6 +2171,7 @@
     height: 15vw;
     border-radius: 100px;
     margin: 0 auto;
+    border: 1px solid white;
   }
   #single-post-text {
     font-size: 14px;
@@ -2155,8 +2198,8 @@
     font: 12px;
   }
   #single-post-likeshare {
-    border-top: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     padding: 2vh 2vw;
   }
   #likesharecomment {
@@ -2164,7 +2207,7 @@
     display: grid;
     -ms-grid-columns: 30% 30% 40%;
         grid-template-columns: 30% 30% 40%;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     justify-items: center;
     padding: 1vh 0;
     color: gray;
@@ -2175,7 +2218,7 @@
   }
   #notific-head {
     padding: 2vh 4vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   #notific-head h3 {
     margin: 0;
@@ -2188,7 +2231,7 @@
     -ms-grid-columns: 20% 80%;
         grid-template-columns: 20% 80%;
     padding: 2vh 1vw;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
     line-height: 7vw;
   }
   #notific img {
@@ -2205,9 +2248,8 @@
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: white;
     z-index: 1000;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid black;
   }
   .explore-left form {
     margin: 0 auto;
@@ -2229,8 +2271,7 @@
     padding: 2vh 1vw;
   }
   #explore-tabs div:hover {
-    background-color: #edf1f3;
-    color: #185e7a;
+    background-color: #444444;
   }
   #explore-posts {
     margin-top: 20vh;
@@ -2276,7 +2317,7 @@
   #comment_detail {
     padding: 1.5vh 0 0 2vw;
     overflow-wrap: break-word;
-    background-color: #f0f2f5;
+    background-color: #444444;
     border-radius: 30px;
     padding-left: 6vw;
   }
@@ -2286,7 +2327,6 @@
     max-height: 60vh;
     margin: 1vh 0;
     border-radius: 1vh;
-    border: 1px solid lightgray;
   }
   #overlayOnCmtImage {
     position: absolute;

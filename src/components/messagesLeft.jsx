@@ -329,10 +329,16 @@ function MessagesLeft(props) {
         size="md"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header
+          closeButton
+          style={{
+            backgroundColor: "#2a2a2a",
+            borderBottom: "1px solid black",
+          }}
+        >
           <Modal.Title>Select Gif</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ backgroundColor: "#2a2a2a" }}>
           <div id="gif-modal">
             <Grid
               fetchGifs={fetchEmojis}
