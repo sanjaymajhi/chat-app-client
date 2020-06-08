@@ -81,13 +81,23 @@ function MessagesRight() {
         <div id="msg-people-search">
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
-              <InputGroup.Text>
+              <InputGroup.Text
+                style={{
+                  backgroundColor: "#333333",
+                  border: "1px solid black",
+                }}
+              >
                 <i className="material-icons">&#xe8b6;</i>
               </InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
               placeholder="Search your Friends"
               onChange={handleChange}
+              style={{
+                backgroundColor: "#444444",
+                border: "1px solid black",
+                color: "white",
+              }}
             />
           </InputGroup>
         </div>

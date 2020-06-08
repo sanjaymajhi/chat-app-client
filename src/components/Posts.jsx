@@ -121,8 +121,8 @@ function Posts(props) {
                       style={{
                         color:
                           post.likes.indexOf(localStorage.getItem("id")) === -1
-                            ? "gray"
-                            : "blue",
+                            ? "lightgray"
+                            : "skyblue",
                       }}
                     >
                       thumb_up
@@ -138,8 +138,8 @@ function Posts(props) {
                       style={{
                         color:
                           post.shares.indexOf(localStorage.getItem("id")) === -1
-                            ? "gray"
-                            : "blue",
+                            ? "lightgray"
+                            : "skyblue",
                       }}
                     >
                       {" "}

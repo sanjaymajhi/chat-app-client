@@ -4,6 +4,8 @@ const Context = React.createContext();
 
 function reducer(state, action) {
   switch (action.type) {
+    case "setSideNavTab":
+      return { ...state, sideNavTab: action.payload };
     case "setHomePosts":
       return { ...state, homePosts: action.payload };
     case "setShowCreateComment":
@@ -97,6 +99,7 @@ const initialState = {
     method: "native",
     imageUri: "",
   },
+  sideNavTab: "navHome",
   homePosts: [],
   ShowCreateComment: false,
   formDataForComments: {

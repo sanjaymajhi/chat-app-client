@@ -167,13 +167,23 @@ function CreateComment(props) {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header
+          closeButton
+          style={{
+            backgroundColor: "#333333",
+            borderBottom: "1px solid black",
+          }}
+        >
           <Modal.Title>
             {props.type === "post" ? "Write a Comment" : "Write Your Reply"}
           </Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
+        <Modal.Body
+          style={{
+            backgroundColor: "#333333",
+          }}
+        >
           <Alert
             variant={"danger"}
             style={{ display: "none" }}
@@ -181,7 +191,11 @@ function CreateComment(props) {
           ></Alert>
 
           <div id="post-profile-div">
-            <img src={localStorage.getItem("imageUri")} alt="profile" />
+            <img
+              src={localStorage.getItem("imageUri")}
+              alt="profile"
+              style={{ border: "1px solid white" }}
+            />
             &emsp;
             <span>
               <strong>
@@ -205,7 +219,7 @@ function CreateComment(props) {
                 }
                 id="text"
                 name="text"
-                style={{ resize: "none" }}
+                style={{ resize: "none", color: "white" }}
               />
             </FormGroup>
 
@@ -274,7 +288,7 @@ function CreateComment(props) {
             </div>
 
             <Button
-              variant="primary"
+              variant="secondary"
               type="submit"
               id="post-button"
               style={{ width: "100%" }}
@@ -295,7 +309,13 @@ function CreateComment(props) {
           </Form>
         </Modal.Body>
 
-        <Modal.Footer id="post-footer">
+        <Modal.Footer
+          id="post-footer"
+          style={{
+            backgroundColor: "#333333",
+            borderTop: "1px solid black",
+          }}
+        >
           <strong style={{ justifySelf: "left" }}>
             Add to your {props.type === "post" ? "Comment" : "Reply"}
           </strong>

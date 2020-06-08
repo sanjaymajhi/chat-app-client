@@ -169,8 +169,8 @@ function Post(props) {
                     ctx.postDetails.likes.indexOf(
                       localStorage.getItem("id")
                     ) === -1
-                      ? "gray"
-                      : "blue",
+                      ? "lightgray"
+                      : "skyblue",
                 }}
               >
                 thumb_up
@@ -188,8 +188,8 @@ function Post(props) {
                     ctx.postDetails.shares.indexOf(
                       localStorage.getItem("id")
                     ) === -1
-                      ? "gray"
-                      : "blue",
+                      ? "lightgray"
+                      : "skyblue",
                 }}
               >
                 {" "}

@@ -46,6 +46,12 @@ function SideNav(props) {
     get_notifications(0, setNotifics);
   }, []);
 
+  const colorNavTab = (e) => {
+    document.getElementById(ctx.sideNavTab).style.borderLeft = "";
+    e.target.style.borderLeft = "1vw solid #5cb85b";
+    ctx.dispatch({ type: "setSideNavTab", payload: e.target.id });
+  };
+
   return (
     <div>
       <ul id="side-nav-phone">
@@ -81,27 +87,27 @@ function SideNav(props) {
           </li>
         </Link>
         <Link to="/user/">
-          <li>
+          <li id="navHome" onClick={colorNavTab}>
             <i className="material-icons">store</i>&emsp;Home
           </li>
         </Link>
         <Link to="/user/explore">
-          <li>
+          <li id="navExplore" onClick={colorNavTab}>
             <i className="material-icons">explore</i>&emsp;Explore
           </li>
         </Link>
         <Link to="/user/notifications">
-          <li>
+          <li id="navNotific" onClick={colorNavTab}>
             <i className="material-icons">notifications</i>&emsp;Notifications
           </li>
         </Link>
         <Link to="/user/messages">
-          <li>
+          <li id="navMsg" onClick={colorNavTab}>
             <i className="material-icons">message</i>&emsp;Messages
           </li>
         </Link>
         <Link to={"/user/profile/" + localStorage.getItem("username")}>
-          <li>
+          <li id="navProfile" onClick={colorNavTab}>
             <i className="material-icons">account_circle</i>&emsp;Profile
           </li>
         </Link>

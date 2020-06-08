@@ -92,7 +92,13 @@ function ExploreLeft(props) {
         <form onChange={searchPeople}>
           <InputGroup className="mb-1">
             <InputGroup.Prepend>
-              <InputGroup.Text>
+              <InputGroup.Text
+                style={{
+                  backgroundColor: "#444444",
+                  color: "white",
+                  border: "1px solid black",
+                }}
+              >
                 <i className="material-icons">&#xe8b6;</i>
               </InputGroup.Text>
             </InputGroup.Prepend>
@@ -100,6 +106,11 @@ function ExploreLeft(props) {
               placeholder="Search your Friends"
               name="search"
               id="search-people"
+              style={{
+                backgroundColor: "#444444",
+                color: "white",
+                border: "1px solid black",
+              }}
             />
           </InputGroup>
           <ul id="search-people-results">
@@ -122,7 +133,7 @@ function ExploreLeft(props) {
             id="posts"
             onClick={() => ctx.dispatch({ type: "setTab", payload: "posts" })}
             style={
-              ctx.tab === "posts" ? { borderBottom: "1px solid blue" } : {}
+              ctx.tab === "posts" ? { borderBottom: "1vh solid #5cb85b" } : {}
             }
           >
             Posts
@@ -131,7 +142,7 @@ function ExploreLeft(props) {
             id="videos"
             onClick={() => ctx.dispatch({ type: "setTab", payload: "videos" })}
             style={
-              ctx.tab === "videos" ? { borderBottom: "1px solid blue" } : {}
+              ctx.tab === "videos" ? { borderBottom: "1vh solid #5cb85b" } : {}
             }
           >
             Videos
@@ -147,7 +158,7 @@ function ExploreLeft(props) {
       </div>
       {isFetching === true && (
         <div style={{ width: "20%", margin: "2vh auto" }}>
-          <Spinner animation="border" variant="primary" size="md" />
+          <Spinner animation="border" variant="light" size="md" />
         </div>
       )}
     </div>
