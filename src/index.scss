@@ -1835,6 +1835,9 @@
     display: grid;
     grid-template-columns: 49% 17% 17% 17%;
     justify-items: center;
+    button {
+      background-color: #333333;
+    }
   }
 
   #post-gif-select,
@@ -2281,6 +2284,7 @@
     width: 100%;
     z-index: 1000;
     border-bottom: 1px solid black;
+    background-color: #333333;
   }
 
   .explore-left {
