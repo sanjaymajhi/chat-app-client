@@ -3,8 +3,10 @@
   * {
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     outline: 0;
     color: white;
+    scrollbar-color: #444444 #333333;
   }
   ul {
     list-style-type: none;
@@ -32,12 +34,11 @@
     height: 40vh;
   }
   #button, #home div button, #side-nav button, #suggess-profile-pic button {
-    background-color: #2a2a2a;
+    background-color: #333333;
     color: white;
     border: 0;
     padding: 3vh 3vw;
     border-radius: 100px;
-    border: 1px solid black;
     font-weight: bold;
     font-size: large;
     width: 100%;
@@ -70,8 +71,7 @@
     color: white;
   }
   #home {
-    -webkit-animation: shine 7s infinite;
-            animation: shine 7s infinite;
+    background-color: #0a0c11;
     padding: 35vh 30vw;
     height: 100vh;
     display: -ms-grid;
@@ -91,28 +91,6 @@
     margin: 1vh;
     width: 40%;
   }
-  @-webkit-keyframes shine {
-    0% {
-      background-color: #0a0c11;
-    }
-    50% {
-      background-color: #192331;
-    }
-    100% {
-      background-color: #0a0c11;
-    }
-  }
-  @keyframes shine {
-    0% {
-      background-color: #0a0c11;
-    }
-    50% {
-      background-color: #192331;
-    }
-    100% {
-      background-color: #0a0c11;
-    }
-  }
   #user {
     display: -ms-grid;
     display: grid;
@@ -123,13 +101,13 @@
     position: fixed;
     height: 100vh;
     padding: 0;
-    border-right: 1px solid black;
     width: 23%;
     background-color: #2a2a2a;
   }
   #side-nav li {
     padding: 3vh 4vw;
-    margin: 1vh 0;
+    margin: 2vh 1vw;
+    border-radius: 20px;
     font-weight: bold;
     font-size: large;
     color: white;
@@ -175,14 +153,19 @@
   }
   #profile-head {
     padding: 1vh 1vw;
-    font-size: 1vw;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #242323;
+    background-color: #333333;
+    position: fixed;
+    top: 0;
+    width: 42%;
+    margin: 0 1vw;
+    z-index: 10000;
   }
   #cover-image {
     height: 15vw;
-    width: 100%;
+    width: 95.5%;
+    margin: 10vh 1vw 0 1vw;
     background-color: #444444;
-    border-bottom: 1px solid black;
   }
   #profile-pic {
     width: 10vw;
@@ -190,7 +173,7 @@
     border-radius: 100px;
     border: 4px solid white;
     position: absolute;
-    top: 13vw;
+    top: 15vw;
     left: 2vw;
   }
   #profile-div {
@@ -199,17 +182,20 @@
     -ms-grid-columns: auto;
         grid-template-columns: auto;
     padding: 2vh 1vw 1vh 1vw;
-    border-bottom: 1px solid black;
+    margin: 0 1vw;
+    background-color: #333333;
   }
   #profile-div div {
     padding: 1vh 0;
+  }
+  #profile-div div button {
+    background-color: #2a2a2a;
   }
   .main-right {
     position: fixed;
     right: 0;
     height: 100vh;
     width: 33%;
-    border-left: 1px solid black;
     background-color: #2a2a2a;
   }
   .profile-side-bar {
@@ -273,6 +259,7 @@
   #post-emoji-select {
     display: none;
     overflow: auto;
+    scrollbar-color: #444444 #333333;
     height: 30vh;
     grid-column: span 5;
   }
@@ -288,6 +275,7 @@
   #post-img-div div {
     height: 30vh;
     overflow: auto;
+    scrollbar-color: #444444 #333333;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: auto auto;
@@ -331,8 +319,9 @@
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
     padding: 2vh 0.5vw;
-    border-bottom: 1px solid black;
-    background-color: #2a2a2a;
+    background-color: #333333;
+    border-radius: 20px;
+    margin: 2vh 1vw;
   }
   .user_posts img, #comments img {
     width: 4vw;
@@ -399,16 +388,20 @@
   #messages-right {
     height: 100vh;
     overflow-y: auto;
+    scrollbar-color: #444444 #333333;
   }
   #messages-right p {
     padding: 1vh 1vw;
     font-size: 1.5em;
-    margin: 0;
-    border: 1px solid black;
+    margin: 0 1vw;
+    border-bottom: 1px solid #222222;
+    background-color: #333333;
   }
   #msg-people-search {
+    margin: 0 1vw;
     padding: 3vh 2vw 1vh 2vw;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #222222;
+    background-color: #333333;
   }
   #msg-profile-div {
     display: -ms-grid;
@@ -416,8 +409,9 @@
     -ms-grid-columns: 20% 80%;
         grid-template-columns: 20% 80%;
     padding: 2vh 2vw;
-    margin: 0 0 1vh 0;
+    margin: 2vh 1vw 1vh 1vw;
     background-color: #333333;
+    border-radius: 20px;
   }
   #msg-profile-div:hover {
     background-color: #444444;
@@ -439,18 +433,20 @@
   }
   #msg-not-selected {
     margin-top: 40vh;
-    height: 100vh;
+    height: 60vh;
     text-align: center;
   }
   #msg-box {
-    height: 100vh;
+    height: 96vh;
+    margin: 2vh 1vw;
+    background-color: #333333;
+    border-radius: 20px;
   }
   #msg-box-profile {
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
-    border-bottom: 1px solid black;
     padding: 2vh 1vw;
   }
   #msg-box-profile img {
@@ -461,7 +457,7 @@
     border: 1px solid white;
   }
   #msg-box-msgs {
-    height: 79vh;
+    height: 75vh;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -470,6 +466,7 @@
         -ms-flex-direction: column;
             flex-direction: column;
     overflow-y: scroll;
+    scrollbar-color: #444444 #333333;
     padding: 1vh 1vw;
     background-color: #242526;
   }
@@ -548,7 +545,6 @@
         grid-template-columns: 10% 10% 10% 70%;
     padding: 1vh 1vw;
     text-align: center;
-    border-top: 1px solid black;
   }
   #msg-box-bottom-div input {
     border-radius: 1vw;
@@ -559,18 +555,20 @@
   #gif-modal {
     height: 60vh;
     overflow: auto;
+    scrollbar-color: #444444 #333333;
   }
   #home-posts h2 {
-    width: 44%;
+    width: 42%;
     position: fixed;
     padding: 2vh 2vw;
     top: 0;
     z-index: 10;
     background-color: #333333;
-    border-bottom: 1px solid black;
+    border: 1px solid #242323;
+    margin: 0 1vw;
   }
   #home-div-posts {
-    margin-top: 10vh;
+    margin-top: 12vh;
   }
   #home-div-posts h2 {
     text-align: center;
@@ -590,13 +588,18 @@
     border-bottom: 1px solid black;
     background-color: #333333;
     z-index: 10;
+    margin: 0 1vw;
+    width: 41vw;
   }
   #single-post-div {
-    margin-top: 11vh;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
+    background-color: #333333;
+    margin: 8.5vh 1vw 0 1vw;
+    width: 41vw;
+    padding-top: 2vh;
   }
   #single-post-profile-pic img {
     display: block;
@@ -626,6 +629,9 @@
   }
   #single-post-date {
     padding: 1vh 2vw;
+    background-color: #333333;
+    margin: 0 1vw;
+    width: 41vw;
   }
   #single-post-date span {
     font: 12px;
@@ -634,6 +640,9 @@
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     padding: 2vh 2vw;
+    background-color: #333333;
+    margin: 0 1vw;
+    width: 41vw;
   }
   #likesharecomment {
     display: -ms-grid;
@@ -642,6 +651,9 @@
         grid-template-columns: 34% 33% 33%;
     border-bottom: 1px solid black;
     padding: 2vh 0;
+    background-color: #333333;
+    margin: 0 1vw;
+    width: 41vw;
   }
   #likesharecomment span {
     margin: 0 auto;
@@ -649,7 +661,14 @@
   #notific-head {
     padding: 2vh 2vw;
     background-color: #333333;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #1f1e1e;
+    position: fixed;
+    width: 42%;
+    top: 0;
+    margin: 0 1vw;
+  }
+  #notifics {
+    margin-top: 12vh;
   }
   #notific {
     display: -ms-grid;
@@ -657,14 +676,19 @@
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
     padding: 2vh 1vw;
-    border-bottom: 1px solid black;
     line-height: 2vw;
+    background-color: #333333;
+    border-radius: 20px;
+    margin: 2vh 1vw;
   }
   #notific img {
     width: 4vw;
     height: 4vw;
     border-radius: 100px;
     margin: 0 auto;
+  }
+  #notific:hover {
+    background-color: #444444;
   }
   #no-notific {
     text-align: center;
@@ -673,10 +697,10 @@
   #explore-fixed {
     position: fixed;
     top: 0;
-    width: 44%;
-    background-color: #2a2a2a;
+    width: 42%;
+    background-color: #333333;
+    margin: 0 1vw;
     z-index: 1000;
-    border-bottom: 1px solid black;
   }
   .explore-left form {
     padding: 2vh 2vw 0.5vh 2vw;
@@ -696,18 +720,18 @@
     background-color: #444444;
   }
   #explore-posts {
-    margin-top: 17vh;
+    margin-top: 20vh;
   }
   #friend-suggesstions {
     height: 100vh;
     overflow-y: auto;
+    scrollbar-color: #444444 #333333;
   }
   #friend-suggesstions p {
     padding: 1vh 1vw;
     font-size: 1.5em;
-    border-bottom: 1px solid black;
     background-color: #333333;
-    margin: 0;
+    margin: 0 1vw;
   }
   #suggess-profile-pic {
     display: -ms-grid;
@@ -716,6 +740,8 @@
         grid-template-columns: 20% 40% 40%;
     padding: 2vh 2vw;
     background-color: #333333;
+    margin: 2vh 1vw;
+    border-radius: 20px;
   }
   #suggess-profile-pic img {
     width: 4vw;
@@ -732,6 +758,7 @@
   #trending-peoples {
     height: 100vh;
     overflow-y: auto;
+    scrollbar-color: #444444 #333333;
   }
   #trending-peoples p {
     padding: 1vh 1vw;
@@ -764,9 +791,6 @@
   #comments {
     border-bottom: 0;
     padding-right: 5vw;
-  }
-  #comments:hover {
-    background: none;
   }
   #comment-images {
     position: relative;
@@ -821,8 +845,10 @@
   * {
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     outline: 0;
     color: white;
+    scrollbar-color: #444444 #333333;
   }
   ul {
     list-style-type: none;
@@ -850,8 +876,8 @@
     height: 40vh;
   }
   #button3, #home div button, #profile-div button {
-    background-color: #2a2a2a;
-    border: 1px solid black;
+    background-color: #333333;
+    border: 0;
     padding: 2vh 2vw;
     border-radius: 100px;
     font-weight: bold;
@@ -886,8 +912,7 @@
     color: white;
   }
   #home {
-    -webkit-animation: shine 7s infinite;
-            animation: shine 7s infinite;
+    background-color: #0a0c11;
     padding: 35vh 30vw;
     height: 100vh;
     display: -ms-grid;
@@ -907,28 +932,6 @@
     margin: 1vh;
     width: 40%;
   }
-  @-webkit-keyframes shine {
-    0% {
-      background-color: #0a0c11;
-    }
-    50% {
-      background-color: #192331;
-    }
-    100% {
-      background-color: #0a0c11;
-    }
-  }
-  @keyframes shine {
-    0% {
-      background-color: #0a0c11;
-    }
-    50% {
-      background-color: #192331;
-    }
-    100% {
-      background-color: #0a0c11;
-    }
-  }
   #user {
     display: -ms-grid;
     display: grid;
@@ -942,7 +945,6 @@
     position: fixed;
     height: 100vh;
     padding: 0;
-    border-right: 1px solid black;
     width: 23%;
     background-color: #2a2a2a;
   }
@@ -951,9 +953,9 @@
     font-weight: bold;
     font-size: large;
     text-align: center;
-    width: 100%;
     background-color: #333333;
-    margin: 1vh 0;
+    margin: 2vh 1vw;
+    border-radius: 20px;
   }
   #side-nav-tablet li i {
     font-weight: bold;
@@ -970,8 +972,8 @@
     display: none;
   }
   #tweet-button-tablet {
-    background-color: #2a2a2a;
-    border: 1px solid black;
+    background-color: #333333;
+    border: 0;
     width: 10vw;
     height: 10vw;
     border-radius: 100px;
@@ -993,18 +995,23 @@
   }
   .main-left {
     min-height: 100vh;
-    border-right: 1px solid black;
   }
   #profile-head {
     padding: 1vh 1vw;
-    font-size: 1.5vw;
-    border: 1px solid black;
+    font-size: 14px;
+    border-bottom: 1px solid #1b1b1b;
+    margin: 0 1vw;
+    position: fixed;
+    top: 0;
+    width: 59.5%;
+    background-color: #333333;
+    z-index: 10000;
   }
   #cover-image {
     height: 15vw;
-    width: 100%;
+    width: 96.5%;
     background-color: gray;
-    border-bottom: 1px solid black;
+    margin: 9vh 1vw 0 1vw;
   }
   #profile-pic {
     width: 10vw;
@@ -1012,8 +1019,8 @@
     border-radius: 100px;
     border: 4px solid white;
     position: absolute;
-    top: 16vw;
-    left: 2vw;
+    top: 18vw;
+    left: 3vw;
   }
   #profile-div {
     display: -ms-grid;
@@ -1021,10 +1028,14 @@
     -ms-grid-columns: auto;
         grid-template-columns: auto;
     padding: 2vh 1vw 1vh 1vw;
-    border-bottom: 1px solid black;
+    background-color: #333333;
+    margin: 0 1vw;
   }
   #profile-div div {
     padding: 1vh 0;
+  }
+  #profile-div button {
+    background-color: #2a2a2a;
   }
   .main-right {
     display: none;
@@ -1087,6 +1098,7 @@
   #post-emoji-select {
     display: none;
     overflow: auto;
+    scrollbar-color: #444444 #333333;
     height: 30vh;
     grid-column: span 5;
   }
@@ -1097,6 +1109,7 @@
   #post-img-div div {
     height: 30vh;
     overflow: auto;
+    scrollbar-color: #444444 #333333;
   }
   #post-img-div div i {
     position: absolute;
@@ -1134,7 +1147,9 @@
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
     padding: 2vh 0.5vw;
-    border-bottom: 1px solid black;
+    background-color: #333333;
+    border-radius: 20px;
+    margin: 2vh 1vw;
   }
   .user_posts img, #comments img {
     width: 7vw;
@@ -1198,15 +1213,20 @@
     min-height: 100vh;
     height: 100%;
     overflow-y: auto;
+    scrollbar-color: #444444 #333333;
   }
   #messages-right p {
     padding: 1vh 1vw;
     font-size: 1.5em;
-    border-bottom: 1px solid black;
+    background-color: #333333;
+    margin: 0 1vw;
+    border-bottom: 1px solid #1d1d1d;
   }
   #msg-people-search {
-    padding: 1vh 2vw;
-    border-bottom: 1px solid black;
+    padding: 3vh 2vw 1vh 2vw;
+    border-bottom: 1px solid #1f1f1f;
+    background-color: #333333;
+    margin: 0 1vw;
   }
   #msg-profile-div {
     display: -ms-grid;
@@ -1214,7 +1234,12 @@
     -ms-grid-columns: 20% 80%;
         grid-template-columns: 20% 80%;
     padding: 2vh 2vw;
-    border-bottom: 1px solid black;
+    margin: 2vh 1vw;
+    border-radius: 20px;
+    background-color: #333333;
+  }
+  #msg-profile-div:hover {
+    background-color: #444444;
   }
   #msg-profile-pic {
     position: relative;
@@ -1237,26 +1262,28 @@
     text-align: center;
   }
   #msg-box {
-    height: 100vh;
-    border-right: 1px solid lightgray;
+    height: 96vh;
+    background-color: #333333;
+    margin: 2vh 1vw;
+    border-radius: 20px;
   }
   #msg-box-profile {
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 15% 85%;
-        grid-template-columns: 15% 85%;
+    -ms-grid-columns: 20% 80%;
+        grid-template-columns: 20% 80%;
     border-bottom: 1px solid black;
     padding: 2vh 1vw;
   }
   #msg-box-profile img {
-    width: 4vw;
-    height: 4vw;
+    width: 6vw;
+    height: 6vw;
     border-radius: 100px;
     margin: 0 auto;
     border: 1px solid white;
   }
   #msg-box-msgs {
-    height: 79vh;
+    height: 76vh;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1265,6 +1292,7 @@
         -ms-flex-direction: column;
             flex-direction: column;
     overflow-y: scroll;
+    scrollbar-color: #444444 #333333;
     padding: 1vh 1vw;
   }
   #msg-box-msgs img {
@@ -1351,24 +1379,31 @@
   #gif-modal {
     height: 60vh;
     overflow: auto;
+    scrollbar-color: #444444 #333333;
   }
   #home-posts h2 {
-    width: 60vw;
+    margin: 0 1vw;
+    width: 58.5vw;
     position: fixed;
     padding: 2vh 2vw;
     top: 0;
-    border-bottom: 1px solid black;
     z-index: 1000;
     background-color: #333333;
   }
   #home-div-posts {
-    margin-top: 10vh;
+    margin-top: 12vh;
   }
   #home-profile-div {
     display: none;
   }
   #single-post-head {
     padding: 1vh 2vw;
+    background-color: #333333;
+    margin: 0 1vw;
+    width: 59vw;
+    position: fixed;
+    top: 0;
+    border-bottom: 1px solid black;
   }
   #single-post-div {
     display: -ms-grid;
@@ -1376,7 +1411,9 @@
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
     padding: 2vh 1vw;
-    border-top: 1px solid black;
+    margin: 8.5vh 1vw 0 1vw;
+    width: 59vw;
+    background-color: #333333;
   }
   #single-post-div img {
     width: 7vw;
@@ -1409,6 +1446,9 @@
   }
   #single-post-date {
     padding: 1vh 2vw;
+    margin: 0 1vw;
+    width: 59vw;
+    background-color: #333333;
   }
   #single-post-date span {
     font: 12px;
@@ -1417,6 +1457,9 @@
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     padding: 2vh 2vw;
+    margin: 0 1vw;
+    width: 59vw;
+    background-color: #333333;
   }
   #likesharecomment {
     display: -ms-grid;
@@ -1425,6 +1468,9 @@
         grid-template-columns: 34% 33% 33%;
     border-bottom: 1px solid black;
     padding: 2vh 0;
+    margin: 0 1vw;
+    width: 59vw;
+    background-color: #333333;
   }
   #likesharecomment span {
     margin: 0 auto;
@@ -1432,9 +1478,10 @@
   #explore-fixed {
     position: fixed;
     top: 0;
-    width: 61%;
+    width: 59%;
+    margin: 0 1vw;
     z-index: 1000;
-    border-bottom: 1px solid black;
+    background-color: #333333;
   }
   .explore-left form {
     padding: 2vh 2vw 0.5vh 2vw;
@@ -1454,15 +1501,21 @@
     background-color: #444444;
   }
   #explore-posts {
-    margin-top: 18vh;
+    margin-top: 20vh;
   }
   #notific-div {
-    min-height: 100vh;
-    height: 100%;
+    min-height: 90vh;
   }
   #notific-head {
     padding: 2vh 2vw;
-    border-bottom: 1px solid black;
+    position: fixed;
+    top: 0;
+    width: 58.5vw;
+    background-color: #333333;
+    margin: 0 1vw;
+  }
+  #notifics {
+    margin-top: 12vh;
   }
   #notific {
     display: -ms-grid;
@@ -1470,14 +1523,19 @@
     -ms-grid-columns: 15% 85%;
         grid-template-columns: 15% 85%;
     padding: 2vh 1vw;
-    border-bottom: 1px solid black;
     line-height: 3vw;
+    background-color: #333333;
+    border-radius: 20px;
+    margin: 2vh 1vw;
   }
   #notific img {
     width: 6vw;
     height: 6vw;
     border-radius: 100px;
     margin: 0 auto;
+  }
+  #notific:hover {
+    background-color: #444444;
   }
   #no-notific {
     text-align: center;
@@ -1496,9 +1554,6 @@
     height: 7vw;
     border-radius: 100px;
     margin: 0 auto;
-  }
-  #comments:hover {
-    background: none;
   }
   #comment-images {
     position: relative;
@@ -1562,6 +1617,7 @@
     font-size: 15px;
     outline: 0;
     color: white;
+    scrollbar-color: #444444 #333333;
   }
   ul {
     list-style-type: none;
@@ -1603,8 +1659,7 @@
     background-color: black;
   }
   #home {
-    -webkit-animation: shine 7s infinite;
-            animation: shine 7s infinite;
+    background-color: #0a0c11;
     padding: 25vh 10vw;
     height: 100vh;
     display: -ms-grid;
@@ -1623,28 +1678,6 @@
   #home div button {
     margin: 1vh;
     width: 40%;
-  }
-  @-webkit-keyframes shine {
-    0% {
-      background-color: #0a0c11;
-    }
-    50% {
-      background-color: #192331;
-    }
-    100% {
-      background-color: #0a0c11;
-    }
-  }
-  @keyframes shine {
-    0% {
-      background-color: #0a0c11;
-    }
-    50% {
-      background-color: #192331;
-    }
-    100% {
-      background-color: #0a0c11;
-    }
   }
   #user {
     display: -ms-grid;
@@ -1722,6 +1755,7 @@
     top: 10vh;
     bottom: 10vh;
     overflow-y: scroll;
+    scrollbar-color: #444444 #333333;
   }
   #cover-image {
     height: 35vw;
@@ -1812,6 +1846,7 @@
   #post-emoji-select {
     display: none;
     overflow-y: scroll;
+    scrollbar-color: #444444 #333333;
     height: 30vh;
     grid-column: span 5;
   }
@@ -1827,6 +1862,7 @@
   #post-img-div div {
     height: 30vh;
     overflow: auto;
+    scrollbar-color: #444444 #333333;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: auto auto;
@@ -1870,7 +1906,9 @@
     -ms-grid-columns: 20% 80%;
         grid-template-columns: 20% 80%;
     padding: 2vh 0.5vw;
-    border-bottom: 1px solid black;
+    background-color: #333333;
+    border-radius: 20px;
+    margin: 2vh 4vw;
   }
   .user_posts img, #comments img {
     width: 11vw;
@@ -1940,6 +1978,7 @@
   #messages-right {
     height: 90vh;
     overflow-y: auto;
+    scrollbar-color: #444444 #333333;
   }
   #messages-right p {
     padding: 1vh 5vw;
@@ -1959,7 +1998,9 @@
     -ms-grid-columns: 30% 70%;
         grid-template-columns: 30% 70%;
     padding: 2vh 2vw;
-    border-bottom: 1px solid black;
+    margin: 2vh 3vw;
+    background-color: #333333;
+    border-radius: 20px;
   }
   #msg-profile-pic {
     position: relative;
@@ -2016,6 +2057,7 @@
     height: 70vh;
     bottom: 18vh;
     overflow-y: scroll;
+    scrollbar-color: #444444 #333333;
     background-color: #444444;
   }
   #msg-box-msgs img {
@@ -2116,6 +2158,7 @@
   #gif-modal {
     height: 60vh;
     overflow: auto;
+    scrollbar-color: #444444 #333333;
   }
   #home-posts {
     width: 100vw;
@@ -2146,7 +2189,7 @@
     border: 1px solid white;
   }
   #home-div-posts {
-    margin-top: 10vh;
+    margin-top: 12vh;
   }
   #single-post-head {
     position: fixed;
@@ -2234,14 +2277,19 @@
     -ms-grid-columns: 20% 80%;
         grid-template-columns: 20% 80%;
     padding: 2vh 1vw;
-    border-bottom: 1px solid black;
     line-height: 7vw;
+    background-color: #333333;
+    border-radius: 20px;
+    margin: 2vh 4vw;
   }
   #notific img {
     width: 15vw;
     height: 15vw;
     border-radius: 100px;
     margin: 0 auto;
+  }
+  #notific:hover {
+    background-color: #444444;
   }
   #no-notific {
     text-align: center;
@@ -2292,6 +2340,7 @@
     z-index: 10000;
     padding-top: 5vh;
     overflow: auto;
+    scrollbar-color: #444444 #333333;
   }
   #overlay-pics img {
     display: block;

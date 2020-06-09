@@ -36,6 +36,7 @@ function SideNav(props) {
         ctx.notifics,
         history
       );
+      console.log("notific");
     }, 20000);
     return () => {
       clearInterval(interval);
@@ -54,6 +55,7 @@ function SideNav(props) {
 
   return (
     <div>
+      {console.log("render")}
       <ul id="side-nav-phone">
         <Link to="/user/">
           <li>
@@ -145,8 +147,6 @@ function SideNav(props) {
             <i className="material-icons">account_circle</i>
           </li>
         </Link>
-        <br />
-        <br />
         <button onClick={handleShowCreatePost} id="tweet-button-tablet">
           <i className="material-icons"> edit</i>
         </button>

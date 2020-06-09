@@ -3,10 +3,14 @@ import Context from "./Context";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 import { switchInJsx } from "./functions";
+import { useEffect } from "react";
 
 function Notifications() {
   const ctx = useContext(Context);
   const history = useHistory();
+  useEffect(() => {
+    document.title = "InstaChat - Notifications";
+  }, []);
 
   return (
     <div id="notific-div">

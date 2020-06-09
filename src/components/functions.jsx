@@ -75,6 +75,7 @@ export function get_notifications(skip, setNotifics, total, history) {
     .then((data) => {
       if (data.saved === "success") {
         if (total !== undefined && data.notifics.length > 0) {
+          document.title = `(${data.notifics.length}) new notifications `;
           data.notifics.map((notific) => {
             const alert = document.getElementById("notific-alert");
             alert.onclick =
@@ -92,7 +93,9 @@ export function get_notifications(skip, setNotifics, total, history) {
               " " +
               notific.userWhoPushed.l_name +
               " " +
-              switchInJsx(notific.type);
+              switchInJsx(notific.type) +
+              ". <br/>" +
+              "Click Here To See...";
             alert.style.display = "block";
             setTimeout(() => {
               alert.className = "fade toast";

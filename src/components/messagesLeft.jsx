@@ -50,6 +50,7 @@ function MessagesLeft(props) {
   });
 
   useEffect(() => {
+    document.title = "InstaChat - Messages";
     socket.emit("join", id);
     getMessages(id);
     document.getElementById("tweet-button-phone").style.display = "none";

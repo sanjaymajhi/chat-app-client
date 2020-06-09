@@ -44,6 +44,7 @@ function Profile(props) {
   var { id } = useParams();
 
   useEffect(() => {
+    document.title = "InstaChat - Profile";
     getProfile();
   }, [id]);
 
@@ -349,10 +350,18 @@ function Profile(props) {
         >
           <Modal.Header
             closeButton={ctx.profile.username === "" ? false : true}
+            style={{
+              backgroundColor: "#333333",
+              borderBottom: "1px solid black",
+            }}
           >
             <Modal.Title>Edit Profile</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body
+            style={{
+              backgroundColor: "#333333",
+            }}
+          >
             <Alert
               variant={"danger"}
               style={{ display: "none" }}
@@ -422,7 +431,7 @@ function Profile(props) {
                   value={ctx.editProfile.location}
                 />
               </Form.Group>
-              <Button variant="primary" type="submit" id="login-button">
+              <Button variant="secondary" type="submit" id="login-button">
                 Save
               </Button>
             </Form>
@@ -438,10 +447,20 @@ function Profile(props) {
           centered
           backdrop="static"
         >
-          <Modal.Header closeButton>
+          <Modal.Header
+            closeButton
+            style={{
+              backgroundColor: "#333333",
+              borderBottom: "1px solid black",
+            }}
+          >
             <Modal.Title>Update Profile Pic</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body
+            style={{
+              backgroundColor: "#333333",
+            }}
+          >
             <Form onSubmit={(e) => uploadPic(e, "profile")}>
               <FormGroup>
                 <Form.File id="profile-pic-upload" custom>
@@ -460,7 +479,7 @@ function Profile(props) {
                 </Form.File>
               </FormGroup>
               <Button
-                variant="primary"
+                variant="secondary"
                 type="submit"
                 id="upload-profile-button"
                 disabled
@@ -488,10 +507,20 @@ function Profile(props) {
           centered
           backdrop="static"
         >
-          <Modal.Header closeButton>
+          <Modal.Header
+            closeButton
+            style={{
+              backgroundColor: "#333333",
+              borderBottom: "1px solid black",
+            }}
+          >
             <Modal.Title>Update Profile Cover</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body
+            style={{
+              backgroundColor: "#333333",
+            }}
+          >
             <Form onSubmit={(e) => uploadPic(e, "profile-cover")}>
               <FormGroup>
                 <Form.File id="profile-cover-pic-upload" custom>
@@ -510,7 +539,7 @@ function Profile(props) {
                 </Form.File>
               </FormGroup>
               <Button
-                variant="primary"
+                variant="secondary"
                 type="submit"
                 id="upload-profile-cover-button"
                 disabled

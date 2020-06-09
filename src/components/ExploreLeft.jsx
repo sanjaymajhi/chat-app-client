@@ -20,6 +20,7 @@ function ExploreLeft(props) {
   }, [isFetching]);
 
   useEffect(() => {
+    document.title = "InstaChat - Explore";
     getTrendingPosts(ctx.trendingPosts.length);
     getTrendingVideos(ctx.trendingVideos.length);
   }, []);

@@ -266,12 +266,20 @@ function Homepage(props) {
             borderTop: "1px solid black",
           }}
         >
-          <Button ref={googleButton} button_type="login" variant={"secondary"}>
-            Login with Google
-          </Button>
-          <Button onClick={(e) => fbButton(e, "login")} variant={"secondary"}>
-            Login with FaceBook
-          </Button>
+          <Col>
+            <Button
+              ref={googleButton}
+              button_type="login"
+              variant={"secondary"}
+            >
+              Google Login
+            </Button>
+          </Col>
+          <Col>
+            <Button onClick={(e) => fbButton(e, "login")} variant={"secondary"}>
+              FaceBook Login
+            </Button>
+          </Col>
         </Modal.Footer>
       </Modal>
 
@@ -360,19 +368,23 @@ function Homepage(props) {
             borderTop: "1px solid black",
           }}
         >
-          <Button
-            ref={googleButton}
-            button_type="register"
-            variant={"secondary"}
-          >
-            SignUp with Google
-          </Button>
-          <Button
-            onClick={(e) => fbButton(e, "register")}
-            variant={"secondary"}
-          >
-            SignUp with FaceBook
-          </Button>
+          <Col>
+            <Button
+              ref={googleButton}
+              button_type="register"
+              variant={"secondary"}
+            >
+              Google SignUp
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              onClick={(e) => fbButton(e, "register")}
+              variant={"secondary"}
+            >
+              FaceBook SignUp
+            </Button>
+          </Col>
         </Modal.Footer>
       </Modal>
     </div>

@@ -10,6 +10,7 @@ function Home(props) {
   const history = useHistory();
 
   useEffect(() => {
+    document.title = "InstaChat - Home";
     getHomePosts();
   }, []);
 
