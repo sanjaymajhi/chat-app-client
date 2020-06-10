@@ -2471,13 +2471,14 @@
   #like-share-onComment {
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 25% 25% 25% 25%;
-        grid-template-columns: 25% 25% 25% 25%;
+    -ms-grid-columns: 34% 33% 33%;
+        grid-template-columns: 34% 33% 33%;
     justify-items: center;
     padding: 1vh 0;
     color: gray;
   }
   #like-share-onComment i {
+    font-size: 14px;
     vertical-align: middle;
   }
   #sub_comments {

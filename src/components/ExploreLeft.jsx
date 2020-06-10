@@ -155,6 +155,20 @@ function ExploreLeft(props) {
         ) : (
           <Posts {...props} type="user" posts={ctx.trendingVideos} />
         )}
+        <button
+          style={{
+            display: "block",
+            margin: "0 auto",
+            backgroundColor: "#333333",
+            border: "0",
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            ctx.dispatch({ type: "setIsFetching", payload: true });
+          }}
+        >
+          Load More
+        </button>
         {isFetching === true && (
           <div style={{ width: "20%", margin: "2vh auto" }}>
             <Spinner animation="border" variant="light" size="md" />

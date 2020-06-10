@@ -85,13 +85,15 @@ export function MessagesLeft(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
-          ctx.dispatch({ type: "setMessages", payload: data.msgs });
           ctx.dispatch({
-            type: "changeUserInfoForMsg",
-            payload:
-              data.user1._id === localStorage.getItem("id")
-                ? data.user2
-                : data.user1,
+            type: "setMessages",
+            payload: {
+              msgs: data.msgs,
+              user:
+                data.user1._id === localStorage.getItem("id")
+                  ? data.user2
+                  : data.user1,
+            },
           });
           const elem = document.getElementById("msg-box-msgs");
           elem.scrollTop = elem.scrollHeight;
@@ -414,6 +416,10 @@ export function MessagesLeft(props) {
               e.target.value !== ""
                 ? socket.emit("typing", id)
                 : socket.emit("stopped", id);
+            }}
+            onFocus={() => {
+              const elem = document.getElementById("msg-box-msgs");
+              elem.scrollTop = elem.scrollHeight;
             }}
             onKeyDown={(e) => {
               if (e.keyCode === 13 && e.target.value !== "") {

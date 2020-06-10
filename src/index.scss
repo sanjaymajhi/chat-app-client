@@ -2539,11 +2539,12 @@
   }
   #like-share-onComment {
     display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-columns: 34% 33% 33%;
     justify-items: center;
     padding: 1vh 0;
     color: gray;
     i {
+      font-size: 14px;
       vertical-align: middle;
     }
   }

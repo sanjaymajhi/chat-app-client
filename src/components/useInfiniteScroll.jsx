@@ -15,7 +15,7 @@ function useInfiniteScroll() {
   const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
-        document.getElementById("explore-left").offsetHeight ||
+        document.getElementById("main").offsetHeight ||
       ctx.isFetching
     )
       return;

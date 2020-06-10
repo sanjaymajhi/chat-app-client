@@ -15,7 +15,11 @@ function reducer(state, action) {
     case "changeUserInfoForMsg":
       return { ...state, userInfoForMsg: action.payload };
     case "setMessages":
-      return { ...state, messages: [...action.payload] };
+      return {
+        ...state,
+        messages: [...action.payload.msgs],
+        userInfoForMsg: action.payload.user,
+      };
     case "appendMessages":
       return { ...state, messages: [...state.messages, ...action.payload] };
     case "editMessage":
