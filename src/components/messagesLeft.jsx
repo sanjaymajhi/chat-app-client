@@ -4,7 +4,7 @@ import { Modal, Toast } from "react-bootstrap";
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import { Grid } from "@giphy/react-components";
 import moment from "moment";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import io from "socket.io-client";
 import { useState } from "react";
 import { v4 } from "uuid";
@@ -127,6 +127,7 @@ export function MessagesLeft(props) {
     const alert = document.getElementById("alert");
     const alertBody = document.querySelector(".toast-body");
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alertBody.innerHTML = "Only jpeg and png files allowed...";
       alert.className = "fade toast show";
       setInterval(() => (alert.className = "fade toast"), 5000);
       e.target.value = "";
@@ -235,6 +236,11 @@ export function MessagesLeft(props) {
     <div id="message-left">
       <div id="msg-box">
         <div id="msg-box-profile">
+          {window.matchMedia("(max-width: 480px)").matches && (
+            <Link to="/user/messages">
+              <i className="material-icons">arrow_back</i>
+            </Link>
+          )}
           <img
             src={ctx.userInfoForMsg.imageUri}
             alt={ctx.userInfoForMsg.name + " pic"}
