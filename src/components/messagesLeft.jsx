@@ -39,13 +39,17 @@ export function MessagesLeft(props) {
     JSON.stringify(msg) !== JSON.stringify(data) ? setMsg(data) : ""
   );
 
-  socket.on("sent", (uuid) => {
-    for (let i = ctx.messages.length - 1; i >= 0; i--) {
-      if (ctx.messages[i].uuid !== undefined) {
-        if (ctx.messages[i].uuid === uuid)
-          ctx.dispatch({ type: "editMessage", payload: i });
+  socket.on("sent", ({ uuid, senderId }) => {
+    console.log("sent");
+    if (senderId.toString() === localStorage.getItem("id").toString())
+      for (let i = ctx.messages.length - 1; i >= 0; i--) {
+        if (ctx.messages[i].uuid !== undefined) {
+          if (ctx.messages[i].uuid === uuid) {
+            ctx.dispatch({ type: "editMessage", payload: i });
+            break;
+          }
+        }
       }
-    }
   });
 
   socket.on("typing", () => {
