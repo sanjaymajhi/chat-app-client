@@ -2101,7 +2101,7 @@
     position: fixed;
     top: 12vh;
     width: 100%;
-    height: 77vh;
+    bottom: 11vh;
     overflow-y: scroll;
     background-color: #444444;
   }
