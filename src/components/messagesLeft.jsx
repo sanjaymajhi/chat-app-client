@@ -419,11 +419,11 @@ export function MessagesLeft(props) {
             }}
             onKeyDown={(e) => {
               if (e.keyCode === 13 && e.target.value !== "") {
-                sendMessage("text", e.target.value);
-                e.target.value = "";
                 e.currentTarget.blur();
                 const elem = document.getElementById("msg-box-msgs");
                 elem.scrollTop = elem.scrollHeight;
+                sendMessage("text", e.target.value);
+                e.target.value = "";
               }
             }}
           />
