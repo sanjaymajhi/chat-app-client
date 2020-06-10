@@ -10,9 +10,10 @@ import { useState } from "react";
 const ENDPOINT = "wss://chat-app-by-sanjay.herokuapp.com";
 const socket = io(ENDPOINT);
 
-function MessagesLeft(props) {
+export function MessagesLeft(props) {
   const ctx = useContext(Context);
   const { id } = useParams();
+  console.log("render chat");
 
   const [msg, setMsg] = useState({});
   const [typing, setTyping] = useState(false);
@@ -23,7 +24,6 @@ function MessagesLeft(props) {
   }, [msg]);
 
   useEffect(() => {
-    console.log("scroll");
     const elem = document.getElementById("msg-box-msgs");
     elem.scrollTop = elem.scrollHeight;
   }, [ctx.messages]);
@@ -36,10 +36,9 @@ function MessagesLeft(props) {
   const handleShowGifsForMsg = () =>
     ctx.dispatch({ type: "setShowGifsForMsg", payload: true });
 
-  socket.on("newMsg", (data) => {
-    console.log("new msg");
-    setMsg(data);
-  });
+  socket.on("newMsg", (data) =>
+    JSON.stringify(msg) !== JSON.stringify(data) ? setMsg(data) : ""
+  );
 
   socket.on("typing", () => {
     setTyping(true);
@@ -96,7 +95,9 @@ function MessagesLeft(props) {
     const msg = {
       senderId: localStorage.getItem("id"),
       [name]: value,
+      sent_time: Date.now,
     };
+    ctx.dispatch({ type: "appendMessages", payload: [msg] });
     console.log("sent msg");
     console.log(msg);
     socket.emit("message", { msg: msg, roomId: id });
@@ -225,7 +226,6 @@ function MessagesLeft(props) {
                       : "left"
                   }
                 >
-                  {console.log(msg.video)}
                   <li>
                     {msg.text}&ensp;
                     <span>{moment(msg.sent_time).format("HH:mm A")}</span>

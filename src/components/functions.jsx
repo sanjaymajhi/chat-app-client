@@ -76,6 +76,14 @@ export function get_notifications(skip, setNotifics, total, history) {
       if (data.saved === "success") {
         if (total !== undefined && data.notifics.length > 0) {
           document.title = `(${data.notifics.length}) new notifications `;
+          document.getElementById("navNotific").childNodes[3].style.display =
+            "block";
+          document.getElementById(
+            "navNotificTablet"
+          ).childNodes[1].style.display = "block";
+          document.getElementById(
+            "navNotificPhone"
+          ).childNodes[1].style.display = "block";
           data.notifics.map((notific) => {
             const alert = document.getElementById("notific-alert");
             alert.onclick =

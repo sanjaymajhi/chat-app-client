@@ -125,6 +125,13 @@
         vertical-align: middle;
         color: white;
       }
+
+      span {
+        position: absolute;
+        top: 44vh;
+        left: 6vw;
+        display: none;
+      }
     }
     li:hover {
       background-color: #444444;
@@ -773,6 +780,7 @@
     }
     button {
       @extend #button;
+      background-color: #2a2a2a;
       padding: 1vh 1vw;
     }
   }
@@ -994,6 +1002,12 @@
         font-weight: bold;
         font-size: xx-large;
         vertical-align: middle;
+      }
+      span {
+        position: absolute;
+        top: 46vh;
+        left: 11vw;
+        display: none;
       }
     }
     li:hover {
@@ -1753,6 +1767,12 @@
       width: 25vw;
       i {
         line-height: 10vh;
+      }
+      span {
+        position: absolute;
+        top: 2vh;
+        left: 62vw;
+        display: none;
       }
     }
     li:hover {

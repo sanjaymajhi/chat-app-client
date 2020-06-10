@@ -68,8 +68,16 @@ function SideNav(props) {
           </li>
         </Link>
         <Link to="/user/notifications">
-          <li>
+          <li
+            id="navNotificPhone"
+            onClick={(e) => {
+              document.getElementById(
+                "navNotificPhone"
+              ).childNodes[1].style.display = "none";
+            }}
+          >
             <i className="material-icons">notifications</i>
+            <span id="dot"></span>
           </li>
         </Link>
         <Link to="/user/messages">
@@ -99,8 +107,17 @@ function SideNav(props) {
           </li>
         </Link>
         <Link to="/user/notifications">
-          <li id="navNotific" onClick={colorNavTab}>
-            <i className="material-icons">notifications</i>&emsp;Notifications
+          <li
+            id="navNotific"
+            onClick={(e) => {
+              document.getElementById(
+                "navNotific"
+              ).childNodes[3].style.display = "none";
+              colorNavTab(e);
+            }}
+          >
+            <i className="material-icons">notifications</i>&emsp;Notifications{" "}
+            <span id="dot"></span>
           </li>
         </Link>
         <Link to="/user/messages">
@@ -133,8 +150,15 @@ function SideNav(props) {
           </li>
         </Link>
         <Link to="/user/notifications">
-          <li id="navNotificTablet" onClick={colorNavTab}>
+          <li
+            id="navNotificTablet"
+            onClick={(e) => {
+              e.target.childNodes[1].style.display = "none";
+              colorNavTab(e);
+            }}
+          >
             <i className="material-icons">notifications</i>
+            <span id="dot"></span>
           </li>
         </Link>
         <Link to="/user/messages">

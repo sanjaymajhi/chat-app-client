@@ -8,7 +8,6 @@ function MessagesRight() {
   const history = useHistory();
 
   useEffect(() => {
-    document.title = "InstaChat - Messages";
     getFriendList();
   }, []);
 

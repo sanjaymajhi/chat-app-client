@@ -119,6 +119,12 @@
     vertical-align: middle;
     color: white;
   }
+  #side-nav li span {
+    position: absolute;
+    top: 44vh;
+    left: 6vw;
+    display: none;
+  }
   #side-nav li:hover {
     background-color: #444444;
     color: white;
@@ -750,6 +756,7 @@
     margin: 0 auto;
   }
   #suggess-profile-pic button {
+    background-color: #2a2a2a;
     padding: 1vh 1vw;
   }
   #suggess-profile-pic:hover {
@@ -961,6 +968,12 @@
     font-weight: bold;
     font-size: xx-large;
     vertical-align: middle;
+  }
+  #side-nav-tablet li span {
+    position: absolute;
+    top: 46vh;
+    left: 11vw;
+    display: none;
   }
   #side-nav-tablet li:hover {
     background-color: #444444;
@@ -1703,6 +1716,12 @@
   }
   #side-nav-phone li i {
     line-height: 10vh;
+  }
+  #side-nav-phone li span {
+    position: absolute;
+    top: 2vh;
+    left: 62vw;
+    display: none;
   }
   #side-nav-phone li:hover {
     background-color: #444444;

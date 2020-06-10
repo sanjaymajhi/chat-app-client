@@ -1,6 +1,10 @@
 import React from "react";
+import { useEffect } from "react";
 
 function NoMsgBox() {
+  useEffect(() => {
+    document.title = "InstaChat - Messages";
+  }, []);
   return (
     <div id="message-left">
       <div id="msg-not-selected">
