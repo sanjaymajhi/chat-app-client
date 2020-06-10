@@ -95,7 +95,7 @@ export function MessagesLeft(props) {
     const msg = {
       senderId: localStorage.getItem("id"),
       [name]: value,
-      sent_time: Date.now,
+      sent_time: Date.now(),
     };
     ctx.dispatch({ type: "appendMessages", payload: [msg] });
     console.log("sent msg");
