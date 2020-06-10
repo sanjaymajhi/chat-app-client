@@ -69,7 +69,6 @@ function Profile(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         ctx.dispatch({ type: "loadProfileComponent", payload: data.details });
         if (document.querySelector(".follow-button") !== null) {
           document.querySelector(".follow-button").innerHTML =

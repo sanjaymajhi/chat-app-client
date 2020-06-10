@@ -121,7 +121,6 @@ function Homepage(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.saved === "success") {
-          console.log(data);
           localStorage.setItem("token", data.token);
           localStorage.setItem("id", data._id);
           localStorage.setItem("username", data.username);
@@ -182,7 +181,6 @@ function Homepage(props) {
                 });
                 document.getElementById("login-button").click();
               } else {
-                console.log(res);
                 setRegister({
                   f_name: res.first_name,
                   l_name: res.last_name,
@@ -277,7 +275,7 @@ function Homepage(props) {
           </Col>
           <Col>
             <Button onClick={(e) => fbButton(e, "login")} variant={"secondary"}>
-              FaceBook Login
+              FB Login
             </Button>
           </Col>
         </Modal.Footer>
@@ -382,7 +380,7 @@ function Homepage(props) {
               onClick={(e) => fbButton(e, "register")}
               variant={"secondary"}
             >
-              FaceBook SignUp
+              FB SignUp
             </Button>
           </Col>
         </Modal.Footer>

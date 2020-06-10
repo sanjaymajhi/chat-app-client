@@ -14,7 +14,6 @@ const socket = io(ENDPOINT);
 export function MessagesLeft(props) {
   const ctx = useContext(Context);
   const { id } = useParams();
-  console.log("render chat");
 
   const [msg, setMsg] = useState({});
   const [typing, setTyping] = useState(false);
@@ -40,7 +39,6 @@ export function MessagesLeft(props) {
   );
 
   socket.on("sent", ({ uuid, senderId }) => {
-    console.log("sent");
     if (senderId.toString() === localStorage.getItem("id").toString())
       for (let i = ctx.messages.length - 1; i >= 0; i--) {
         if (ctx.messages[i].uuid !== undefined) {

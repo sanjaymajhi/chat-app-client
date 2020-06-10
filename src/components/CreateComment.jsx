@@ -32,7 +32,6 @@ function CreateComment(props) {
       props.setFormData(data);
     }
 
-    console.log(data);
     document.getElementById("post-button").disabled = isNull(data);
   };
 
