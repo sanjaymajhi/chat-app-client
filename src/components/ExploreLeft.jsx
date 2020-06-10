@@ -156,12 +156,12 @@ function ExploreLeft(props) {
         ) : (
           <Posts {...props} type="user" posts={ctx.trendingVideos} />
         )}
+        {isFetching === true && (
+          <div style={{ width: "20%", margin: "2vh auto" }}>
+            <Spinner animation="border" variant="light" size="md" />
+          </div>
+        )}
       </div>
-      {isFetching === true && (
-        <div style={{ width: "20%", margin: "2vh auto" }}>
-          <Spinner animation="border" variant="light" size="md" />
-        </div>
-      )}
     </div>
   );
 }

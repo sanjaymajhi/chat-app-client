@@ -422,6 +422,8 @@ export function MessagesLeft(props) {
                 sendMessage("text", e.target.value);
                 e.target.value = "";
                 e.currentTarget.blur();
+                const elem = document.getElementById("msg-box-msgs");
+                elem.scrollTop = elem.scrollHeight;
               }
             }}
           />
