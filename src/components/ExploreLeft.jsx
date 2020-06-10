@@ -12,7 +12,6 @@ function ExploreLeft(props) {
 
   useEffect(() => {
     if (isFetching) {
-      console.log("called from fetching");
       ctx.tab === "posts"
         ? getTrendingPosts(ctx.trendingPosts.length)
         : getTrendingVideos(ctx.trendingVideos.length);
@@ -41,8 +40,8 @@ function ExploreLeft(props) {
         headers: myheaders,
       })
         .then((res) => res.json())
-        .then(async (data) => {
-          await ctx.dispatch({ type: "setSearchResults", payload: data });
+        .then((data) => {
+          ctx.dispatch({ type: "setSearchResults", payload: data });
         });
     } else {
       document.getElementById("search-people-results").style.display = "none";

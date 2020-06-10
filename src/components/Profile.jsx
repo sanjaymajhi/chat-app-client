@@ -18,6 +18,7 @@ import { errorDisplay } from "./functions";
 
 function Profile(props) {
   const ctx = useContext(Context);
+  const history = useHistory();
 
   const setShowEditProfile = (data) =>
     ctx.dispatch({ type: "setShowEditProfile", payload: data });
@@ -45,7 +46,11 @@ function Profile(props) {
 
   useEffect(() => {
     document.title = "InstaChat - Profile";
-    getProfile();
+    if (
+      ctx.profile.username === undefined ||
+      ctx.profile.username.split("@")[1] !== id
+    )
+      getProfile();
   }, [id]);
 
   const getProfile = () => {
@@ -63,9 +68,9 @@ function Profile(props) {
       headers: myheaders,
     })
       .then((res) => res.json())
-      .then(async (data) => {
-        await ctx.dispatch({ type: "setProfile", payload: data.details });
-        await ctx.dispatch({ type: "setEditProfile", payload: data.details });
+      .then((data) => {
+        console.log(data);
+        ctx.dispatch({ type: "loadProfileComponent", payload: data.details });
         if (document.querySelector(".follow-button") !== null) {
           document.querySelector(".follow-button").innerHTML =
             data.details.followers.indexOf(data.id) === -1
@@ -81,7 +86,6 @@ function Profile(props) {
     setEditProfile({ ...ctx.editProfile, [name]: value });
   };
 
-  const history = useHistory();
   const updateProfile = (e) => {
     e.preventDefault();
     const payload = {
@@ -184,12 +188,33 @@ function Profile(props) {
         : true;
   };
 
-  return (
+  const signOut = () => {
+    const myheaders = new Headers();
+    myheaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
+    fetch("/users/signOut", { method: "post", headers: myheaders }).then(() => {
+      localStorage.clear();
+      history.push("/login");
+    });
+  };
+
+  return ctx.isFetchingPosts === true ? (
+    <div style={{ width: "20%", margin: "2vh auto" }}>
+      <Spinner animation="border" variant="light" size="md" />
+    </div>
+  ) : (
     <div>
       <div id="profile-head">
-        <strong>{ctx.profile.f_name + " " + ctx.profile.l_name}</strong>
-        <br />
-        {ctx.profile.posts && ctx.profile.posts.length} Tweets
+        <div>
+          <strong>{ctx.profile.f_name + " " + ctx.profile.l_name}</strong>
+          <br />
+          {ctx.profile.posts && ctx.profile.posts.length} Tweets
+        </div>
+        <i className="material-icons" title="sign out" onClick={signOut}>
+          list
+        </i>
       </div>
       <div id="profile-body">
         {ctx.profile.coverImageUri === null ? (
@@ -557,7 +582,7 @@ function Profile(props) {
             </Form>
           </Modal.Body>
         </Modal>
-      </div>
+      </div>{" "}
     </div>
   );
 }

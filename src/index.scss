@@ -171,6 +171,8 @@
   }
 
   #profile-head {
+    display: grid;
+    grid-template-columns: 90% 10%;
     padding: 1vh 1vw;
     border-bottom: 1px solid rgb(36, 35, 35);
     background-color: #333333;
@@ -178,7 +180,10 @@
     top: 0;
     width: 42%;
     margin: 0 1vw;
-    z-index: 10000;
+    z-index: 10;
+    i {
+      line-height: 2;
+    }
   }
 
   #cover-image {
@@ -1060,6 +1065,8 @@
   }
 
   #profile-head {
+    display: grid;
+    grid-template-columns: 90% 10%;
     padding: 1vh 1vw;
     font-size: 14px;
     border-bottom: 1px solid rgb(27, 27, 27);
@@ -1068,7 +1075,10 @@
     top: 0;
     width: 59.5%;
     background-color: #333333;
-    z-index: 10000;
+    z-index: 10;
+    i {
+      line-height: 2;
+    }
   }
 
   #cover-image {
@@ -1845,6 +1855,8 @@
     display: none;
   }
   #profile-head {
+    display: grid;
+    grid-template-columns: 90% 10%;
     padding: 1vh 5vw;
     font-size: 5vw;
     position: fixed;
@@ -1852,6 +1864,9 @@
     background-color: #2a2a2a;
     z-index: 10;
     border-bottom: 1px solid black;
+    i {
+      line-height: 2;
+    }
   }
 
   #profile-body {

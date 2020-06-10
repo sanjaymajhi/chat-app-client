@@ -4,9 +4,12 @@ import { likeSharePost } from "./functions";
 import moment from "moment";
 import { useContext } from "react";
 import Context from "./Context";
+import { Spinner } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 function Posts(props) {
   const ctx = useContext(Context);
+  const history = useHistory();
   const handleCloseCreateComment = () => {
     ctx.dispatch({
       type: "setFormDataForComments",
@@ -60,12 +63,32 @@ function Posts(props) {
         ""
       )}
       <div id={props.type === "home" ? "home-div-posts" : ""}>
-        {props.posts !== undefined && props.posts.length > 0 ? (
+        {props.posts === undefined ? (
+          <div style={{ width: "20%", margin: "2vh auto" }}>
+            <Spinner animation="border" variant="light" size="md" />
+          </div>
+        ) : props.posts.length > 0 ? (
           props.posts.map((post) => (
             <div key={post._id} className="user_posts">
-              <img src={post.user_id.imageUri} alt="pic" id="user-post-img" />
+              <img
+                src={post.user_id.imageUri}
+                alt="pic"
+                id="user-post-img"
+                onClick={() =>
+                  history.push(
+                    "/user/profile/" + post.user_id.username.split("@")[1]
+                  )
+                }
+              />
               <div id="post_detail">
-                <p id="post-user-detail">
+                <p
+                  id="post-user-detail"
+                  onClick={() =>
+                    history.push(
+                      "/user/profile/" + post.user_id.username.split("@")[1]
+                    )
+                  }
+                >
                   <strong>
                     {post.user_id.f_name + " " + post.user_id.l_name}
                   </strong>
@@ -165,7 +188,7 @@ function Posts(props) {
             </div>
           ))
         ) : props.type === "home" ? (
-          <h2>
+          <h2 style={{ textAlign: "center" }}>
             No Posts to show... <br />
             Please follow some peoples...
           </h2>

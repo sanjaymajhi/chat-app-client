@@ -5,9 +5,11 @@ import { useContext } from "react";
 import Context from "./Context";
 import CommentReplies from "./CommentReplies";
 import { Carousel } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 function Comment(props) {
   const ctx = useContext(Context);
+  const history = useHistory();
   //comment on comment
 
   const setFormDataForCmtOnCmt = (data) =>
@@ -79,9 +81,25 @@ function Comment(props) {
         props.comments.length > 0 &&
         props.comments.map((comment) => (
           <div key={comment._id} id="comments">
-            <img src={comment.user_id.imageUri} alt="pic" id="user-post-img" />
+            <img
+              src={comment.user_id.imageUri}
+              alt="pic"
+              id="user-post-img"
+              onClick={() =>
+                history.push(
+                  "/user/profile/" + comment.user_id.username.split("@")[1]
+                )
+              }
+            />
             <div id="comment_detail">
-              <p id="comment-user-detail">
+              <p
+                id="comment-user-detail"
+                onClick={() =>
+                  history.push(
+                    "/user/profile/" + comment.user_id.username.split("@")[1]
+                  )
+                }
+              >
                 <strong>
                   {comment.user_id.f_name + " " + comment.user_id.l_name}
                 </strong>

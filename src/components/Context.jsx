@@ -35,8 +35,13 @@ function reducer(state, action) {
       return { ...state, showEditProfilePic: action.payload };
     case "setShowEditProfileCoverPic":
       return { ...state, showEditProfileCoverPic: action.payload };
-    case "setProfile":
-      return { ...state, profile: action.payload };
+    case "loadProfileComponent":
+      return {
+        ...state,
+        profile: action.payload,
+        editProfile: action.payload,
+        isFetchingPosts: false,
+      };
     case "setEditProfile":
       return { ...state, editProfile: action.payload };
     case "setSearchResults":
@@ -80,6 +85,9 @@ function reducer(state, action) {
       return { ...state, formDataForCmtOnCmt: action.payload };
     case "setShowCreateCommentForCmt":
       return { ...state, ShowCreateCommentForCmt: action.payload };
+
+    case "setIsFetchingPosts":
+      return { ...state, isFetchingPosts: action.payload };
 
     default:
       return state;
@@ -151,6 +159,7 @@ const initialState = {
     img: [],
     commentId: null,
   },
+  isFetchingPosts: true,
 };
 
 export function ContextProvider({ children }) {

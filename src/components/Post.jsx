@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import moment from "moment";
 import CreateComment from "./CreateComment";
 import Comment from "./Comment";
@@ -10,6 +10,7 @@ import { Carousel } from "react-bootstrap";
 function Post(props) {
   const { id } = useParams();
   const ctx = useContext(Context);
+  const history = useHistory();
 
   useEffect(() => getPost(), []);
 
@@ -71,19 +72,43 @@ function Post(props) {
           </div>
 
           <div id="single-post-div">
-            <div id="single-post-profile-pic">
+            <div
+              id="single-post-profile-pic"
+              onClick={() =>
+                history.push(
+                  "/user/profile/" +
+                    ctx.postDetails.user_id.username.split("@")[1]
+                )
+              }
+            >
               <img
                 src={ctx.postDetails.user_id.imageUri}
                 alt={ctx.postDetails.user_id.f_name + " profile pic"}
               />
             </div>
             <div>
-              <strong>
+              <strong
+                onClick={() =>
+                  history.push(
+                    "/user/profile/" +
+                      ctx.postDetails.user_id.username.split("@")[1]
+                  )
+                }
+              >
                 {ctx.postDetails.user_id.f_name +
                   " " +
                   ctx.postDetails.user_id.l_name}
               </strong>
-              <span>{" · " + ctx.postDetails.user_id.username}</span>
+              <span
+                onClick={() =>
+                  history.push(
+                    "/user/profile/" +
+                      ctx.postDetails.user_id.username.split("@")[1]
+                  )
+                }
+              >
+                {" · " + ctx.postDetails.user_id.username}
+              </span>
               <div id="single-post-text">
                 {ctx.postDetails.postText !== "null" &&
                   ctx.postDetails.postText}

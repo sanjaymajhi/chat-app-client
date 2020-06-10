@@ -2,10 +2,12 @@ import React from "react";
 import moment from "moment";
 import { useContext } from "react";
 import Context from "./Context";
-import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 function CommentReplies(props) {
   const ctx = useContext(Context);
+  const history = useHistory();
+
   const likeReply = (e) => {
     e.preventDefault();
     const target = e.target;
@@ -43,9 +45,25 @@ function CommentReplies(props) {
         props.replies.length > 0 &&
         props.replies.map((reply) => (
           <div key={reply._id} id="sub_comments">
-            <img src={reply.user_id.imageUri} alt="pic" id="user-post-img" />
+            <img
+              src={reply.user_id.imageUri}
+              alt="pic"
+              id="user-post-img"
+              onClick={() =>
+                history.push(
+                  "/user/profile/" + reply.user_id.username.split("@")[1]
+                )
+              }
+            />
             <div id="comment_detail">
-              <p id="post-user-detail">
+              <p
+                id="post-user-detail"
+                onClick={() =>
+                  history.push(
+                    "/user/profile/" + reply.user_id.username.split("@")[1]
+                  )
+                }
+              >
                 <strong>
                   {reply.user_id.f_name + " " + reply.user_id.l_name}
                 </strong>
