@@ -487,6 +487,7 @@
     padding: 0.5vh 0;
   }
   .right {
+    position: relative;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: reverse;
         -ms-flex-direction: row-reverse;
@@ -537,6 +538,9 @@
     color: lightgray;
     text-align: right;
     font-size: 10px;
+  }
+  .left li i {
+    display: none;
   }
   .left span {
     -ms-flex-item-align: end;

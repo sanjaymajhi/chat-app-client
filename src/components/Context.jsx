@@ -18,6 +18,9 @@ function reducer(state, action) {
       return { ...state, messages: [...action.payload] };
     case "appendMessages":
       return { ...state, messages: [...state.messages, ...action.payload] };
+    case "editMessage":
+      delete state.messages[action.payload]["sent"];
+      return { ...state, messages: [...state.messages] };
     case "setShowGifsForMsg":
       return { ...state, showGifsForMsg: action.payload };
     case "setFriendList":

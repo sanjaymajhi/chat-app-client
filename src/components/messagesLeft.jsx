@@ -7,6 +7,7 @@ import moment from "moment";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useState } from "react";
+import { v4 } from "uuid";
 const ENDPOINT = "wss://chat-app-by-sanjay.herokuapp.com";
 const socket = io(ENDPOINT);
 
@@ -18,9 +19,7 @@ export function MessagesLeft(props) {
   const [msg, setMsg] = useState({});
   const [typing, setTyping] = useState(false);
   useEffect(() => {
-    const alert = document.getElementById("alert");
     ctx.dispatch({ type: "appendMessages", payload: [msg] });
-    alert.className = "fade toast";
   }, [msg]);
 
   useEffect(() => {
@@ -39,6 +38,15 @@ export function MessagesLeft(props) {
   socket.on("newMsg", (data) =>
     JSON.stringify(msg) !== JSON.stringify(data) ? setMsg(data) : ""
   );
+
+  socket.on("sent", (uuid) => {
+    for (let i = ctx.messages.length - 1; i >= 0; i--) {
+      if (ctx.messages[i].uuid !== undefined) {
+        if (ctx.messages[i].uuid === uuid)
+          ctx.dispatch({ type: "editMessage", payload: i });
+      }
+    }
+  });
 
   socket.on("typing", () => {
     setTyping(true);
@@ -93,13 +101,13 @@ export function MessagesLeft(props) {
     const elem = document.getElementById("msg-box-msgs");
     elem.scrollTop = elem.scrollHeight;
     const msg = {
+      uuid: v4(),
+      sent: false,
       senderId: localStorage.getItem("id"),
       [name]: value,
       sent_time: Date.now(),
     };
     ctx.dispatch({ type: "appendMessages", payload: [msg] });
-    console.log("sent msg");
-    console.log(msg);
     socket.emit("message", { msg: msg, roomId: id });
   };
 
@@ -119,8 +127,19 @@ export function MessagesLeft(props) {
       setInterval(() => (alert.className = "fade toast"), 5000);
       e.target.value = "";
     } else {
-      alert.className = "fade toast show";
-      alertBody.innerHTML = "Uploading, Please Wait...";
+      const reader = new FileReader();
+      var msg;
+      reader.onload = (e) => {
+        msg = {
+          uuid: v4(),
+          sent: false,
+          senderId: localStorage.getItem("id"),
+          image: e.target.result,
+          sent_time: Date.now(),
+        };
+        ctx.dispatch({ type: "appendMessages", payload: [msg] });
+      };
+      reader.readAsDataURL(file);
 
       const form = new FormData();
       form.append("image", file);
@@ -143,7 +162,8 @@ export function MessagesLeft(props) {
           return res.json();
         })
         .then((data) => {
-          sendMessage("image", data.link);
+          msg.image = data.link;
+          socket.emit("message", { msg: msg, roomId: id });
         })
         .catch((err) => {
           alertBody.innerHTML = "Unable to Upload...";
@@ -162,8 +182,19 @@ export function MessagesLeft(props) {
       setInterval(() => (alert.className = "fade toast"), 5000);
       e.target.value = "";
     } else {
-      alert.className = "fade toast show";
-      alertBody.innerHTML = "Uploading, Please Wait...";
+      const reader = new FileReader();
+      var msg;
+      reader.onload = (e) => {
+        msg = {
+          uuid: v4(),
+          sent: false,
+          senderId: localStorage.getItem("id"),
+          video: e.target.result,
+          sent_time: Date.now(),
+        };
+        ctx.dispatch({ type: "appendMessages", payload: [msg] });
+      };
+      reader.readAsDataURL(file);
 
       const form = new FormData();
       form.append("video", file);
@@ -186,7 +217,8 @@ export function MessagesLeft(props) {
           return res.json();
         })
         .then((data) => {
-          sendMessage("video", data.link);
+          msg.video = data.link;
+          socket.emit("message", { msg: msg, roomId: id });
         })
         .catch((err) => {
           alertBody.innerHTML = "Unable to Upload...";
@@ -219,7 +251,7 @@ export function MessagesLeft(props) {
             ctx.messages.map((msg) =>
               msg.text ? (
                 <div
-                  key={msg._id}
+                  key={msg._id || msg.uuid}
                   className={
                     msg.senderId === localStorage.getItem("id")
                       ? "right"
@@ -229,11 +261,16 @@ export function MessagesLeft(props) {
                   <li>
                     {msg.text}&ensp;
                     <span>{moment(msg.sent_time).format("HH:mm A")}</span>
+                    {msg.sent === undefined ? (
+                      <i className="material-icons">check</i>
+                    ) : (
+                      <i className="material-icons">access_time</i>
+                    )}
                   </li>
                 </div>
               ) : msg.image ? (
                 <div
-                  key={msg._id}
+                  key={msg._id || msg.uuid}
                   className={
                     msg.senderId === localStorage.getItem("id")
                       ? "right"
@@ -243,10 +280,33 @@ export function MessagesLeft(props) {
                   <img src={msg.image} alt="" />
                   <br />
                   <span>{moment(msg.sent_time).format("HH:mm A")}</span>
+                  {msg.sent === undefined ? (
+                    <i
+                      className="material-icons"
+                      style={{
+                        position: "absolute",
+                        bottom: "1vh",
+                        right: "1vw",
+                      }}
+                    >
+                      check
+                    </i>
+                  ) : (
+                    <i
+                      className="material-icons"
+                      style={{
+                        position: "absolute",
+                        bottom: "1vh",
+                        right: "1vw",
+                      }}
+                    >
+                      access_time
+                    </i>
+                  )}
                 </div>
               ) : msg.gif ? (
                 <div
-                  key={msg._id}
+                  key={msg._id || msg.uuid}
                   className={
                     msg.senderId === localStorage.getItem("id")
                       ? "right"
@@ -255,10 +315,33 @@ export function MessagesLeft(props) {
                 >
                   <span>{moment(msg.sent_time).format("HH:mm A")}</span>
                   <img src={msg.gif} alt="" />
+                  {msg.sent === undefined ? (
+                    <i
+                      className="material-icons"
+                      style={{
+                        position: "absolute",
+                        top: "1vh",
+                        right: "1vw",
+                      }}
+                    >
+                      check
+                    </i>
+                  ) : (
+                    <i
+                      className="material-icons"
+                      style={{
+                        position: "absolute",
+                        top: "1vh",
+                        right: "1vw",
+                      }}
+                    >
+                      access_time
+                    </i>
+                  )}
                 </div>
               ) : (
                 <div
-                  key={msg._id}
+                  key={msg._id || msg.uuid}
                   className={
                     msg.senderId === localStorage.getItem("id")
                       ? "right"
@@ -273,6 +356,29 @@ export function MessagesLeft(props) {
                   />
                   <br />
                   <span>{moment(msg.sent_time).format("HH:mm A")}</span>
+                  {msg.sent === undefined ? (
+                    <i
+                      className="material-icons"
+                      style={{
+                        position: "absolute",
+                        top: "1vh",
+                        right: "1vw",
+                      }}
+                    >
+                      check
+                    </i>
+                  ) : (
+                    <i
+                      className="material-icons"
+                      style={{
+                        position: "absolute",
+                        top: "1vh",
+                        right: "1vw",
+                      }}
+                    >
+                      access_time
+                    </i>
+                  )}
                 </div>
               )
             )}
