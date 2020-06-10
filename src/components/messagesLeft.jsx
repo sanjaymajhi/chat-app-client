@@ -18,7 +18,6 @@ export function MessagesLeft(props) {
 
   const [msg, setMsg] = useState({});
   const [typing, setTyping] = useState(false);
-  const [online, setOnline] = useState(false);
   useEffect(() => {
     ctx.dispatch({ type: "appendMessages", payload: [msg] });
   }, [msg]);
@@ -61,17 +60,12 @@ export function MessagesLeft(props) {
     setTyping(false);
   });
 
-  socket.on("online", () => setOnline(true));
-  socket.on("offline", () => setOnline(false));
-
   useEffect(() => {
     document.title = "InstaChat - Messages";
     socket.emit("join", id);
-    socket.emit("online", id);
     getMessages(id);
     document.getElementById("tweet-button-phone").style.display = "none";
     return () => {
-      socket.emit("offline", id);
       socket.emit("leaveRoom", id);
       if (window.matchMedia("(max-width: 480px)").matches) {
         document.getElementById("tweet-button-phone").style.display = "block";
@@ -247,8 +241,7 @@ export function MessagesLeft(props) {
           />
           <div>
             <strong>
-              {ctx.userInfoForMsg.f_name + " " + ctx.userInfoForMsg.l_name}{" "}
-              {online ? "Online" : "Offline"}
+              {ctx.userInfoForMsg.f_name + " " + ctx.userInfoForMsg.l_name}
             </strong>
             <br />
             <span>
@@ -331,7 +324,7 @@ export function MessagesLeft(props) {
                       className="material-icons"
                       style={{
                         position: "absolute",
-                        top: "1vh",
+                        bottom: "4vh",
                         right: "1vw",
                       }}
                     >
@@ -342,7 +335,7 @@ export function MessagesLeft(props) {
                       className="material-icons"
                       style={{
                         position: "absolute",
-                        top: "1vh",
+                        bottom: "4vh",
                         right: "1vw",
                       }}
                     >
@@ -422,6 +415,7 @@ export function MessagesLeft(props) {
               if (e.keyCode === 13 && e.target.value !== "") {
                 sendMessage("text", e.target.value);
                 e.target.value = "";
+                e.currentTarget.blur();
               }
             }}
           />
