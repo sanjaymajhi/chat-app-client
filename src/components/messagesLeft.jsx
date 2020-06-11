@@ -417,10 +417,6 @@ export function MessagesLeft(props) {
                 ? socket.emit("typing", id)
                 : socket.emit("stopped", id);
             }}
-            onFocus={() => {
-              const elem = document.getElementById("msg-box-msgs");
-              elem.scrollTop = elem.scrollHeight;
-            }}
             onKeyDown={(e) => {
               if (e.keyCode === 13 && e.target.value !== "") {
                 e.currentTarget.blur();

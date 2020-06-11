@@ -3,6 +3,7 @@ import { Modal, Button, Form, Row, Col, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import Context from "./Context";
 import { errorDisplay } from "./functions";
+import { Link } from "react-router-dom";
 
 function Homepage(props) {
   const ctx = useContext(Context);
@@ -202,7 +203,10 @@ function Homepage(props) {
 
   return (
     <div id="home">
-      <div>Welcome To InstaChat</div>
+      <Link to="/about" id="about-button">
+        <li>About</li>
+      </Link>
+      <div>Welcome To Insta Chat</div>
       <div>
         <button onClick={handleShowLogin}>Login</button>
         <button onClick={handleShowRegister}>Sign Up</button>

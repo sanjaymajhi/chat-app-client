@@ -8,6 +8,7 @@
     outline: 0;
     color: white;
     scrollbar-color: #444444 #333333;
+    list-style-type: none;
   }
 
   ul {
@@ -97,6 +98,46 @@
         margin: 1vh;
         width: 40%;
       }
+    }
+  }
+
+  #about-button {
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    text-decoration: none;
+    padding: 2vh 2vw;
+    border-radius: 20px;
+  }
+  #about-button:hover {
+    background-color: black;
+    border: 1px solid white;
+  }
+
+  #about {
+    display: grid;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    background-color: #2a2a2a;
+    text-align: center;
+    padding: 2vh 2vw;
+    div {
+      margin: 2vh 2vw;
+      background-color: #333333;
+      border-radius: 20px;
+      padding: 2vh 2vw;
+      a {
+        color: white;
+      }
+      ul {
+        li {
+          padding-left: 2vw;
+          list-style-type: disc;
+          text-align: left;
+        }
+      }
+    }
+    div:hover {
+      background-color: #444444;
     }
   }
 
@@ -898,6 +939,7 @@
     outline: 0;
     color: white;
     scrollbar-color: #444444 #333333;
+    list-style-type: none;
   }
 
   ul {
@@ -987,6 +1029,46 @@
         margin: 1vh;
         width: 40%;
       }
+    }
+  }
+
+  #about-button {
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    text-decoration: none;
+    padding: 2vh 2vw;
+    border-radius: 20px;
+  }
+  #about-button:hover {
+    background-color: black;
+    border: 1px solid white;
+  }
+
+  #about {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    background-color: #2a2a2a;
+    text-align: center;
+    padding: 2vh 2vw;
+    div {
+      margin: 2vh 2vw;
+      background-color: #333333;
+      border-radius: 20px;
+      padding: 2vh 2vw;
+      a {
+        color: white;
+      }
+      ul {
+        li {
+          padding-left: 2vw;
+          list-style-type: disc;
+          text-align: left;
+        }
+      }
+    }
+    div:hover {
+      background-color: #444444;
     }
   }
 
@@ -1713,6 +1795,7 @@
     outline: 0;
     color: white;
     scrollbar-color: #444444 #333333;
+    list-style-type: none;
   }
 
   ul {
@@ -1778,6 +1861,44 @@
         margin: 1vh;
         width: 40%;
       }
+    }
+  }
+
+  #about-button {
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    text-decoration: none;
+    padding: 2vh 2vw;
+    border-radius: 20px;
+  }
+  #about-button:hover {
+    background-color: black;
+    border: 1px solid white;
+  }
+
+  #about {
+    background-color: #2a2a2a;
+    text-align: center;
+    padding: 2vh 2vw;
+    div {
+      margin: 2vh 2vw;
+      background-color: #333333;
+      border-radius: 20px;
+      padding: 2vh 2vw;
+      a {
+        color: white;
+      }
+      ul {
+        li {
+          padding-left: 2vw;
+          list-style-type: disc;
+          text-align: left;
+        }
+      }
+    }
+    div:hover {
+      background-color: #444444;
     }
   }
 
@@ -2191,7 +2312,7 @@
     top: 12vh;
     width: 100%;
     bottom: 11vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     background-color: #444444;
     img {
       max-height: 70vh;

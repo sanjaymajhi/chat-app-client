@@ -7,6 +7,7 @@
     outline: 0;
     color: white;
     scrollbar-color: #444444 #333333;
+    list-style-type: none;
   }
   ul {
     list-style-type: none;
@@ -90,6 +91,44 @@
   #home div button {
     margin: 1vh;
     width: 40%;
+  }
+  #about-button {
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    text-decoration: none;
+    padding: 2vh 2vw;
+    border-radius: 20px;
+  }
+  #about-button:hover {
+    background-color: black;
+    border: 1px solid white;
+  }
+  #about {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 33.33% 33.33% 33.33%;
+        grid-template-columns: 33.33% 33.33% 33.33%;
+    background-color: #2a2a2a;
+    text-align: center;
+    padding: 2vh 2vw;
+  }
+  #about div {
+    margin: 2vh 2vw;
+    background-color: #333333;
+    border-radius: 20px;
+    padding: 2vh 2vw;
+  }
+  #about div a {
+    color: white;
+  }
+  #about div ul li {
+    padding-left: 2vw;
+    list-style-type: disc;
+    text-align: left;
+  }
+  #about div:hover {
+    background-color: #444444;
   }
   #user {
     display: -ms-grid;
@@ -873,6 +912,7 @@
     outline: 0;
     color: white;
     scrollbar-color: #444444 #333333;
+    list-style-type: none;
   }
   ul {
     list-style-type: none;
@@ -955,6 +995,44 @@
   #home div button {
     margin: 1vh;
     width: 40%;
+  }
+  #about-button {
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    text-decoration: none;
+    padding: 2vh 2vw;
+    border-radius: 20px;
+  }
+  #about-button:hover {
+    background-color: black;
+    border: 1px solid white;
+  }
+  #about {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 50% 50%;
+        grid-template-columns: 50% 50%;
+    background-color: #2a2a2a;
+    text-align: center;
+    padding: 2vh 2vw;
+  }
+  #about div {
+    margin: 2vh 2vw;
+    background-color: #333333;
+    border-radius: 20px;
+    padding: 2vh 2vw;
+  }
+  #about div a {
+    color: white;
+  }
+  #about div ul li {
+    padding-left: 2vw;
+    list-style-type: disc;
+    text-align: left;
+  }
+  #about div:hover {
+    background-color: #444444;
   }
   #user {
     display: -ms-grid;
@@ -1665,6 +1743,7 @@
     outline: 0;
     color: white;
     scrollbar-color: #444444 #333333;
+    list-style-type: none;
   }
   ul {
     list-style-type: none;
@@ -1725,6 +1804,40 @@
   #home div button {
     margin: 1vh;
     width: 40%;
+  }
+  #about-button {
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    text-decoration: none;
+    padding: 2vh 2vw;
+    border-radius: 20px;
+  }
+  #about-button:hover {
+    background-color: black;
+    border: 1px solid white;
+  }
+  #about {
+    background-color: #2a2a2a;
+    text-align: center;
+    padding: 2vh 2vw;
+  }
+  #about div {
+    margin: 2vh 2vw;
+    background-color: #333333;
+    border-radius: 20px;
+    padding: 2vh 2vw;
+  }
+  #about div a {
+    color: white;
+  }
+  #about div ul li {
+    padding-left: 2vw;
+    list-style-type: disc;
+    text-align: left;
+  }
+  #about div:hover {
+    background-color: #444444;
   }
   #user {
     display: -ms-grid;
@@ -2123,7 +2236,7 @@
     top: 12vh;
     width: 100%;
     bottom: 11vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     background-color: #444444;
   }
   #msg-box-msgs img {
