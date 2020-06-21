@@ -25,6 +25,7 @@ function Post(props) {
       },
     });
     ctx.dispatch({ type: "setShowCreateComment", payload: false });
+    getPost();
   };
   const handleShowCreateComment = () => {
     ctx.dispatch({
