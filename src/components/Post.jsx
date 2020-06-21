@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import moment from "moment";
 import CreateComment from "./CreateComment";
@@ -6,11 +6,16 @@ import Comment from "./Comment";
 import Context from "./Context";
 import { likeSharePost } from "./functions";
 import { Carousel } from "react-bootstrap";
+import ShareModal from "./ShareModal";
 
 function Post(props) {
   const { id } = useParams();
   const ctx = useContext(Context);
   const history = useHistory();
+
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
 
   useEffect(() => getPost(), []);
 
@@ -204,24 +209,26 @@ function Post(props) {
               &ensp; Like
             </span>
 
-            <span>
+            <span onClick={handleShow}>
               <i
                 className="material-icons"
-                onClick={(e) => likeSharePost(e, "share", "post")}
+                // onClick={(e) => likeSharePost(e, "share", "post")}
                 id={ctx.postDetails._id}
-                style={{
-                  color:
-                    ctx.postDetails.shares.indexOf(
-                      localStorage.getItem("id")
-                    ) === -1
-                      ? "lightgray"
-                      : "skyblue",
-                }}
+                // style={{
+                //   color:
+                //     ctx.postDetails.shares.indexOf(
+                //       localStorage.getItem("id")
+                //     ) === -1
+                //       ? "lightgray"
+                //       : "skyblue",
+                // }}
               >
                 {" "}
                 share
               </i>
-              &ensp; Share
+              &ensp;
+              {/* Share */}
+              Share
             </span>
 
             <span>
@@ -261,6 +268,13 @@ function Post(props) {
             handleCloseCreateComment={handleCloseCreateComment}
             ShowCreateComment={ctx.ShowCreateComment}
             type="post"
+          />
+
+          <ShareModal
+            {...props}
+            show={show}
+            handleClose={handleClose}
+            postId={id}
           />
         </div>
       )}
