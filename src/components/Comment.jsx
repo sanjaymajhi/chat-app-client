@@ -213,6 +213,7 @@ function Comment(props) {
         handleCloseCreateComment={handleCloseCreateCommentForCmt}
         ShowCreateComment={ctx.ShowCreateCommentForCmt}
         type="comment"
+        emitCommentEvent={props.emitCommentEvent}
       />
       <div
         id="overlay-pics"

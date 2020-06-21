@@ -76,6 +76,7 @@ function CreateComment(props) {
           alert.className = "fade alert alert-success show";
           alert.style.display = "block";
           alert.innerHTML = "Your details had been saved...";
+          props.emitCommentEvent();
           setTimeout(() => {
             props.handleCloseCreateComment();
           }, 2000);

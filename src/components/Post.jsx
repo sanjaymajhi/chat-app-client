@@ -7,6 +7,9 @@ import Context from "./Context";
 import { likeSharePost } from "./functions";
 import { Carousel } from "react-bootstrap";
 import ShareModal from "./ShareModal";
+import io from "socket.io-client";
+const ENDPOINT = "wss://chat-app-by-sanjay.herokuapp.com";
+const socket = io(ENDPOINT);
 
 function Post(props) {
   const { id } = useParams();
@@ -17,7 +20,21 @@ function Post(props) {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  useEffect(() => getPost(), []);
+  useEffect(() => {
+    getPost();
+    socket.emit("join", id);
+    return () => {
+      socket.emit("leaveRoom", id);
+    };
+  }, []);
+
+  socket.on("newCmt", () => {
+    getPost();
+  });
+
+  const emitCommentEvent = () => {
+    socket.emit("comment", id);
+  };
 
   const handleCloseCreateComment = () => {
     ctx.dispatch({
@@ -257,6 +274,7 @@ function Post(props) {
             {...props}
             type="comment"
             comments={ctx.postDetails.comments}
+            emitCommentEvent={emitCommentEvent}
           />
 
           {/* comment on opened post */}
@@ -268,6 +286,7 @@ function Post(props) {
             handleCloseCreateComment={handleCloseCreateComment}
             ShowCreateComment={ctx.ShowCreateComment}
             type="post"
+            emitCommentEvent={emitCommentEvent}
           />
 
           <ShareModal
