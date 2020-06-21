@@ -275,6 +275,7 @@ function Post(props) {
             type="comment"
             comments={ctx.postDetails.comments}
             emitCommentEvent={emitCommentEvent}
+            getPost={getPost}
           />
 
           {/* comment on opened post */}

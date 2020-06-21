@@ -29,6 +29,7 @@ function Comment(props) {
       },
     });
     setShowCreateCommentForCmt(false);
+    props.getPost();
   };
   const handleShowCreateCommentForCmt = (e) => {
     ctx.dispatch({
