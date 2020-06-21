@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useEffect } from "react";
 import { Modal, Button, Form, Row, Col, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import Context from "./Context";
@@ -7,6 +7,31 @@ import { Link } from "react-router-dom";
 
 function Homepage(props) {
   const ctx = useContext(Context);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const myheaders = new Headers();
+      myheaders.append(
+        "Authorization",
+        "Bearer " + localStorage.getItem("token")
+      );
+      fetch("/users/loginByToken", { method: "get", headers: myheaders })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.saved === "success") {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("id", data._id);
+            localStorage.setItem("username", data.username);
+            localStorage.setItem("f_name", data.f_name);
+            localStorage.setItem("l_name", data.l_name);
+            localStorage.setItem("imageUri", data.imageUri);
+            history.push("/user/explore/");
+          } else {
+            errorDisplay(data, "login-alert");
+          }
+        });
+    }
+  }, []);
 
   const setShowLogin = (data) =>
     ctx.dispatch({ type: "setShowLogin", payload: data });
