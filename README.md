@@ -34,5 +34,5 @@ REACT_APP_GIPHY_API_KEY=<Generate from Giphy api website>
 
 # Project Deployed
 
-Website : http://chat-app-by-sanjay.herokuapp.com/login
-Demo Video : https://www.linkedin.com/feed/update/urn:li:activity:6676831891921915904/
+1. Website : http://chat-app-by-sanjay.herokuapp.com/login
+2. Demo Video : https://www.linkedin.com/feed/update/urn:li:activity:6676831891921915904/
